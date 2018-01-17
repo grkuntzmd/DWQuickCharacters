@@ -1,6 +1,7 @@
 module Types exposing (Flags, Model, Msg(..), init)
 
-import Random.Pcg exposing (initialSeed)
+import Health
+import Random.Pcg as R exposing (independentSeed, initialSeed, step)
 import Scores
 
 
@@ -9,11 +10,14 @@ type alias Flags =
 
 
 type alias Model =
-    { scores : Scores.Model }
+    { health : Health.Model
+    , scores : Scores.Model
+    }
 
 
 type Msg
-    = ScoresMsg Scores.Msg
+    = HealthMsg Health.Msg
+    | ScoresMsg Scores.Msg
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -23,4 +27,13 @@ init flags =
 
 initialModel : Flags -> Model
 initialModel randomSeed =
-    { scores = Scores.initialModel <| initialSeed randomSeed }
+    let
+        seed =
+            initialSeed randomSeed
+
+        ( ( healthSeed, scoresSeed ), _ ) =
+            step (R.map (,) independentSeed |> R.andMap independentSeed) seed
+    in
+        { health = Health.initialModel healthSeed
+        , scores = Scores.initialModel scoresSeed
+        }

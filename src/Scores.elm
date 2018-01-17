@@ -1,7 +1,7 @@
 module Scores exposing (Model, Msg(..), initialModel, update, view)
 
 import Html exposing (Html, button, div, form, i, input, label, p, text)
-import Html.Attributes
+import Html.Attributes as Attributes
     exposing
         ( class
         , classList
@@ -12,8 +12,6 @@ import Html.Attributes
         , type_
         , value
         )
-import Html.Attributes as Attributes
-import Html.Attributes.Aria exposing (ariaHidden)
 import Html.Events exposing (onCheck, onClick)
 import List.Extra exposing ((!!))
 import Random.Pcg exposing (Seed, int, list, step)
@@ -219,11 +217,7 @@ view model =
                             , onClick msg
                             , type_ "button"
                             ]
-                            [ i
-                                [ ariaHidden True
-                                , class "fa fa-arrow-down"
-                                ]
-                                []
+                            [ i [ class "fas fa-arrow-down" ] []
                             ]
 
                     Nothing ->
@@ -236,11 +230,7 @@ view model =
                             , onClick msg
                             , type_ "button"
                             ]
-                            [ i
-                                [ ariaHidden True
-                                , class "fa fa-arrow-up"
-                                ]
-                                []
+                            [ i [ class "fas fa-arrow-up" ] []
                             ]
 
                     Nothing ->

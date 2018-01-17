@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Health
 import Html
     exposing
         ( Html
@@ -14,7 +15,7 @@ import Html
         , text
         )
 import Html.Attributes exposing (class, for, id, type_)
-import Html.Attributes.Aria exposing (ariaHidden)
+import Moves
 import Scores
 import Types exposing (Flags, Model, Msg(..), init)
 
@@ -35,6 +36,13 @@ update msg model =
         Debug.log "Main msg, update"
             ( msg
             , case msg of
+                HealthMsg msg_ ->
+                    let
+                        ( model_, cmd ) =
+                            Health.update msg_ model.health
+                    in
+                        { model | health = model_ } ! [ Cmd.map HealthMsg cmd ]
+
                 ScoresMsg msg_ ->
                     let
                         ( model_, cmd ) =
@@ -53,6 +61,9 @@ view model =
             ]
         , div [ class "row" ]
             [ Html.map ScoresMsg <| Scores.view model.scores ]
+        , div [ class "row" ]
+            [ Html.map HealthMsg <| Health.view model.health ]
+        , Moves.view
         ]
 
 
@@ -74,11 +85,7 @@ demographics model =
                 ]
             , div [ class "col-1" ]
                 [ button [ class "btn btn-primary btn-sm rounded-circle" ]
-                    [ i
-                        [ ariaHidden True
-                        , class "fa fa-plus"
-                        ]
-                        []
+                    [ i [ class "fas fa-plus" ] []
                     ]
                 ]
             ]
@@ -98,11 +105,7 @@ demographics model =
                 ]
             , div [ class "col-1" ]
                 [ button [ class "btn btn-danger btn-sm rounded-circle" ]
-                    [ i
-                        [ ariaHidden True
-                        , class "fa fa-trash"
-                        ]
-                        []
+                    [ i [ class "fas fa-trash" ] []
                     ]
                 ]
             ]
