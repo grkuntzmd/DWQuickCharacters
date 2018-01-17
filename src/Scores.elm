@@ -1,55 +1,56 @@
 module Scores exposing (Model, Msg(..), initialModel, update, view)
 
-import Html exposing (Html, button, div, form, input, label, p, text)
-import Html.Attributes exposing (class, for, id, readonly, type_, value)
-import Html.Events exposing (onClick)
-import Input.Number as IN
-import List.Extra as LE
-import Markdown
+import Html exposing (Html, button, div, form, i, input, label, p, text)
+import Html.Attributes
+    exposing
+        ( class
+        , classList
+        , for
+        , hidden
+        , id
+        , readonly
+        , type_
+        , value
+        )
+import Html.Attributes as Attributes
+import Html.Attributes.Aria exposing (ariaHidden)
+import Html.Events exposing (onCheck, onClick)
+import List.Extra exposing ((!!))
 import Random.Pcg exposing (Seed, int, list, step)
-import Result exposing (Result(..))
-
-
-type Errors
-    = ChaError
-    | ConError
-    | DexError
-    | IntError
-    | StrError
-    | WisError
 
 
 type alias Model =
-    { cha : String
-    , charisma : Int
-    , con : String
-    , constitution : Int
-    , dex : String
-    , dexterity : Int
-    , int : String
-    , intelligence : Int
-    , scores : List Int
+    { cha : Score
+    , con : Score
+    , dex : Score
+    , int : Score
+    , locked : Bool
     , seed : Seed
-    , str : String
-    , strength : Int
-    , usedScores : List Int
-    , wis : String
-    , wisdom : Int
+    , str : Score
+    , wis : Score
     }
 
 
 type Msg
-    = Reroll
-    | Strength String
+    = ChaUp
+    | ConDown
+    | ConUp
+    | DexDown
+    | DexUp
+    | IntDown
+    | IntUp
+    | Locked Bool
+    | Reroll
+    | StrDown
+    | WisDown
+    | WisUp
 
 
-type Score
-    = ChaScore Int
-    | ConScore Int
-    | DexScore Int
-    | IntScore Int
-    | StrScore Int
-    | WisScore Int
+type alias Score =
+    { mod : String
+    , numeric : Maybe Int
+    , text : String
+    }
 
 
 initialModel : Seed -> Model
@@ -57,136 +58,264 @@ initialModel seed =
     let
         ( scores, seed_ ) =
             rollScores seed
+
+        roll =
+            { str = scores !! 0
+            , dex = scores !! 1
+            , con = scores !! 2
+            , int = scores !! 3
+            , wis = scores !! 4
+            , cha = scores !! 5
+            }
     in
-        { cha = ""
-        , charisma = 10
-        , con = ""
-        , constitution = 10
-        , dex = ""
-        , dexterity = 10
-        , int = ""
-        , intelligence = 10
-        , scores = scores
+        { cha = score roll.cha
+        , con = score roll.con
+        , dex = score roll.dex
+        , int = score roll.int
+        , locked = False
         , seed = seed_
-        , str = ""
-        , strength = 10
-        , usedScores = []
-        , wis = ""
-        , wisdom = 10
+        , str = score roll.str
+        , wis = score roll.wis
         }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        ChaUp ->
+            { model
+                | wis = score model.cha.numeric
+                , cha = score model.wis.numeric
+            }
+                ! []
+
+        ConDown ->
+            { model
+                | con = score model.int.numeric
+                , int = score model.con.numeric
+            }
+                ! []
+
+        ConUp ->
+            { model
+                | con = score model.dex.numeric
+                , dex = score model.con.numeric
+            }
+                ! []
+
+        DexDown ->
+            { model
+                | con = score model.dex.numeric
+                , dex = score model.con.numeric
+            }
+                ! []
+
+        DexUp ->
+            { model
+                | dex = score model.str.numeric
+                , str = score model.dex.numeric
+            }
+                ! []
+
+        IntDown ->
+            { model
+                | int = score model.wis.numeric
+                , wis = score model.int.numeric
+            }
+                ! []
+
+        IntUp ->
+            { model
+                | con = score model.int.numeric
+                , int = score model.con.numeric
+            }
+                ! []
+
+        Locked value ->
+            { model | locked = value } ! []
+
         Reroll ->
             let
                 ( scores, seed ) =
                     rollScores model.seed
-            in
-                { model | scores = scores, seed = seed } ! []
 
-        Strength value ->
-            let
-                _ =
-                    Debug.log "value" value
+                roll =
+                    { str = scores !! 0
+                    , dex = scores !! 1
+                    , con = scores !! 2
+                    , int = scores !! 3
+                    , wis = scores !! 4
+                    , cha = scores !! 5
+                    }
             in
-                model ! []
+                { model
+                    | cha = score roll.cha
+                    , con = score roll.con
+                    , dex = score roll.dex
+                    , int = score roll.int
+                    , seed = seed
+                    , str = score roll.str
+                    , wis = score roll.wis
+                }
+                    ! []
+
+        StrDown ->
+            { model
+                | dex = score model.str.numeric
+                , str = score model.dex.numeric
+            }
+                ! []
+
+        WisDown ->
+            { model
+                | wis = score model.cha.numeric
+                , cha = score model.wis.numeric
+            }
+                ! []
+
+        WisUp ->
+            { model
+                | int = score model.wis.numeric
+                , wis = score model.int.numeric
+            }
+                ! []
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "col-lg-6 col-xl-6" ]
-        [ div [ class "row" ]
-            [ form [ class "col-lg-4 col-xl-2" ]
-                [ div [ class "form-group" ]
-                    [ label [ for "strength" ] [ text "Strength" ]
-                    , IN.inputString
-                        { hasFocus = Nothing
-                        , maxLength = Nothing
-                        , maxValue = Just 18
-                        , minValue = Just 3
-                        , onInput = Strength
-                        }
-                        [ class "w-100", id "strength", type_ "number" ]
-                        (toString model.strength)
+    let
+        ( hidden_, readonly_, typ ) =
+            if not model.locked then
+                ( False, True, "text" )
+            else
+                ( True, False, "number" )
+
+        scoreRow : String -> String -> Maybe Msg -> Maybe Msg -> String -> String -> Html Msg
+        scoreRow ability modifier downMsg upMsg scoreField modField =
+            div [ class "form-group row" ]
+                [ label [ class "col-lg-3 col-md-4", for ability ] [ text ability ]
+                , div
+                    [ classList
+                        [ ( "col-lg-3 col-md-2", not hidden_ )
+                        , ( "col-lg-5 col-md-4", hidden_ )
+                        ]
                     ]
-                , div [ class "form-group" ]
-                    [ label [ class "m-2 ", for "str" ] [ text "STR" ]
-                    , input [ class "w-50", id "str", readonly True, type_ "text" ] []
+                    [ input
+                        [ class "form-control text-right w-100"
+                        , id ability
+                        , Attributes.max "18"
+                        , Attributes.min "1"
+                        , readonly readonly_
+                        , type_ typ
+                        , value scoreField
+                        ]
+                        []
+                    ]
+                , case downMsg of
+                    Just msg ->
+                        button
+                            [ class "btn btn-outline-primary col-1"
+                            , hidden hidden_
+                            , onClick msg
+                            , type_ "button"
+                            ]
+                            [ i
+                                [ ariaHidden True
+                                , class "fa fa-arrow-down"
+                                ]
+                                []
+                            ]
+
+                    Nothing ->
+                        div [ class "col-1", hidden hidden_ ] []
+                , case upMsg of
+                    Just msg ->
+                        button
+                            [ class "btn btn-outline-primary col-1"
+                            , hidden hidden_
+                            , onClick msg
+                            , type_ "button"
+                            ]
+                            [ i
+                                [ ariaHidden True
+                                , class "fa fa-arrow-up"
+                                ]
+                                []
+                            ]
+
+                    Nothing ->
+                        div [ class "col-1", hidden hidden_ ] []
+                , label [ class "col-2", for modifier ] [ text modifier ]
+                , div [ class "col-2" ]
+                    [ input
+                        [ class "form-control text-right w-100"
+                        , id modifier
+                        , readonly True
+                        , type_ "text"
+                        , value modField
+                        ]
+                        []
                     ]
                 ]
-            , form [ class "col-lg-4 col-xl-2" ]
-                [ div [ class "form-group" ]
-                    [ label [ for "dexterity" ] [ text "Dexterity" ]
-                    , input [ class "w-100", id "dexterity", type_ "number" ] []
+    in
+        form [ class "border border-primary col-md-6 col-xl-4 mt-1 p-2 rounded" ]
+            [ scoreRow "Strength" "STR" (Just StrDown) Nothing model.str.text model.str.mod
+            , scoreRow "Dexterity" "DEX" (Just DexDown) (Just DexUp) model.dex.text model.dex.mod
+            , scoreRow "Constitution" "CON" (Just ConDown) (Just ConUp) model.con.text model.con.mod
+            , scoreRow "Intelligence" "INT" (Just IntDown) (Just IntUp) model.int.text model.int.mod
+            , scoreRow "Wisdom" "WIS" (Just WisDown) (Just WisUp) model.wis.text model.wis.mod
+            , scoreRow "Charisma" "CHA" Nothing (Just ChaUp) model.cha.text model.cha.mod
+            , div [ class "form-group row" ]
+                [ div [ class "col-5" ]
+                    [ div [ class "form-check" ]
+                        [ input
+                            [ class "form-check-input"
+                            , id "locked"
+                            , onCheck Locked
+                            , type_ "checkbox"
+                            ]
+                            []
+                        , label
+                            [ class "form-check-label"
+                            , for "locked"
+                            ]
+                            [ text "Lock Scores" ]
+                        ]
                     ]
-                , div [ class "form-group" ]
-                    [ label [ class "m-2 ", for "dex" ] [ text "DEX" ]
-                    , input [ class "w-50", id "dex", readonly True, type_ "text" ] []
-                    ]
-                ]
-            , form [ class "col-lg-4 col-xl-2" ]
-                [ div [ class "form-group" ]
-                    [ label [ for "constitution" ] [ text "Constitution" ]
-                    , input [ class "w-100", id "constitution", type_ "number" ] []
-                    ]
-                , div [ class "form-group" ]
-                    [ label [ class "m-2", for "con" ] [ text "CON" ]
-                    , input [ class "w-50", id "con", readonly True, type_ "text" ] []
-                    ]
-                ]
-            , form [ class "col-lg-4 col-xl-2" ]
-                [ div [ class "form-group" ]
-                    [ label [ for "intelligence" ] [ text "Intelligence" ]
-                    , input [ class "w-100", id "intelligence", type_ "number" ] []
-                    ]
-                , div [ class "form-group" ]
-                    [ label [ class "m-2", for "int" ] [ text "INT" ]
-                    , input [ class "w-50", id "int", readonly True, type_ "text" ] []
-                    ]
-                ]
-            , form [ class "col-lg-4 col-xl-2" ]
-                [ div [ class "form-group" ]
-                    [ label [ for "wisdom" ] [ text "Wisdom" ]
-                    , input [ class "w-100", id "wisdom", type_ "number" ] []
-                    ]
-                , div [ class "form-group" ]
-                    [ label [ class "m-2", for "wis" ] [ text "WIS" ]
-                    , input [ class "w-50", id "wis", readonly True, type_ "text" ] []
-                    ]
-                ]
-            , form [ class "col-lg-4 col-xl-2" ]
-                [ div [ class "form-group" ]
-                    [ label [ for "charisma" ] [ text "Charisma" ]
-                    , input [ class "w-100", id "charisma", type_ "number" ] []
-                    ]
-                , div [ class "form-group" ]
-                    [ label [ class "m-2", for "cha" ] [ text "CHA" ]
-                    , input [ class "w-50", id "cha", readonly True, type_ "text" ] []
+                , div
+                    [ class "col-7" ]
+                    [ button
+                        [ class "btn btn-primary float-right"
+                        , hidden hidden_
+                        , onClick Reroll
+                        , type_ "button"
+                        ]
+                        [ text "Re-roll" ]
                     ]
                 ]
             ]
-        , div [ class "align-items-center row" ]
-            [ p [ class "col-lg-5 col-xl-8" ] [ text """
-              Enter the following numbers distributed among the scores in any
-              order, using each number only once.
-            """ ]
-            , input
-                [ class "col-lg-4 col-xl-2"
-                , readonly True
-                , List.map toString model.scores
-                    |> String.join ", "
-                    |> value
-                ]
-                []
-            , button
-                [ class "btn btn-primary btn-sm col-lg-2 col-xl-1 ml-1"
-                , onClick Reroll
-                ]
-                [ text "Re-roll" ]
-            ]
-        ]
+
+
+modifiers : Maybe Int -> String
+modifiers =
+    Maybe.map
+        (\s ->
+            if s <= 3 then
+                "-3"
+            else if s <= 5 then
+                "-2"
+            else if s <= 8 then
+                "-1"
+            else if s <= 12 then
+                "0"
+            else if s <= 15 then
+                "+1"
+            else if s <= 17 then
+                "+2"
+            else
+                "+3"
+        )
+        >> Maybe.withDefault ""
 
 
 rollScores : Seed -> ( List Int, Seed )
@@ -206,41 +335,9 @@ rollScores seed =
         )
 
 
-usedScores : List Int -> List Score -> Result Errors (List Int)
-usedScores scores used =
-    let
-        removeIf : Int -> List Int -> Errors -> Result Errors (List Int)
-        removeIf v s msg =
-            case LE.find ((==) v) s of
-                Just _ ->
-                    Ok <| negate v :: LE.remove v s
-
-                Nothing ->
-                    Err msg
-    in
-        List.foldl
-            (\u r ->
-                case ( u, r ) of
-                    ( ChaScore v, Ok s ) ->
-                        removeIf v s ChaError
-
-                    ( ConScore v, Ok s ) ->
-                        removeIf v s ConError
-
-                    ( DexScore v, Ok s ) ->
-                        removeIf v s DexError
-
-                    ( IntScore v, Ok s ) ->
-                        removeIf v s IntError
-
-                    ( StrScore v, Ok s ) ->
-                        removeIf v s StrError
-
-                    ( WisScore v, Ok s ) ->
-                        removeIf v s WisError
-
-                    ( _, Err _ ) ->
-                        r
-            )
-            (Ok scores)
-            used
+score : Maybe Int -> Score
+score value =
+    { mod = modifiers value
+    , numeric = value
+    , text = Maybe.map toString value |> Maybe.withDefault ""
+    }

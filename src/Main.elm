@@ -6,7 +6,6 @@ import Html
         , button
         , div
         , form
-        , h4
         , i
         , input
         , label
@@ -49,29 +48,24 @@ view : Model -> Html Msg
 view model =
     div [ class "container-fluid" ]
         [ div [ class "row" ]
-            [ div [ class "col-lg-4 col-xl-2" ]
+            [ div [ class "border border-primary col-md-6 col-xl-4 p-2 rounded" ]
                 [ demographics model ]
-            , Html.map ScoresMsg <| Scores.view model.scores
-            , h4 [ class "col-auto" ]
-                [ text "Health" ]
             ]
         , div [ class "row" ]
-            [ h4 [ class "col-auto" ]
-                [ text "Equipment and Alignment" ]
-            ]
+            [ Html.map ScoresMsg <| Scores.view model.scores ]
         ]
 
 
 demographics : Model -> Html Msg
 demographics model =
-    form []
+    form [ class "w-100" ]
         [ div [ class "form-group row" ]
             [ label
-                [ class "col-form-label col-lg-4 col-xl-3"
+                [ class "col-form-label col-3"
                 , for "select-character"
                 ]
                 [ text "Character" ]
-            , div [ class "col-lg-6 col-xl-7" ]
+            , div [ class "col-7" ]
                 [ select
                     [ class "custom-select form-control"
                     , id "select-character"
@@ -90,11 +84,11 @@ demographics model =
             ]
         , div [ class "form-group row" ]
             [ label
-                [ class "col-form-label col-lg-4 col-xl-3"
+                [ class "col-form-label col-3"
                 , for "character-name"
                 ]
                 [ text "Name" ]
-            , div [ class "col-lg-6 col-xl-7" ]
+            , div [ class "col-7" ]
                 [ input
                     [ class "w-100"
                     , id "character-name"
@@ -114,11 +108,11 @@ demographics model =
             ]
         , div [ class "form-group row" ]
             [ label
-                [ class "col-form-label col-lg-4 col-xl-3"
+                [ class "col-form-label col-3"
                 , for "character-race"
                 ]
                 [ text "Race" ]
-            , div [ class "col-lg-6 col-xl-7" ]
+            , div [ class "col-7" ]
                 [ input
                     [ class "w-100"
                     , id "character-race"
