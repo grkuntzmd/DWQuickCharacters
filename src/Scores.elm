@@ -1,4 +1,13 @@
-module Scores exposing (Model, Msg(..), initialModel, update, view)
+module Scores
+    exposing
+        ( Model
+        , Msg(..)
+        , Rolls
+        , UpMsg(..)
+        , initialModel
+        , update
+        , view
+        )
 
 import Html exposing (Html, button, div, form, i, input, label, p, text)
 import Html.Attributes as Attributes
@@ -14,6 +23,7 @@ import Html.Attributes as Attributes
         )
 import Html.Events exposing (onCheck, onClick)
 import List.Extra exposing ((!!))
+import Maybe.Extra as ME
 import Random.Pcg exposing (Seed, int, list, step)
 
 
@@ -44,6 +54,16 @@ type Msg
     | WisUp
 
 
+type alias Rolls =
+    { str : Maybe Int
+    , dex : Maybe Int
+    , con : Maybe Int
+    , int : Maybe Int
+    , wis : Maybe Int
+    , cha : Maybe Int
+    }
+
+
 type alias Score =
     { mod : String
     , numeric : Maybe Int
@@ -51,7 +71,13 @@ type alias Score =
     }
 
 
-initialModel : Seed -> Model
+type UpMsg
+    = CharismaUp Int
+    | ConstitutionUp Int
+    | WisdomUp Int
+
+
+initialModel : Seed -> ( Model, Rolls )
 initialModel seed =
     let
         ( scores, seed_ ) =
@@ -66,71 +92,97 @@ initialModel seed =
             , cha = scores !! 5
             }
     in
-        { cha = score roll.cha
-        , con = score roll.con
-        , dex = score roll.dex
-        , int = score roll.int
-        , locked = False
-        , seed = seed_
-        , str = score roll.str
-        , wis = score roll.wis
-        }
+        ( { cha = score roll.cha
+          , con = score roll.con
+          , dex = score roll.dex
+          , int = score roll.int
+          , locked = False
+          , seed = seed_
+          , str = score roll.str
+          , wis = score roll.wis
+          }
+        , roll
+        )
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd Msg, List UpMsg )
 update msg model =
     case msg of
         ChaUp ->
-            { model
-                | wis = score model.cha.numeric
-                , cha = score model.wis.numeric
-            }
-                ! []
+            let
+                wis =
+                    score model.cha.numeric
+
+                cha =
+                    score model.wis.numeric
+            in
+                ( { model | wis = wis, cha = cha }
+                , Cmd.none
+                , ME.toList (Maybe.map CharismaUp cha.numeric)
+                    ++ ME.toList (Maybe.map WisdomUp wis.numeric)
+                )
 
         ConDown ->
-            { model
-                | con = score model.int.numeric
-                , int = score model.con.numeric
-            }
-                ! []
+            let
+                con =
+                    score model.int.numeric
+            in
+                ( { model | con = con, int = score model.con.numeric }
+                , Cmd.none
+                , ME.toList (Maybe.map ConstitutionUp con.numeric)
+                )
 
         ConUp ->
-            { model
-                | con = score model.dex.numeric
-                , dex = score model.con.numeric
-            }
-                ! []
+            let
+                con =
+                    score model.dex.numeric
+            in
+                ( { model | con = con, dex = score model.con.numeric }
+                , Cmd.none
+                , ME.toList (Maybe.map ConstitutionUp con.numeric)
+                )
 
         DexDown ->
-            { model
-                | con = score model.dex.numeric
-                , dex = score model.con.numeric
-            }
-                ! []
+            let
+                con =
+                    score model.dex.numeric
+            in
+                ( { model | con = con, dex = score model.con.numeric }
+                , Cmd.none
+                , ME.toList (Maybe.map ConstitutionUp con.numeric)
+                )
 
         DexUp ->
-            { model
+            ( { model
                 | dex = score model.str.numeric
                 , str = score model.dex.numeric
-            }
-                ! []
+              }
+            , Cmd.none
+            , []
+            )
 
         IntDown ->
-            { model
-                | int = score model.wis.numeric
-                , wis = score model.int.numeric
-            }
-                ! []
+            let
+                wis =
+                    score model.int.numeric
+            in
+                ( { model | int = score model.wis.numeric, wis = wis }
+                , Cmd.none
+                , ME.toList (Maybe.map WisdomUp wis.numeric)
+                )
 
         IntUp ->
-            { model
-                | con = score model.int.numeric
-                , int = score model.con.numeric
-            }
-                ! []
+            let
+                con =
+                    score model.int.numeric
+            in
+                ( { model | con = con, int = score model.con.numeric }
+                , Cmd.none
+                , ME.toList (Maybe.map ConstitutionUp con.numeric)
+                )
 
         Locked value ->
-            { model | locked = value } ! []
+            ( { model | locked = value }, Cmd.none, [] )
 
         Reroll ->
             let
@@ -146,7 +198,7 @@ update msg model =
                     , cha = scores !! 5
                     }
             in
-                { model
+                ( { model
                     | cha = score roll.cha
                     , con = score roll.con
                     , dex = score roll.dex
@@ -154,29 +206,45 @@ update msg model =
                     , seed = seed
                     , str = score roll.str
                     , wis = score roll.wis
-                }
-                    ! []
+                  }
+                , Cmd.none
+                , ME.toList (Maybe.map CharismaUp roll.cha)
+                    ++ ME.toList (Maybe.map ConstitutionUp roll.con)
+                    ++ ME.toList (Maybe.map WisdomUp roll.wis)
+                )
 
         StrDown ->
-            { model
+            ( { model
                 | dex = score model.str.numeric
                 , str = score model.dex.numeric
-            }
-                ! []
+              }
+            , Cmd.none
+            , []
+            )
 
         WisDown ->
-            { model
-                | wis = score model.cha.numeric
-                , cha = score model.wis.numeric
-            }
-                ! []
+            let
+                wis =
+                    score model.cha.numeric
+
+                cha =
+                    score model.wis.numeric
+            in
+                ( { model | wis = wis, cha = cha }
+                , Cmd.none
+                , ME.toList (Maybe.map CharismaUp cha.numeric)
+                    ++ ME.toList (Maybe.map WisdomUp wis.numeric)
+                )
 
         WisUp ->
-            { model
-                | int = score model.wis.numeric
-                , wis = score model.int.numeric
-            }
-                ! []
+            let
+                wis =
+                    score model.int.numeric
+            in
+                ( { model | int = score model.wis.numeric, wis = wis }
+                , Cmd.none
+                , ME.toList (Maybe.map WisdomUp wis.numeric)
+                )
 
 
 view : Model -> Html Msg

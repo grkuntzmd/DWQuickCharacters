@@ -45,10 +45,36 @@ update msg model =
 
                 ScoresMsg msg_ ->
                     let
-                        ( model_, cmd ) =
+                        ( scoresModel, scoresCmd, upMsgs ) =
                             Scores.update msg_ model.scores
+
+                        ( model_, cmds ) =
+                            List.foldl
+                                (\upMsg ( model, cmds ) ->
+                                    case upMsg of
+                                        Scores.CharismaUp value ->
+                                            ( model, cmds )
+
+                                        Scores.ConstitutionUp value ->
+                                            let
+                                                ( model_, cmd ) =
+                                                    Health.update
+                                                        (Health.Constitution value)
+                                                        model.health
+                                            in
+                                                ( { model | health = model_ }
+                                                , Cmd.map HealthMsg cmd :: cmds
+                                                )
+
+                                        Scores.WisdomUp value ->
+                                            ( model, cmds )
+                                )
+                                ( { model | scores = scoresModel }
+                                , [ Cmd.map ScoresMsg scoresCmd ]
+                                )
+                                upMsgs
                     in
-                        { model | scores = model_ } ! [ Cmd.map ScoresMsg cmd ]
+                        model_ ! cmds
             )
 
 

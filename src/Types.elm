@@ -33,7 +33,10 @@ initialModel randomSeed =
 
         ( ( healthSeed, scoresSeed ), _ ) =
             step (R.map (,) independentSeed |> R.andMap independentSeed) seed
+
+        ( scores, rolls ) =
+            Scores.initialModel scoresSeed
     in
-        { health = Health.initialModel healthSeed
-        , scores = Scores.initialModel scoresSeed
+        { health = Health.initialModel healthSeed rolls.con
+        , scores = scores
         }

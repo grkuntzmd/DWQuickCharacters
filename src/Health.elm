@@ -9,6 +9,8 @@ import Random.Pcg exposing (Seed, int, list, step)
 type alias Model =
     { currentHP : Maybe Int
     , currentHPText : String
+    , maximumHP : Maybe Int
+    , maximumHPText : String
     , seed : Seed
     , xp : Maybe Int
     , xpText : String
@@ -16,23 +18,39 @@ type alias Model =
 
 
 type Msg
-    = LevelUp
+    = Constitution Int
+    | LevelUp
     | XP String
 
 
-initialModel : Seed -> Model
-initialModel seed =
-    { currentHP = Just 0
-    , currentHPText = "0"
-    , seed = seed
-    , xp = Just 0
-    , xpText = "0"
-    }
+initialModel : Seed -> Maybe Int -> Model
+initialModel seed constitution =
+    let
+        constitutionText =
+            Maybe.map toString constitution |> Maybe.withDefault ""
+    in
+        { currentHP = constitution
+        , currentHPText = constitutionText
+        , maximumHP = constitution
+        , maximumHPText = constitutionText
+        , seed = seed
+        , xp = Just 0
+        , xpText = "0"
+        }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Constitution value ->
+            { model
+                | currentHP = Just value
+                , currentHPText = toString value
+                , maximumHP = Just value
+                , maximumHPText = toString value
+            }
+                ! []
+
         LevelUp ->
             let
                 ( inc, seed ) =
@@ -93,6 +111,7 @@ view model =
                     , id "maximum-hp"
                     , Attributes.min "0"
                     , type_ "number"
+                    , value model.maximumHPText
                     ]
                     []
                 ]
