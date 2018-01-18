@@ -14,7 +14,7 @@ import Html
         , select
         , text
         )
-import Html.Attributes exposing (class, for, id, type_)
+import Html.Attributes exposing (attribute, class, for, id, title, type_)
 import Moves
 import Scores
 import Types exposing (Flags, Model, Msg(..), init)
@@ -32,50 +32,54 @@ main =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    Tuple.second <|
-        Debug.log "Main msg, update"
-            ( msg
-            , case msg of
-                HealthMsg msg_ ->
-                    let
-                        ( model_, cmd ) =
-                            Health.update msg_ model.health
-                    in
-                        { model | health = model_ } ! [ Cmd.map HealthMsg cmd ]
+    -- Tuple.second <|
+    --     Debug.log "Main msg, update"
+    --         ( msg
+    --         ,
+    case msg of
+        HealthMsg msg_ ->
+            let
+                ( model_, cmd ) =
+                    Health.update msg_ model.health
+            in
+                { model | health = model_ } ! [ Cmd.map HealthMsg cmd ]
 
-                ScoresMsg msg_ ->
-                    let
-                        ( scoresModel, scoresCmd, upMsgs ) =
-                            Scores.update msg_ model.scores
+        ScoresMsg msg_ ->
+            let
+                ( scoresModel, scoresCmd, upMsgs ) =
+                    Scores.update msg_ model.scores
 
-                        ( model_, cmds ) =
-                            List.foldl
-                                (\upMsg ( model, cmds ) ->
-                                    case upMsg of
-                                        Scores.CharismaUp value ->
-                                            ( model, cmds )
+                ( model_, cmds ) =
+                    List.foldl
+                        (\upMsg ( model, cmds ) ->
+                            case upMsg of
+                                Scores.CharismaUp value ->
+                                    ( model, cmds )
 
-                                        Scores.ConstitutionUp value ->
-                                            let
-                                                ( model_, cmd ) =
-                                                    Health.update
-                                                        (Health.Constitution value)
-                                                        model.health
-                                            in
-                                                ( { model | health = model_ }
-                                                , Cmd.map HealthMsg cmd :: cmds
-                                                )
+                                Scores.ConstitutionUp value ->
+                                    let
+                                        ( model_, cmd ) =
+                                            Health.update
+                                                (Health.Constitution value)
+                                                model.health
+                                    in
+                                        ( { model | health = model_ }
+                                        , Cmd.map HealthMsg cmd :: cmds
+                                        )
 
-                                        Scores.WisdomUp value ->
-                                            ( model, cmds )
-                                )
-                                ( { model | scores = scoresModel }
-                                , [ Cmd.map ScoresMsg scoresCmd ]
-                                )
-                                upMsgs
-                    in
-                        model_ ! cmds
-            )
+                                Scores.WisdomUp value ->
+                                    ( model, cmds )
+                        )
+                        ( { model | scores = scoresModel }
+                        , [ Cmd.map ScoresMsg scoresCmd ]
+                        )
+                        upMsgs
+            in
+                model_ ! cmds
+
+
+
+-- )
 
 
 view : Model -> Html Msg
@@ -130,7 +134,12 @@ demographics model =
                     []
                 ]
             , div [ class "col-1" ]
-                [ button [ class "btn btn-danger btn-sm rounded-circle" ]
+                [ button
+                    [ attribute "data-toggle" "tooltip"
+                    , attribute "data-placement" "bottom"
+                    , class "btn btn-danger btn-sm rounded-circle"
+                    , title "Delete this character. This cannot be undone."
+                    ]
                     [ i [ class "fas fa-trash" ] []
                     ]
                 ]
