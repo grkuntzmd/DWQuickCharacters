@@ -28,17 +28,17 @@ type Msg
     | XP String
 
 
-initialModel : Seed -> Maybe Int -> Model
+initialModel : Seed -> Int -> Model
 initialModel seed constitution =
     let
         constitutionText =
-            Maybe.map toString constitution |> Maybe.withDefault ""
+            toString constitution
     in
         { armor = Just 0
         , armorText = "0"
-        , currentHP = constitution
+        , currentHP = Just constitution
         , currentHPText = constitutionText
-        , maximumHP = constitution
+        , maximumHP = Just constitution
         , maximumHPText = constitutionText
         , seed = seed
         , xp = Just 0

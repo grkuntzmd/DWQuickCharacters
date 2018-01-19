@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import DnD
 import Health
 import Html
     exposing
@@ -7,6 +8,7 @@ import Html
         , button
         , div
         , form
+        , h3
         , i
         , input
         , label
@@ -14,7 +16,7 @@ import Html
         , select
         , text
         )
-import Html.Attributes exposing (attribute, class, for, id, title, type_)
+import Html.Attributes exposing (attribute, class, for, id, style, title, type_)
 import Moves
 import Scores
 import Types exposing (Flags, Model, Msg(..), init)
@@ -25,7 +27,7 @@ main =
     Html.programWithFlags
         { init = init
         , update = update
-        , subscriptions = always Sub.none
+        , subscriptions = subscriptions
         , view = view
         }
 
@@ -82,6 +84,12 @@ update msg model =
 -- )
 
 
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.map ScoresMsg
+        (Scores.subscriptions model.scores)
+
+
 view : Model -> Html Msg
 view model =
     div [ class "container-fluid" ]
@@ -94,6 +102,7 @@ view model =
         , div [ class "row" ]
             [ Html.map HealthMsg <| Health.view model.health ]
         , Moves.view
+        , Html.map ScoresMsg (Scores.dragged model.scores)
         ]
 
 
