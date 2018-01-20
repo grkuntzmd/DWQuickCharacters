@@ -137,10 +137,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    form [ class "border border-primary col-md-6 col-xl-4 mt-1 p-2 rounded" ]
+    form [ class "border border-primary col-12 mt-1 p-2 rounded" ]
         [ div [ class "row" ]
-            [ label [ class "col-md-4 col-xl-3", for "current-hp" ] [ text "Current HP" ]
-            , div [ class "col-md-2 col-xl-3" ]
+            [ label [ class "col-4", for "current-hp" ] [ text "Current HP" ]
+            , div [ class "col-2" ]
                 [ input
                     [ class "form-control text-right w-100"
                     , id "current-hp"
@@ -151,8 +151,8 @@ view model =
                     ]
                     []
                 ]
-            , label [ class "col-md-4 col-xl-3", for "maximum-hp" ] [ text "Maximum HP" ]
-            , div [ class "col-md-2 col-xl-3" ]
+            , label [ class "col-4", for "maximum-hp" ] [ text "Maximum HP" ]
+            , div [ class "col-2" ]
                 [ input
                     [ class "form-control text-right w-100"
                     , id "maximum-hp"
@@ -165,8 +165,8 @@ view model =
                 ]
             ]
         , div [ class "mt-1 row" ]
-            [ label [ class "col-md-3 col-xl-3", for "armor" ] [ text "Armor" ]
-            , div [ class "col-md-3 col-xl-3" ]
+            [ label [ class "col-3", for "armor" ] [ text "Armor" ]
+            , div [ class "col-3" ]
                 [ input
                     [ class "form-control text-right w-100"
                     , id "armor"
@@ -177,8 +177,8 @@ view model =
                     ]
                     []
                 ]
-            , label [ class "col-md-1 col-xl-3", for "xp" ] [ text "XP" ]
-            , div [ class "col-md-3 col-xl-2" ]
+            , label [ class "col-2", for "xp" ] [ text "XP" ]
+            , div [ class "col-3" ]
                 [ input
                     [ class "form-control text-right w-100"
                     , id "xp"
@@ -193,7 +193,7 @@ view model =
                 [ button
                     [ attribute "data-toggle" "tooltip"
                     , attribute "data-placement" "bottom"
-                    , class "btn btn-outline-primary"
+                    , class "btn btn-outline-primary float-right"
                     , onClick LevelUp
                     , title "Level Up: Subtract 5 from your XP and add 1d6 to your Maximum HP."
                     , type_ "button"

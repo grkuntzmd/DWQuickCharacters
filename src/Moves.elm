@@ -7,16 +7,18 @@ import Markdown
 
 view : Html msg
 view =
-    div [ class "border border-primary mt-1 rounded row" ]
-        [ div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] hackAndSlash ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] volley ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] aidOrInterfere ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] defyDanger ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] defend ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] spoutLore ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] discernRealities ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] parley ]
-        , div [ class "col-md-6 col-xl-3" ] [ Markdown.toHtml [] lastBreath ]
+    div [ class "container-fluid" ]
+        [ div [ class "border border-primary mt-1 rounded row" ]
+            [ div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] hackAndSlash ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] volley ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] aidOrInterfere ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] defyDanger ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] defend ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] spoutLore ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] discernRealities ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] parley ]
+            , div [ class "col-md-6 col-xl-4" ] [ Markdown.toHtml [] lastBreath ]
+            ]
         ]
 
 

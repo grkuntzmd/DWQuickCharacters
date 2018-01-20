@@ -55,7 +55,8 @@ module.exports = {
 
     plugins: [
         new CopyWebpackPlugin([
-            { from: "src/favicon.ico" }
+            { from: "src/favicon.ico" },
+            { from: "src/logo.svg" }
         ]) //,
         // new UglifyJsPlugin({
         //     cache: true,

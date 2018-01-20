@@ -282,7 +282,7 @@ view model =
                         ]
                     ]
     in
-        form [ class "border border-primary col-md-6 col-xl-4 mt-1 p-2 rounded" ]
+        form [ class "border border-primary col-12 mt-1 p-2 rounded" ]
             [ h3 [ hidden model.locked ]
                 [ text "Use the arrows or drag and drop to rearrange the scores." ]
             , scoreRow Strength "Strength" "STR" (Just StrDown) Nothing model.str
