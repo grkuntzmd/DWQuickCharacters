@@ -10126,6 +10126,43 @@ var _ir4y$elm_dnd$DnD$init = F2(
 		};
 	});
 
+var _user$project$Alignment$Model = function (a) {
+	return {alignment: a};
+};
+var _user$project$Alignment$Worthy = {ctor: 'Worthy'};
+var _user$project$Alignment$initialModel = {alignment: _user$project$Alignment$Worthy};
+var _user$project$Alignment$Inspired = {ctor: 'Inspired'};
+var _user$project$Alignment$Defended = {ctor: 'Defended'};
+var _user$project$Alignment$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'DefendedMsg':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{alignment: _user$project$Alignment$Defended}),
+					{ctor: '[]'});
+			case 'InspiredMsg':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{alignment: _user$project$Alignment$Inspired}),
+					{ctor: '[]'});
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{alignment: _user$project$Alignment$Worthy}),
+					{ctor: '[]'});
+		}
+	});
+var _user$project$Alignment$WorthyMsg = {ctor: 'WorthyMsg'};
+var _user$project$Alignment$InspiredMsg = {ctor: 'InspiredMsg'};
+var _user$project$Alignment$DefendedMsg = {ctor: 'DefendedMsg'};
 var _user$project$Alignment$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -10164,20 +10201,29 @@ var _user$project$Alignment$view = function (model) {
 									_elm_lang$html$Html$input,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
+										_0: _elm_lang$html$Html_Attributes$checked(
+											_elm_lang$core$Native_Utils.eq(model.alignment, _user$project$Alignment$Worthy)),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$id('worthy'),
+											_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$name('equipment'),
+												_0: _elm_lang$html$Html_Attributes$id('worthy'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$type_('radio'),
+													_0: _elm_lang$html$Html_Attributes$name('equipment'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value('worthy'),
-														_1: {ctor: '[]'}
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Alignment$WorthyMsg),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('radio'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value('worthy'),
+																_1: {ctor: '[]'}
+															}
+														}
 													}
 												}
 											}
@@ -10220,20 +10266,29 @@ var _user$project$Alignment$view = function (model) {
 										_elm_lang$html$Html$input,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
+											_0: _elm_lang$html$Html_Attributes$checked(
+												_elm_lang$core$Native_Utils.eq(model.alignment, _user$project$Alignment$Defended)),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$id('defended'),
+												_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$name('equipment'),
+													_0: _elm_lang$html$Html_Attributes$id('defended'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$type_('radio'),
+														_0: _elm_lang$html$Html_Attributes$name('equipment'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$value('defended'),
-															_1: {ctor: '[]'}
+															_0: _elm_lang$html$Html_Events$onClick(_user$project$Alignment$DefendedMsg),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$type_('radio'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$value('defended'),
+																	_1: {ctor: '[]'}
+																}
+															}
 														}
 													}
 												}
@@ -10276,20 +10331,29 @@ var _user$project$Alignment$view = function (model) {
 											_elm_lang$html$Html$input,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
+												_0: _elm_lang$html$Html_Attributes$checked(
+													_elm_lang$core$Native_Utils.eq(model.alignment, _user$project$Alignment$Inspired)),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$id('inspired'),
+													_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$name('equipment'),
+														_0: _elm_lang$html$Html_Attributes$id('inspired'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$type_('radio'),
+															_0: _elm_lang$html$Html_Attributes$name('equipment'),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value('inspired'),
-																_1: {ctor: '[]'}
+																_0: _elm_lang$html$Html_Events$onClick(_user$project$Alignment$InspiredMsg),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$type_('radio'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$value('inspired'),
+																		_1: {ctor: '[]'}
+																	}
+																}
 															}
 														}
 													}
@@ -10325,17 +10389,6 @@ var _user$project$Alignment$view = function (model) {
 			}
 		});
 };
-var _user$project$Alignment$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		return A2(
-			_elm_lang$core$Platform_Cmd_ops['!'],
-			model,
-			{ctor: '[]'});
-	});
-var _user$project$Alignment$initialModel = {};
-var _user$project$Alignment$Model = {};
-var _user$project$Alignment$None = {ctor: 'None'};
 
 var _user$project$Equipment$initialModel = F2(
 	function (charisma, wisdom) {
