@@ -10144,7 +10144,185 @@ var _user$project$Alignment$view = function (model) {
 					_0: _elm_lang$html$Html$text('Alignment'),
 					_1: {ctor: '[]'}
 				}),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$form,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('form-check'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$id('worthy'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$name('equipment'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('radio'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value('worthy'),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$label,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('form-check-label'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$for('worthy'),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('\n                      \"I defeated a worthy opponent today.\"\n                    '),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('form-check'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$input,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$id('defended'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$name('equipment'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$type_('radio'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$value('defended'),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$label,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('form-check-label'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$for('defended'),
+													_1: {ctor: '[]'}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('\n                      \"I defended someone who couldn’t defend themselves.\"\n                    '),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('form-check'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$id('inspired'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$name('equipment'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('radio'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value('inspired'),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$label,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('form-check-label'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$for('inspired'),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('\n                      \"I inspired my allies to try something very brave, or very stupid.\"\n                    '),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Alignment$update = F2(
