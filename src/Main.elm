@@ -244,7 +244,7 @@ header =
                 , style [ ( "display", "inline-block" ) ]
                 ]
                 [ img
-                    [ src "/logo.svg"
+                    [ src "logo.svg"
                     , style
                         [ ( "height", "30px" )
                         , ( "width", "auto" )

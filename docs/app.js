@@ -12749,7 +12749,7 @@ var _user$project$Main$header = A2(
 							_elm_lang$html$Html$img,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$src('/logo.svg'),
+								_0: _elm_lang$html$Html_Attributes$src('logo.svg'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$style(
