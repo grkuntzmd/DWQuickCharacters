@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Alignment
+import Bonds
 import Equipment
 import Health
 import Html
@@ -62,6 +63,13 @@ update msg model =
                     Alignment.update msg_ model.alignment
             in
                 { model | alignment = model_ } ! [ Cmd.map AlignmentMsg cmd ]
+
+        BondsMsg msg_ ->
+            let
+                ( model_, cmd ) =
+                    Bonds.update msg_ model.bonds
+            in
+                { model | bonds = model_ } ! [ Cmd.map BondsMsg cmd ]
 
         EquipmentMsg msg_ ->
             let
@@ -162,6 +170,10 @@ view model =
                 , div [ class "row" ]
                     [ div [ class "container-fluid" ]
                         [ Html.map AlignmentMsg <| Alignment.view model.alignment ]
+                    ]
+                , div [ class "row" ]
+                    [ div [ class "container-fluid" ]
+                        [ Html.map BondsMsg <| Bonds.view model.bonds ]
                     ]
                 ]
             ]

@@ -237,8 +237,7 @@ view model =
                         [ Markdown.toHtml
                             [ hidden model.editing ]
                             (if String.isEmpty model.otherItems then
-                                """Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax)
-                                  allowed)"""
+                                "Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax)                                  enabled)"
                              else
                                 model.otherItems
                             )

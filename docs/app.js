@@ -10126,37 +10126,28 @@ var _ir4y$elm_dnd$DnD$init = F2(
 		};
 	});
 
-var _user$project$Alignment$Model = function (a) {
-	return {alignment: a};
-};
 var _user$project$Alignment$Worthy = {ctor: 'Worthy'};
-var _user$project$Alignment$initialModel = {alignment: _user$project$Alignment$Worthy};
+var _user$project$Alignment$initialModel = _user$project$Alignment$Worthy;
 var _user$project$Alignment$Inspired = {ctor: 'Inspired'};
 var _user$project$Alignment$Defended = {ctor: 'Defended'};
 var _user$project$Alignment$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+	function (msg, _p0) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'DefendedMsg':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{alignment: _user$project$Alignment$Defended}),
+					_user$project$Alignment$Defended,
 					{ctor: '[]'});
 			case 'InspiredMsg':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{alignment: _user$project$Alignment$Inspired}),
+					_user$project$Alignment$Inspired,
 					{ctor: '[]'});
 			default:
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{alignment: _user$project$Alignment$Worthy}),
+					_user$project$Alignment$Worthy,
 					{ctor: '[]'});
 		}
 	});
@@ -10202,7 +10193,7 @@ var _user$project$Alignment$view = function (model) {
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$checked(
-											_elm_lang$core$Native_Utils.eq(model.alignment, _user$project$Alignment$Worthy)),
+											_elm_lang$core$Native_Utils.eq(model, _user$project$Alignment$Worthy)),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
@@ -10267,7 +10258,7 @@ var _user$project$Alignment$view = function (model) {
 										{
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$checked(
-												_elm_lang$core$Native_Utils.eq(model.alignment, _user$project$Alignment$Defended)),
+												_elm_lang$core$Native_Utils.eq(model, _user$project$Alignment$Defended)),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
@@ -10332,7 +10323,7 @@ var _user$project$Alignment$view = function (model) {
 											{
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$checked(
-													_elm_lang$core$Native_Utils.eq(model.alignment, _user$project$Alignment$Inspired)),
+													_elm_lang$core$Native_Utils.eq(model, _user$project$Alignment$Inspired)),
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
@@ -10384,6 +10375,155 @@ var _user$project$Alignment$view = function (model) {
 								_1: {ctor: '[]'}
 							}
 						}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+
+var _user$project$Bonds$initialModel = {bonds: '', editing: false};
+var _user$project$Bonds$Model = F2(
+	function (a, b) {
+		return {bonds: a, editing: b};
+	});
+var _user$project$Bonds$FocusOtherItems = function (a) {
+	return {ctor: 'FocusOtherItems', _0: a};
+};
+var _user$project$Bonds$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Bonds':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{bonds: _p0._0}),
+					{ctor: '[]'});
+			case 'Editing':
+				var _p1 = _p0._0;
+				var cmds = _p1 ? {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$core$Task$attempt,
+						_user$project$Bonds$FocusOtherItems,
+						_elm_lang$dom$Dom$focus('bonds')),
+					_1: {ctor: '[]'}
+				} : {ctor: '[]'};
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{editing: _p1}),
+					cmds);
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{ctor: '[]'});
+		}
+	});
+var _user$project$Bonds$Editing = function (a) {
+	return {ctor: 'Editing', _0: a};
+};
+var _user$project$Bonds$Bonds = function (a) {
+	return {ctor: 'Bonds', _0: a};
+};
+var _user$project$Bonds$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('border border-primary col-12 mt-1 p-2 rounded'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h2,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Bonds'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$form,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('border border-primary h-100 p-1 rounded w-100'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Bonds$Editing(true)),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'min-height', _1: '6rem'},
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_evancz$elm_markdown$Markdown$toHtml,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$hidden(model.editing),
+										_1: {ctor: '[]'}
+									},
+									_elm_lang$core$String$isEmpty(model.bonds) ? '[Markdown](https://daringfireball.net/projects/markdown/syntax) enabled' : model.bonds),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$textarea,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('form-control h-100 w-100'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$hidden(!model.editing),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$id('bonds'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onBlur(
+															_user$project$Bonds$Editing(false)),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onInput(_user$project$Bonds$Bonds),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$rows(4),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$value(model.bonds),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			}
@@ -10984,7 +11124,7 @@ var _user$project$Equipment$view = function (model) {
 																			_0: _elm_lang$html$Html_Attributes$hidden(model.editing),
 																			_1: {ctor: '[]'}
 																		},
-																		_elm_lang$core$String$isEmpty(model.otherItems) ? 'Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax)\n                                  allowed)' : model.otherItems),
+																		_elm_lang$core$String$isEmpty(model.otherItems) ? 'Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax)                                  enabled)' : model.otherItems),
 																	_1: {
 																		ctor: '::',
 																		_0: A2(
@@ -12911,6 +13051,7 @@ var _user$project$Types$initialModel = function (randomSeed) {
 	var rolls = _p1._1;
 	return {
 		alignment: _user$project$Alignment$initialModel,
+		bonds: _user$project$Bonds$initialModel,
 		equipment: A2(_user$project$Equipment$initialModel, rolls.cha, rolls.wis),
 		health: A2(_user$project$Health$initialModel, healthSeed, rolls.con),
 		scores: scores
@@ -12923,9 +13064,9 @@ var _user$project$Types$init = function (flags) {
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _user$project$Types$Model = F4(
-	function (a, b, c, d) {
-		return {alignment: a, equipment: b, health: c, scores: d};
+var _user$project$Types$Model = F5(
+	function (a, b, c, d, e) {
+		return {alignment: a, bonds: b, equipment: c, health: d, scores: e};
 	});
 var _user$project$Types$ScoresMsg = function (a) {
 	return {ctor: 'ScoresMsg', _0: a};
@@ -12935,6 +13076,9 @@ var _user$project$Types$HealthMsg = function (a) {
 };
 var _user$project$Types$EquipmentMsg = function (a) {
 	return {ctor: 'EquipmentMsg', _0: a};
+};
+var _user$project$Types$BondsMsg = function (a) {
+	return {ctor: 'BondsMsg', _0: a};
 };
 var _user$project$Types$AlignmentMsg = function (a) {
 	return {ctor: 'AlignmentMsg', _0: a};
@@ -13734,7 +13878,36 @@ var _user$project$Main$view = function (model) {
 													}),
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('row'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('container-fluid'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$map,
+																_user$project$Types$BondsMsg,
+																_user$project$Bonds$view(model.bonds)),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}),
 							_1: {ctor: '[]'}
@@ -13779,10 +13952,24 @@ var _user$project$Main$update = F2(
 						_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$AlignmentMsg, cmd),
 						_1: {ctor: '[]'}
 					});
-			case 'EquipmentMsg':
-				var _p2 = A2(_user$project$Equipment$update, _p0._0, model.equipment);
+			case 'BondsMsg':
+				var _p2 = A2(_user$project$Bonds$update, _p0._0, model.bonds);
 				var model_ = _p2._0;
 				var cmd = _p2._1;
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{bonds: model_}),
+					{
+						ctor: '::',
+						_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$BondsMsg, cmd),
+						_1: {ctor: '[]'}
+					});
+			case 'EquipmentMsg':
+				var _p3 = A2(_user$project$Equipment$update, _p0._0, model.equipment);
+				var model_ = _p3._0;
+				var cmd = _p3._1;
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
@@ -13794,9 +13981,9 @@ var _user$project$Main$update = F2(
 						_1: {ctor: '[]'}
 					});
 			case 'HealthMsg':
-				var _p3 = A2(_user$project$Health$update, _p0._0, model.health);
-				var model_ = _p3._0;
-				var cmd = _p3._1;
+				var _p4 = A2(_user$project$Health$update, _p0._0, model.health);
+				var model_ = _p4._0;
+				var cmd = _p4._1;
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
@@ -13808,71 +13995,71 @@ var _user$project$Main$update = F2(
 						_1: {ctor: '[]'}
 					});
 			default:
-				var _p4 = A2(_user$project$Scores$update, _p0._0, model.scores);
-				var scoresModel = _p4._0;
-				var scoresCmd = _p4._1;
-				var upMsgs = _p4._2;
-				var _p5 = A3(
+				var _p5 = A2(_user$project$Scores$update, _p0._0, model.scores);
+				var scoresModel = _p5._0;
+				var scoresCmd = _p5._1;
+				var upMsgs = _p5._2;
+				var _p6 = A3(
 					_elm_lang$core$List$foldl,
 					F2(
-						function (upMsg, _p6) {
-							var _p7 = _p6;
-							var _p13 = _p7._0;
-							var _p12 = _p7._1;
-							var _p8 = upMsg;
-							switch (_p8.ctor) {
+						function (upMsg, _p7) {
+							var _p8 = _p7;
+							var _p14 = _p8._0;
+							var _p13 = _p8._1;
+							var _p9 = upMsg;
+							switch (_p9.ctor) {
 								case 'CharismaUp':
-									var _p9 = A2(
-										_user$project$Equipment$update,
-										_user$project$Equipment$Charisma(_p8._0),
-										_p13.equipment);
-									var model_ = _p9._0;
-									var cmd = _p9._1;
-									return {
-										ctor: '_Tuple2',
-										_0: _elm_lang$core$Native_Utils.update(
-											_p13,
-											{equipment: model_}),
-										_1: {
-											ctor: '::',
-											_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$EquipmentMsg, cmd),
-											_1: _p12
-										}
-									};
-								case 'ConstitutionUp':
 									var _p10 = A2(
-										_user$project$Health$update,
-										_user$project$Health$Constitution(_p8._0),
-										_p13.health);
+										_user$project$Equipment$update,
+										_user$project$Equipment$Charisma(_p9._0),
+										_p14.equipment);
 									var model_ = _p10._0;
 									var cmd = _p10._1;
 									return {
 										ctor: '_Tuple2',
 										_0: _elm_lang$core$Native_Utils.update(
-											_p13,
-											{health: model_}),
+											_p14,
+											{equipment: model_}),
 										_1: {
 											ctor: '::',
-											_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$HealthMsg, cmd),
-											_1: _p12
+											_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$EquipmentMsg, cmd),
+											_1: _p13
 										}
 									};
-								default:
+								case 'ConstitutionUp':
 									var _p11 = A2(
-										_user$project$Equipment$update,
-										_user$project$Equipment$Wisdom(_p8._0),
-										_p13.equipment);
+										_user$project$Health$update,
+										_user$project$Health$Constitution(_p9._0),
+										_p14.health);
 									var model_ = _p11._0;
 									var cmd = _p11._1;
 									return {
 										ctor: '_Tuple2',
 										_0: _elm_lang$core$Native_Utils.update(
-											_p13,
+											_p14,
+											{health: model_}),
+										_1: {
+											ctor: '::',
+											_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$HealthMsg, cmd),
+											_1: _p13
+										}
+									};
+								default:
+									var _p12 = A2(
+										_user$project$Equipment$update,
+										_user$project$Equipment$Wisdom(_p9._0),
+										_p14.equipment);
+									var model_ = _p12._0;
+									var cmd = _p12._1;
+									return {
+										ctor: '_Tuple2',
+										_0: _elm_lang$core$Native_Utils.update(
+											_p14,
 											{equipment: model_}),
 										_1: {
 											ctor: '::',
 											_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$EquipmentMsg, cmd),
-											_1: _p12
+											_1: _p13
 										}
 									};
 							}
@@ -13889,8 +14076,8 @@ var _user$project$Main$update = F2(
 						}
 					},
 					upMsgs);
-				var model_ = _p5._0;
-				var cmds = _p5._1;
+				var model_ = _p6._0;
+				var cmds = _p6._1;
 				return A2(_elm_lang$core$Platform_Cmd_ops['!'], model_, cmds);
 		}
 	});

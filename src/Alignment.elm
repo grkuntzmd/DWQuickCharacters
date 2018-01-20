@@ -5,14 +5,10 @@ import Html.Attributes exposing (checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick)
 
 
-type Alignment
+type Model
     = Defended
     | Inspired
     | Worthy
-
-
-type alias Model =
-    { alignment : Alignment }
 
 
 type Msg
@@ -23,20 +19,20 @@ type Msg
 
 initialModel : Model
 initialModel =
-    { alignment = Worthy }
+    Worthy
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update msg _ =
     case msg of
         DefendedMsg ->
-            { model | alignment = Defended } ! []
+            Defended ! []
 
         InspiredMsg ->
-            { model | alignment = Inspired } ! []
+            Inspired ! []
 
         WorthyMsg ->
-            { model | alignment = Worthy } ! []
+            Worthy ! []
 
 
 view : Model -> Html Msg
@@ -46,7 +42,7 @@ view model =
         , form []
             [ div [ class "form-check" ]
                 [ input
-                    [ checked (model.alignment == Worthy)
+                    [ checked (model == Worthy)
                     , class "form-check-input"
                     , id "worthy"
                     , name "equipment"
@@ -65,7 +61,7 @@ view model =
                 ]
             , div [ class "form-check" ]
                 [ input
-                    [ checked (model.alignment == Defended)
+                    [ checked (model == Defended)
                     , class "form-check-input"
                     , id "defended"
                     , name "equipment"
@@ -84,7 +80,7 @@ view model =
                 ]
             , div [ class "form-check" ]
                 [ input
-                    [ checked (model.alignment == Inspired)
+                    [ checked (model == Inspired)
                     , class "form-check-input"
                     , id "inspired"
                     , name "equipment"
