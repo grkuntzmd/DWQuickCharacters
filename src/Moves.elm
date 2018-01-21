@@ -25,7 +25,7 @@ view =
 aidOrInterfere : String
 aidOrInterfere =
     """
-## Aid or Interfere
+### Aid or Interfere
 
 **When you help or hinder someone you
 have a bond with,** roll+Bond with them.
@@ -38,7 +38,7 @@ danger, retribution, or cost.
 defend : String
 defend =
     """
-## Defend
+### Defend
 
 **When you stand in defense of a person, item, or location
 under attack,** roll+CON. On a 10+, hold 3. On a 7–9,
@@ -58,7 +58,7 @@ forward against the attacker
 defyDanger : String
 defyDanger =
     """
-## Defy Danger
+### Defy Danger
 
 **When you act despite an imminent threat or suffer a
 calamity,** say how you deal with it and roll. If you do it…
@@ -81,7 +81,7 @@ ugly choice.
 discernRealities : String
 discernRealities =
     """
-## Discern Realities
+### Discern Realities
 
 **When you closely study a situation or
 person,** roll+Wis. On a 10+ ask the GM 3
@@ -104,7 +104,7 @@ to be?
 hackAndSlash : String
 hackAndSlash =
     """
-## Hack and Slash
+### Hack and Slash
 
 **When you attack an enemy up close,** roll+STR. On a hit,
 you deal On a 10+ you deal your damage to the enemy
@@ -118,7 +118,7 @@ the enemy makes an attack against you.
 lastBreath : String
 lastBreath =
     """
-## Last Breath
+### Last Breath
 
 *Note: the following rule replaces the one
 given in the **Dungeon World** rulebook.*
@@ -136,7 +136,7 @@ HP - you’re back in the fight!
 parley : String
 parley =
     """
-## Parley
+### Parley
 
 **When you you have leverage on a GM
 character and manipulate them,** roll+Cha.
@@ -151,7 +151,7 @@ of your promise, right now.
 spoutLore : String
 spoutLore =
     """
-## Spout Lore
+### Spout Lore
 
 **When you consult your accumulated
 knowledge about something,** roll+INT.
@@ -168,7 +168,7 @@ Tell them the truth, now.
 volley : String
 volley =
     """
-## Volley
+### Volley
 
 **When you take aim and shoot at an enemy at range,**
 roll+DEX. On a 10+ you have a clear shot—deal your damage.

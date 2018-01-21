@@ -1,17 +1,8 @@
 module Bonds exposing (Model, Msg(..), initialModel, update, view)
 
 import Dom
-import Html exposing (Html, div, form, h2, text, textarea)
-import Html.Attributes
-    exposing
-        ( attribute
-        , class
-        , hidden
-        , id
-        , rows
-        , style
-        , value
-        )
+import Html exposing (Html, div, form, h3, text, textarea)
+import Html.Attributes exposing (class, id, style, value)
 import Html.Events exposing (onBlur, onClick, onInput)
 import Markdown
 import Result exposing (Result(..))
@@ -86,7 +77,7 @@ view model =
             [ class "align-items-stretch border border-primary d-flex flex-column justify-content-between mt-1 p-2 rounded"
             , style [ ( "flex", "1" ) ]
             ]
-            [ h2 [] [ text "Bonds" ]
+            [ h3 [] [ text "Bonds" ]
             , form
                 [ class "align-items-stretch border border-primary d-flex flex-column justify-content-between p-1 rounded w-100"
                 , onClick (Editing True)

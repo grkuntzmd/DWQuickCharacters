@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Alignment
 import Bonds
+import Demographics
 import Equipment
 import Health
 import Html
@@ -70,6 +71,13 @@ update msg model =
                     Bonds.update msg_ model.bonds
             in
                 { model | bonds = model_ } ! [ Cmd.map BondsMsg cmd ]
+
+        DemographicsMsg msg_ ->
+            let
+                ( model_, cmd ) =
+                    Demographics.update msg_ model.demographics
+            in
+                { model | demographics = model_ } ! [ Cmd.map DemographicsMsg cmd ]
 
         EquipmentMsg msg_ ->
             let
@@ -153,8 +161,8 @@ view model =
             [ div [ class "col-md-6 col-xl-5" ]
                 [ div [ class "container-fluid" ]
                     [ div [ class "row" ]
-                        [ div [ class "border border-primary col-12 mt-1 p-2 rounded" ]
-                            [ demographics model ]
+                        [ Html.map DemographicsMsg <|
+                            Demographics.view model.demographics
                         ]
                     , div [ class "row" ]
                         [ Html.map ScoresMsg <| Scores.view model.scores ]
@@ -170,71 +178,6 @@ view model =
             ]
         , Html.map ScoresMsg (Scores.dragged model.scores)
         , Moves.view
-        ]
-
-
-demographics : Model -> Html Msg
-demographics model =
-    form [ class "w-100" ]
-        [ div [ class "form-group row" ]
-            [ label
-                [ class "col-form-label col-3"
-                , for "select-character"
-                ]
-                [ text "Character" ]
-            , div [ class "col-7" ]
-                [ select
-                    [ class "custom-select form-control"
-                    , id "select-character"
-                    ]
-                    [ option [] [ text "Select a character" ] ]
-                ]
-            , div [ class "col-1" ]
-                [ button [ class "btn btn-primary btn-sm rounded-circle" ]
-                    [ i [ class "fas fa-plus" ] []
-                    ]
-                ]
-            ]
-        , div [ class "form-group row" ]
-            [ label
-                [ class "col-form-label col-3"
-                , for "character-name"
-                ]
-                [ text "Name" ]
-            , div [ class "col-7" ]
-                [ input
-                    [ class "w-100"
-                    , id "character-name"
-                    , type_ "text"
-                    ]
-                    []
-                ]
-            , div [ class "col-1" ]
-                [ button
-                    [ attribute "data-toggle" "tooltip"
-                    , attribute "data-placement" "bottom"
-                    , class "btn btn-danger btn-sm rounded-circle"
-                    , title "Delete this character. This cannot be undone."
-                    ]
-                    [ i [ class "fas fa-trash" ] []
-                    ]
-                ]
-            ]
-        , div [ class "form-group row" ]
-            [ label
-                [ class "col-form-label col-3"
-                , for "character-race"
-                ]
-                [ text "Race" ]
-            , div [ class "col-7" ]
-                [ input
-                    [ class "w-100"
-                    , id "character-race"
-                    , type_ "text"
-                    ]
-                    []
-                ]
-            ]
         ]
 
 
@@ -279,9 +222,7 @@ header =
                 ]
                 [ div
                     [ attribute "role" "document"
-                    , class "modal-dialog"
-                    , style
-                        [ ( "min-width", "40rem" ) ]
+                    , class "modal-dialog modal-dialog-centered modal-lg"
                     ]
                     [ div [ class "modal-content" ]
                         [ div [ class "modal-header" ]

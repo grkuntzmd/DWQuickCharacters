@@ -1,6 +1,6 @@
 module Alignment exposing (Model, Msg(..), initialModel, update, view)
 
-import Html exposing (Html, div, form, h2, input, label, text)
+import Html exposing (Html, div, form, h3, input, label, text)
 import Html.Attributes exposing (checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick)
 
@@ -38,7 +38,7 @@ update msg _ =
 view : Model -> Html Msg
 view model =
     div [ class "border border-primary mt-1 p-2 rounded" ]
-        [ h2 [] [ text "Alignment" ]
+        [ h3 [] [ text "Alignment" ]
         , form []
             [ div [ class "form-check" ]
                 [ input

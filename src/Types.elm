@@ -2,6 +2,7 @@ module Types exposing (Flags, Model, Msg(..), init)
 
 import Alignment
 import Bonds
+import Demographics
 import Equipment
 import Health
 import Random.Pcg as R exposing (independentSeed, initialSeed, step)
@@ -15,6 +16,7 @@ type alias Flags =
 type alias Model =
     { alignment : Alignment.Model
     , bonds : Bonds.Model
+    , demographics : Demographics.Model
     , equipment : Equipment.Model
     , health : Health.Model
     , scores : Scores.Model
@@ -24,6 +26,7 @@ type alias Model =
 type Msg
     = AlignmentMsg Alignment.Msg
     | BondsMsg Bonds.Msg
+    | DemographicsMsg Demographics.Msg
     | EquipmentMsg Equipment.Msg
     | HealthMsg Health.Msg
     | ScoresMsg Scores.Msg
@@ -48,6 +51,7 @@ initialModel randomSeed =
     in
         { alignment = Alignment.initialModel
         , bonds = Bonds.initialModel
+        , demographics = Demographics.initialModel
         , equipment = Equipment.initialModel rolls.cha rolls.wis
         , health = Health.initialModel healthSeed rolls.con
         , scores = scores

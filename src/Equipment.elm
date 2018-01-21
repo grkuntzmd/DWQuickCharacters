@@ -1,10 +1,11 @@
 module Equipment exposing (Model, Msg(..), initialModel, update, view)
 
 import Dom
-import Html exposing (Html, div, form, h2, input, label, text, textarea)
+import Html exposing (Html, div, form, h3, input, label, text, textarea)
 import Html.Attributes as Attributes
     exposing
         ( class
+        , classList
         , for
         , hidden
         , id
@@ -33,10 +34,13 @@ type alias Model =
 
 
 type Msg
-    = Charisma Int
+    = AdventuringGear String
+    | Charisma Int
+    | Coins String
     | Editing Bool
     | FocusOtherItems (Result Dom.Error ())
     | OtherItems String
+    | Rations String
     | Wisdom Int
 
 
@@ -66,12 +70,44 @@ initialModel charisma wisdom =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        AdventuringGear value ->
+            case String.toInt value |> Result.toMaybe of
+                (Just _) as n ->
+                    { model
+                        | adventuringGear = n
+                        , adventuringGearText = value
+                    }
+                        ! []
+
+                Nothing ->
+                    { model
+                        | adventuringGear = Nothing
+                        , adventuringGearText = model.adventuringGearText
+                    }
+                        ! []
+
         Charisma value ->
             { model
                 | coins = Just value
                 , coinsText = toString value
             }
                 ! []
+
+        Coins value ->
+            case String.toInt value |> Result.toMaybe of
+                (Just _) as n ->
+                    { model
+                        | coins = n
+                        , coinsText = value
+                    }
+                        ! []
+
+                Nothing ->
+                    { model
+                        | coins = Nothing
+                        , coinsText = model.coinsText
+                    }
+                        ! []
 
         Editing value ->
             let
@@ -90,6 +126,22 @@ update msg model =
 
         OtherItems value ->
             { model | otherItems = value } ! []
+
+        Rations value ->
+            case String.toInt value |> Result.toMaybe of
+                (Just _) as n ->
+                    { model
+                        | rations = n
+                        , rationsText = value
+                    }
+                        ! []
+
+                Nothing ->
+                    { model
+                        | rations = Nothing
+                        , rationsText = model.rationsText
+                    }
+                        ! []
 
         Wisdom value ->
             let
@@ -111,7 +163,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div [ class "border border-primary mt-1 p-2 rounded" ]
-        [ h2 [] [ text "Equipment" ]
+        [ h3 [] [ text "Equipment" ]
         , form []
             [ div [ class "form-check" ]
                 [ input
@@ -196,6 +248,7 @@ view model =
                             [ class "form-control text-right w-100"
                             , id "adventuring-gear"
                             , Attributes.min "0"
+                            , onInput AdventuringGear
                             , type_ "number"
                             , value model.adventuringGearText
                             ]
@@ -212,6 +265,7 @@ view model =
                             [ class "form-control text-right w-100"
                             , id "rations"
                             , Attributes.min "0"
+                            , onInput Rations
                             , type_ "number"
                             , value model.rationsText
                             ]
@@ -228,6 +282,7 @@ view model =
                             [ class "form-control text-right w-100"
                             , id "coins"
                             , Attributes.min "0"
+                            , onInput Coins
                             , type_ "number"
                             , value model.coinsText
                             ]

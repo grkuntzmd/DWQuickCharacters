@@ -28,13 +28,15 @@ import Html
         )
 import Html.Attributes as Attributes
     exposing
-        ( class
+        ( attribute
+        , class
         , classList
         , for
         , hidden
         , id
         , readonly
         , style
+        , title
         , type_
         , value
         )
@@ -370,15 +372,21 @@ view model =
                 [ div [ class "col-5" ]
                     [ div [ class "form-check" ]
                         [ input
-                            [ class "form-check-input"
+                            [ attribute "data-toggle" "tooltip"
+                            , attribute "data-placement" "bottom"
+                            , class "form-check-input"
                             , id "locked"
                             , onCheck Locked
+                            , title "Lock the scores so that they may not be exchanged or re-rolled. Individual scores may still be changed."
                             , type_ "checkbox"
                             ]
                             []
                         , label
-                            [ class "form-check-label"
+                            [ attribute "data-toggle" "tooltip"
+                            , attribute "data-placement" "bottom"
+                            , class "form-check-label"
                             , for "locked"
+                            , title "Lock the scores so that they may not be exchanged or re-rolled. Individual scores may still be changed."
                             ]
                             [ text "Lock Scores" ]
                         ]
