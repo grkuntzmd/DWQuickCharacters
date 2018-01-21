@@ -10895,14 +10895,18 @@ var _user$project$Equipment$view = function (model) {
 															_0: _elm_lang$html$Html_Attributes$style(
 																{
 																	ctor: '::',
-																	_0: {ctor: '_Tuple2', _0: 'display', _1: 'grid'},
+																	_0: {ctor: '_Tuple2', _0: 'align-items', _1: 'center'},
 																	_1: {
 																		ctor: '::',
-																		_0: {ctor: '_Tuple2', _0: 'grid', _1: 'auto / [label] auto [input] 1fr [end]'},
+																		_0: {ctor: '_Tuple2', _0: 'display', _1: 'grid'},
 																		_1: {
 																			ctor: '::',
-																			_0: {ctor: '_Tuple2', _0: 'grid-gap', _1: '10px 10px'},
-																			_1: {ctor: '[]'}
+																			_0: {ctor: '_Tuple2', _0: 'grid', _1: 'auto / [label] auto [input] 1fr [end]'},
+																			_1: {
+																				ctor: '::',
+																				_0: {ctor: '_Tuple2', _0: 'grid-gap', _1: '10px 10px'},
+																				_1: {ctor: '[]'}
+																			}
 																		}
 																	}
 																}),
@@ -10921,12 +10925,8 @@ var _user$project$Equipment$view = function (model) {
 																	_0: _elm_lang$html$Html_Attributes$style(
 																		{
 																			ctor: '::',
-																			_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'label / input'},
-																			_1: {
-																				ctor: '::',
-																				_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
-																				_1: {ctor: '[]'}
-																			}
+																			_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / label / auto / input'},
+																			_1: {ctor: '[]'}
 																		}),
 																	_1: {ctor: '[]'}
 																}
@@ -10945,12 +10945,8 @@ var _user$project$Equipment$view = function (model) {
 																	_0: _elm_lang$html$Html_Attributes$style(
 																		{
 																			ctor: '::',
-																			_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'input / end'},
-																			_1: {
-																				ctor: '::',
-																				_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
-																				_1: {ctor: '[]'}
-																			}
+																			_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / input / auto / end'},
+																			_1: {ctor: '[]'}
 																		}),
 																	_1: {ctor: '[]'}
 																},
@@ -10994,12 +10990,8 @@ var _user$project$Equipment$view = function (model) {
 																			_0: _elm_lang$html$Html_Attributes$style(
 																				{
 																					ctor: '::',
-																					_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'label / input'},
-																					_1: {
-																						ctor: '::',
-																						_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
-																						_1: {ctor: '[]'}
-																					}
+																					_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / label / auto / input'},
+																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
 																		}
@@ -11018,12 +11010,8 @@ var _user$project$Equipment$view = function (model) {
 																			_0: _elm_lang$html$Html_Attributes$style(
 																				{
 																					ctor: '::',
-																					_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'input / end'},
-																					_1: {
-																						ctor: '::',
-																						_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
-																						_1: {ctor: '[]'}
-																					}
+																					_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / input / auto / end'},
+																					_1: {ctor: '[]'}
 																				}),
 																			_1: {ctor: '[]'}
 																		},
@@ -11067,12 +11055,8 @@ var _user$project$Equipment$view = function (model) {
 																					_0: _elm_lang$html$Html_Attributes$style(
 																						{
 																							ctor: '::',
-																							_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'label / input'},
-																							_1: {
-																								ctor: '::',
-																								_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
-																								_1: {ctor: '[]'}
-																							}
+																							_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / label / auto / input'},
+																							_1: {ctor: '[]'}
 																						}),
 																					_1: {ctor: '[]'}
 																				}
@@ -11091,12 +11075,8 @@ var _user$project$Equipment$view = function (model) {
 																					_0: _elm_lang$html$Html_Attributes$style(
 																						{
 																							ctor: '::',
-																							_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'input / end'},
-																							_1: {
-																								ctor: '::',
-																								_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
-																								_1: {ctor: '[]'}
-																							}
+																							_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / input / auto / end'},
+																							_1: {ctor: '[]'}
 																						}),
 																					_1: {ctor: '[]'}
 																				},
@@ -11396,33 +11376,119 @@ var _user$project$Health$view = function (model) {
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$class('border border-primary col-12 mt-1 p-2 rounded'),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'align-items', _1: 'center'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'display', _1: 'grid'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'grid', _1: 'auto / auto 1fr auto 1fr auto'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'grid-gap', _1: '10px 15px'},
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
 		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$div,
+				_elm_lang$html$Html$label,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('row'),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$for('current-hp'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 1 / auto / 2'},
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Current HP'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 2 / auto / 3'},
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$id('current-hp'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$min('0'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$CurrentHP),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$type_('number'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(model.currentHPText),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$label,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('col-4'),
+							_0: _elm_lang$html$Html_Attributes$for('maximum-hp'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$for('current-hp'),
+								_0: _elm_lang$html$Html_Attributes$style(
+									{
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 3 / auto / 4'},
+										_1: {ctor: '[]'}
+									}),
 								_1: {ctor: '[]'}
 							}
 						},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text('Current HP'),
+							_0: _elm_lang$html$Html$text('Maximum HP'),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -11431,7 +11497,12 @@ var _user$project$Health$view = function (model) {
 							_elm_lang$html$Html$div,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('col-2'),
+								_0: _elm_lang$html$Html_Attributes$style(
+									{
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 4 / auto / 6'},
+										_1: {ctor: '[]'}
+									}),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -11443,19 +11514,19 @@ var _user$project$Health$view = function (model) {
 										_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$id('current-hp'),
+											_0: _elm_lang$html$Html_Attributes$id('maximum-hp'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Attributes$min('0'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$CurrentHP),
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$MaximumHP),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$type_('number'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$value(model.currentHPText),
+															_0: _elm_lang$html$Html_Attributes$value(model.maximumHPText),
 															_1: {ctor: '[]'}
 														}
 													}
@@ -11472,16 +11543,21 @@ var _user$project$Health$view = function (model) {
 								_elm_lang$html$Html$label,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('col-4'),
+									_0: _elm_lang$html$Html_Attributes$for('armor'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$for('maximum-hp'),
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 1 / auto / 2'},
+												_1: {ctor: '[]'}
+											}),
 										_1: {ctor: '[]'}
 									}
 								},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('Maximum HP'),
+									_0: _elm_lang$html$Html$text('Armor'),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -11490,7 +11566,12 @@ var _user$project$Health$view = function (model) {
 									_elm_lang$html$Html$div,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('col-2'),
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 2 / auto / 3'},
+												_1: {ctor: '[]'}
+											}),
 										_1: {ctor: '[]'}
 									},
 									{
@@ -11502,19 +11583,19 @@ var _user$project$Health$view = function (model) {
 												_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$id('maximum-hp'),
+													_0: _elm_lang$html$Html_Attributes$id('armor'),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$min('0'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$MaximumHP),
+															_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$Armor),
 															_1: {
 																ctor: '::',
 																_0: _elm_lang$html$Html_Attributes$type_('number'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$value(model.maximumHPText),
+																	_0: _elm_lang$html$Html_Attributes$value(model.armorText),
 																	_1: {ctor: '[]'}
 																}
 															}
@@ -11525,136 +11606,27 @@ var _user$project$Health$view = function (model) {
 											{ctor: '[]'}),
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('mt-1 row'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('col-3'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$for('armor'),
-									_1: {ctor: '[]'}
-								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Armor'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('col-3'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$input,
+										_elm_lang$html$Html$label,
 										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$id('armor'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$min('0'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$Armor),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$type_('number'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value(model.armorText),
-																_1: {ctor: '[]'}
-															}
-														}
-													}
-												}
-											}
-										},
-										{ctor: '[]'}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$label,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('col-2'),
-										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$for('xp'),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('XP'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('col-3'),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$style(
+													{
+														ctor: '::',
+														_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 3 / auto / 4'},
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
 										},
 										{
 											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$input,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$id('xp'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$min('0'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$XP),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$type_('number'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$value(model.xpText),
-																		_1: {ctor: '[]'}
-																	}
-																}
-															}
-														}
-													}
-												},
-												{ctor: '[]'}),
+											_0: _elm_lang$html$Html$text('XP'),
 											_1: {ctor: '[]'}
 										}),
 									_1: {
@@ -11663,31 +11635,36 @@ var _user$project$Health$view = function (model) {
 											_elm_lang$html$Html$div,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('col-1'),
+												_0: _elm_lang$html$Html_Attributes$style(
+													{
+														ctor: '::',
+														_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 4 / auto / 5'},
+														_1: {ctor: '[]'}
+													}),
 												_1: {ctor: '[]'}
 											},
 											{
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$button,
+													_elm_lang$html$Html$input,
 													{
 														ctor: '::',
-														_0: A2(_elm_lang$html$Html_Attributes$attribute, 'data-toggle', 'tooltip'),
+														_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
 														_1: {
 															ctor: '::',
-															_0: A2(_elm_lang$html$Html_Attributes$attribute, 'data-placement', 'bottom'),
+															_0: _elm_lang$html$Html_Attributes$id('xp'),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('btn btn-outline-primary float-right'),
+																_0: _elm_lang$html$Html_Attributes$min('0'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Health$LevelUp),
+																	_0: _elm_lang$html$Html_Events$onInput(_user$project$Health$XP),
 																	_1: {
 																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$title('Level Up: Subtract 5 from your XP and add 1d6 to your Maximum HP.'),
+																		_0: _elm_lang$html$Html_Attributes$type_('number'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$type_('button'),
+																			_0: _elm_lang$html$Html_Attributes$value(model.xpText),
 																			_1: {ctor: '[]'}
 																		}
 																	}
@@ -11695,27 +11672,74 @@ var _user$project$Health$view = function (model) {
 															}
 														}
 													},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$i,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('fas fa-level-up-alt'),
-																_1: {ctor: '[]'}
-															},
-															{ctor: '[]'}),
-														_1: {ctor: '[]'}
-													}),
+													{ctor: '[]'}),
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$style(
+														{
+															ctor: '::',
+															_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / 5 / auto / 6'},
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$button,
+														{
+															ctor: '::',
+															_0: A2(_elm_lang$html$Html_Attributes$attribute, 'data-toggle', 'tooltip'),
+															_1: {
+																ctor: '::',
+																_0: A2(_elm_lang$html$Html_Attributes$attribute, 'data-placement', 'bottom'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('btn btn-outline-primary'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onClick(_user$project$Health$LevelUp),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$title('Level Up: Subtract 5 from your XP and add 1d6 to your Maximum HP.'),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$type_('button'),
+																				_1: {ctor: '[]'}
+																			}
+																		}
+																	}
+																}
+															}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$i,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('fas fa-level-up-alt'),
+																	_1: {ctor: '[]'}
+																},
+																{ctor: '[]'}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}
 						}
-					}),
-				_1: {ctor: '[]'}
+					}
+				}
 			}
 		});
 };
@@ -12168,11 +12192,20 @@ var _user$project$Scores$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$min('1'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_(typ),
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'min-width', _1: '6rem'},
+												_1: {ctor: '[]'}
+											}),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(score.text),
-											_1: {ctor: '[]'}
+											_0: _elm_lang$html$Html_Attributes$type_(typ),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$value(score.text),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}
@@ -12233,29 +12266,46 @@ var _user$project$Scores$view = function (model) {
 						}),
 					_1: {ctor: '[]'}
 				});
-			return A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('form-group row'),
-					_1: {ctor: '[]'}
-				},
-				{
+			return {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$for(ability),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$style(
+								{
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / main-label / auto / score'},
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(ability),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$label,
+						_elm_lang$html$Html$div,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('col-lg-3 col-md-4'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$for(ability),
-								_1: {ctor: '[]'}
-							}
+							_0: _elm_lang$html$Html_Attributes$style(
+								{
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / score / auto / down-arrow'},
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
 						},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text(ability),
+							_0: visible,
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -12264,13 +12314,13 @@ var _user$project$Scores$view = function (model) {
 							_elm_lang$html$Html$div,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$classList(
+								_0: _elm_lang$html$Html_Attributes$style(
 									{
 										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'col-lg-3 col-md-2', _1: !model.locked},
+										_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / down-arrow / auto / up-arrow'},
 										_1: {
 											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'col-lg-5 col-md-4', _1: model.locked},
+											_0: {ctor: '_Tuple2', _0: 'width', _1: '40px'},
 											_1: {ctor: '[]'}
 										}
 									}),
@@ -12278,76 +12328,20 @@ var _user$project$Scores$view = function (model) {
 							},
 							{
 								ctor: '::',
-								_0: visible,
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: function () {
-								var _p4 = downMsg;
-								if (_p4.ctor === 'Just') {
-									return A2(
-										_elm_lang$html$Html$button,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('btn btn-outline-primary col-1'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_p4._0),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$type_('button'),
-														_1: {ctor: '[]'}
-													}
-												}
-											}
-										},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$i,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('fas fa-arrow-down'),
-													_1: {ctor: '[]'}
-												},
-												{ctor: '[]'}),
-											_1: {ctor: '[]'}
-										});
-								} else {
-									return A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('col-1'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
-												_1: {ctor: '[]'}
-											}
-										},
-										{ctor: '[]'});
-								}
-							}(),
-							_1: {
-								ctor: '::',
 								_0: function () {
-									var _p5 = upMsg;
-									if (_p5.ctor === 'Just') {
+									var _p4 = downMsg;
+									if (_p4.ctor === 'Just') {
 										return A2(
 											_elm_lang$html$Html$button,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('btn btn-outline-primary col-1'),
+												_0: _elm_lang$html$Html_Attributes$class('btn btn-outline-primary'),
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_p5._0),
+														_0: _elm_lang$html$Html_Events$onClick(_p4._0),
 														_1: {
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$type_('button'),
@@ -12362,7 +12356,7 @@ var _user$project$Scores$view = function (model) {
 													_elm_lang$html$Html$i,
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('fas fa-arrow-up'),
+														_0: _elm_lang$html$Html_Attributes$class('fas fa-arrow-down'),
 														_1: {ctor: '[]'}
 													},
 													{ctor: '[]'}),
@@ -12373,78 +12367,153 @@ var _user$project$Scores$view = function (model) {
 											_elm_lang$html$Html$div,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('col-1'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
-													_1: {ctor: '[]'}
-												}
+												_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
+												_1: {ctor: '[]'}
 											},
 											{ctor: '[]'});
 									}
 								}(),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$style(
+										{
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / up-arrow / auto / mod-label'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'width', _1: '40px'},
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: function () {
+										var _p5 = upMsg;
+										if (_p5.ctor === 'Just') {
+											return A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('btn btn-outline-primary'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(_p5._0),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$type_('button'),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$i,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('fas fa-arrow-up'),
+															_1: {ctor: '[]'}
+														},
+														{ctor: '[]'}),
+													_1: {ctor: '[]'}
+												});
+										} else {
+											return A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
+													_1: {ctor: '[]'}
+												},
+												{ctor: '[]'});
+										}
+									}(),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$label,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$for(modifier),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$style(
+												{
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / mod-label / auto / mod'},
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(modifier),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$label,
+										_elm_lang$html$Html$div,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('col-2'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$for(modifier),
-												_1: {ctor: '[]'}
-											}
+											_0: _elm_lang$html$Html_Attributes$style(
+												{
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'grid-area', _1: 'auto / mod / auto / end'},
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
 										},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text(modifier),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('col-2'),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$input,
-													{
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
+													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
+														_0: _elm_lang$html$Html_Attributes$id(modifier),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$id(modifier),
+															_0: _elm_lang$html$Html_Attributes$readonly(true),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$readonly(true),
+																_0: _elm_lang$html$Html_Attributes$type_('text'),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$type_('text'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$value(score.mod),
-																		_1: {ctor: '[]'}
-																	}
+																	_0: _elm_lang$html$Html_Attributes$value(score.mod),
+																	_1: {ctor: '[]'}
 																}
 															}
 														}
-													},
-													{ctor: '[]'}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
 								}
 							}
 						}
 					}
-				});
+				}
+			};
 		});
 	return A2(
 		_elm_lang$html$Html$form,
@@ -12469,182 +12538,211 @@ var _user$project$Scores$view = function (model) {
 				}),
 			_1: {
 				ctor: '::',
-				_0: A6(
-					scoreRow,
-					_user$project$Scores$Strength,
-					'Strength',
-					'STR',
-					_elm_lang$core$Maybe$Just(_user$project$Scores$StrDown),
-					_elm_lang$core$Maybe$Nothing,
-					model.str),
-				_1: {
-					ctor: '::',
-					_0: A6(
-						scoreRow,
-						_user$project$Scores$Dexterity,
-						'Dexterity',
-						'DEX',
-						_elm_lang$core$Maybe$Just(_user$project$Scores$DexDown),
-						_elm_lang$core$Maybe$Just(_user$project$Scores$DexUp),
-						model.dex),
-					_1: {
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
 						ctor: '::',
-						_0: A6(
-							scoreRow,
-							_user$project$Scores$Constitution,
-							'Constitution',
-							'CON',
-							_elm_lang$core$Maybe$Just(_user$project$Scores$ConDown),
-							_elm_lang$core$Maybe$Just(_user$project$Scores$ConUp),
-							model.con),
-						_1: {
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'align-items', _1: 'center'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'display', _1: 'grid'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'grid', _1: 'auto / [main-label] auto [score] 1fr [down-arrow] auto [up-arrow] auto [mod-label] auto [mod] 1fr [end]'},
+										_1: {
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'grid-gap', _1: '10px 15px'},
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					},
+					_elm_lang$core$List$concat(
+						{
 							ctor: '::',
 							_0: A6(
 								scoreRow,
-								_user$project$Scores$Intelligence,
-								'Intelligence',
-								'INT',
-								_elm_lang$core$Maybe$Just(_user$project$Scores$IntDown),
-								_elm_lang$core$Maybe$Just(_user$project$Scores$IntUp),
-								model.$int),
+								_user$project$Scores$Strength,
+								'Strength',
+								'STR',
+								_elm_lang$core$Maybe$Just(_user$project$Scores$StrDown),
+								_elm_lang$core$Maybe$Nothing,
+								model.str),
 							_1: {
 								ctor: '::',
 								_0: A6(
 									scoreRow,
-									_user$project$Scores$Wisdom,
-									'Wisdom',
-									'WIS',
-									_elm_lang$core$Maybe$Just(_user$project$Scores$WisDown),
-									_elm_lang$core$Maybe$Just(_user$project$Scores$WisUp),
-									model.wis),
+									_user$project$Scores$Dexterity,
+									'Dexterity',
+									'DEX',
+									_elm_lang$core$Maybe$Just(_user$project$Scores$DexDown),
+									_elm_lang$core$Maybe$Just(_user$project$Scores$DexUp),
+									model.dex),
 								_1: {
 									ctor: '::',
 									_0: A6(
 										scoreRow,
-										_user$project$Scores$Charisma,
-										'Charisma',
-										'CHA',
-										_elm_lang$core$Maybe$Nothing,
-										_elm_lang$core$Maybe$Just(_user$project$Scores$ChaUp),
-										model.cha),
+										_user$project$Scores$Constitution,
+										'Constitution',
+										'CON',
+										_elm_lang$core$Maybe$Just(_user$project$Scores$ConDown),
+										_elm_lang$core$Maybe$Just(_user$project$Scores$ConUp),
+										model.con),
 									_1: {
 										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
+										_0: A6(
+											scoreRow,
+											_user$project$Scores$Intelligence,
+											'Intelligence',
+											'INT',
+											_elm_lang$core$Maybe$Just(_user$project$Scores$IntDown),
+											_elm_lang$core$Maybe$Just(_user$project$Scores$IntUp),
+											model.$int),
+										_1: {
+											ctor: '::',
+											_0: A6(
+												scoreRow,
+												_user$project$Scores$Wisdom,
+												'Wisdom',
+												'WIS',
+												_elm_lang$core$Maybe$Just(_user$project$Scores$WisDown),
+												_elm_lang$core$Maybe$Just(_user$project$Scores$WisUp),
+												model.wis),
+											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('form-group mt-2 row'),
+												_0: A6(
+													scoreRow,
+													_user$project$Scores$Charisma,
+													'Charisma',
+													'CHA',
+													_elm_lang$core$Maybe$Nothing,
+													_elm_lang$core$Maybe$Just(_user$project$Scores$ChaUp),
+													model.cha),
 												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$div,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('col-5'),
-														_1: {ctor: '[]'}
-													},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$div,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('form-check'),
-																_1: {ctor: '[]'}
-															},
-															{
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$input,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
-																		_1: {
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$id('locked'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Events$onCheck(_user$project$Scores$Locked),
-																				_1: {
-																					ctor: '::',
-																					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-																					_1: {ctor: '[]'}
-																				}
-																			}
-																		}
-																	},
-																	{ctor: '[]'}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$label,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('form-check-label'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$for('locked'),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('Lock Scores'),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															}),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$div,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('col-7'),
-															_1: {ctor: '[]'}
-														},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$button,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('btn btn-primary float-right'),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
-																		_1: {
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Events$onClick(_user$project$Scores$Reroll),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$type_('button'),
-																				_1: {ctor: '[]'}
-																			}
-																		}
-																	}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('Re-roll'),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}
-											}),
-										_1: {ctor: '[]'}
+											}
+										}
 									}
 								}
 							}
-						}
-					}
+						})),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('form-group mt-2 row'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('col-5'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('form-check'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('form-check-input'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$id('locked'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onCheck(_user$project$Scores$Locked),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$label,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('form-check-label'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$for('locked'),
+															_1: {ctor: '[]'}
+														}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Lock Scores'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('col-7'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('btn btn-primary float-right'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Scores$Reroll),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('button'),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Re-roll'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
 				}
 			}
 		});
