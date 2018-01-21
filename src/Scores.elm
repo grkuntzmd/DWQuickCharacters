@@ -38,7 +38,7 @@ import Html.Attributes as Attributes
         , type_
         , value
         )
-import Html.Events exposing (onCheck, onClick)
+import Html.Events exposing (onCheck, onClick, onInput)
 import Random.Pcg as R exposing (Seed, int, list, step)
 
 
@@ -65,26 +65,25 @@ type alias Model =
 
 
 type Msg
-    = --CharismaMsg String
-      -- |
-      ChaUp
+    = CharismaMsg String
+    | ChaUp
     | ConDown
-      -- | ConstitutionMsg String
+    | ConstitutionMsg String
     | ConUp
     | DexDown
-      -- | DexterityMsg String
+    | DexterityMsg String
     | DexUp
     | DnDMsg DraggableMsg
     | Dropped Stat ( Stat, Maybe Int )
     | IntDown
-      -- | IntelligenceMsg String
+    | IntelligenceMsg String
     | IntUp
     | Locked Bool
     | Reroll
     | StrDown
-      -- | StrengthMsg String
+    | StrengthMsg String
     | WisDown
-      -- | WisdomMsg String
+    | WisdomMsg String
     | WisUp
 
 
@@ -101,7 +100,7 @@ type alias Rolls =
 type alias Score =
     { error : Bool
     , mod : String
-    , numeric : Maybe Int
+    , number : Maybe Int
     , text : String
     }
 
@@ -145,21 +144,27 @@ initialModel seed =
 update : Msg -> Model -> ( Model, Cmd Msg, List UpMsg )
 update msg model =
     case msg of
-        -- CharismaMsg value ->
+        CharismaMsg value ->
+            ( { model | cha = score value }, Cmd.none, [] )
+
         ChaUp ->
             chaUp model
 
         ConDown ->
             conDown model
 
-        -- ConstitutionMsg value ->
+        ConstitutionMsg value ->
+            ( { model | con = score value }, Cmd.none, [] )
+
         ConUp ->
             conUp model
 
         DexDown ->
             dexDown model
 
-        -- DexterityMsg value ->
+        DexterityMsg value ->
+            ( { model | dex = score value }, Cmd.none, [] )
+
         DexUp ->
             dexUp model
 
@@ -175,7 +180,9 @@ update msg model =
         IntDown ->
             intDown model
 
-        -- IntelligenceMsg value ->
+        IntelligenceMsg value ->
+            ( { model | int = score value }, Cmd.none, [] )
+
         IntUp ->
             intUp model
 
@@ -188,11 +195,15 @@ update msg model =
         StrDown ->
             strDown model
 
-        -- StrengthMsg value ->
+        StrengthMsg value ->
+            ( { model | str = score value }, Cmd.none, [] )
+
         WisDown ->
             wisDown model
 
-        -- WisdomMsg value ->
+        WisdomMsg value ->
+            ( { model | wis = score value }, Cmd.none, [] )
+
         WisUp ->
             wisUp model
 
@@ -205,8 +216,16 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     let
-        scoreRow : Stat -> String -> String -> Maybe Msg -> Maybe Msg -> Score -> List (Html Msg)
-        scoreRow stat ability modifier downMsg upMsg score =
+        scoreRow :
+            Stat
+            -> String
+            -> String
+            -> (String -> Msg)
+            -> Maybe Msg
+            -> Maybe Msg
+            -> Score
+            -> List (Html Msg)
+        scoreRow stat ability modifier inputMsg downMsg upMsg score =
             let
                 typ =
                     if not model.locked then
@@ -214,14 +233,23 @@ view model =
                     else
                         "number"
 
+                error =
+                    if score.error then
+                        [ ( "bg-danger text-white", True ) ]
+                    else
+                        []
+
                 visible =
                     if model.locked then
                         input
-                            [ class "form-control text-right w-100"
+                            [ classList <|
+                                [ ( "form-control text-right w-100", True ) ]
+                                    ++ error
                             , hidden <| not model.locked
                             , id ability
                             , Attributes.max "18"
                             , Attributes.min "1"
+                            , onInput inputMsg
                             , style [ ( "min-width", "6rem" ) ]
                             , type_ typ
                             , value score.text
@@ -245,7 +273,7 @@ view model =
                                 )
                             , hidden model.locked
                             ]
-                            [ dnd.draggable ( stat, score.numeric )
+                            [ dnd.draggable ( stat, score.number )
                                 []
                                 [ h5
                                     [ style [ ( "width", "auto" ) ] ]
@@ -331,12 +359,12 @@ view model =
                 ]
               <|
                 List.concat
-                    [ scoreRow Strength "Strength" "STR" (Just StrDown) Nothing model.str
-                    , scoreRow Dexterity "Dexterity" "DEX" (Just DexDown) (Just DexUp) model.dex
-                    , scoreRow Constitution "Constitution" "CON" (Just ConDown) (Just ConUp) model.con
-                    , scoreRow Intelligence "Intelligence" "INT" (Just IntDown) (Just IntUp) model.int
-                    , scoreRow Wisdom "Wisdom" "WIS" (Just WisDown) (Just WisUp) model.wis
-                    , scoreRow Charisma "Charisma" "CHA" Nothing (Just ChaUp) model.cha
+                    [ scoreRow Strength "Strength" "STR" StrengthMsg (Just StrDown) Nothing model.str
+                    , scoreRow Dexterity "Dexterity" "DEX" DexterityMsg (Just DexDown) (Just DexUp) model.dex
+                    , scoreRow Constitution "Constitution" "CON" ConstitutionMsg (Just ConDown) (Just ConUp) model.con
+                    , scoreRow Intelligence "Intelligence" "INT" IntelligenceMsg (Just IntDown) (Just IntUp) model.int
+                    , scoreRow Wisdom "Wisdom" "WIS" WisdomMsg (Just WisDown) (Just WisUp) model.wis
+                    , scoreRow Charisma "Charisma" "CHA" CharismaMsg Nothing (Just ChaUp) model.cha
                     ]
             , div [ class "form-group mt-2 row" ]
                 [ div [ class "col-5" ]
@@ -373,14 +401,14 @@ chaUp : Model -> ( Model, Cmd Msg, List UpMsg )
 chaUp model =
     let
         wis =
-            maybeScore model.cha.numeric
+            maybeScore model.cha.number
 
         cha =
-            maybeScore model.wis.numeric
+            maybeScore model.wis.number
     in
         ( { model | wis = wis, cha = cha }
         , Cmd.none
-        , [ Maybe.map CharismaUp cha.numeric, Maybe.map WisdomUp wis.numeric ]
+        , [ Maybe.map CharismaUp cha.number, Maybe.map WisdomUp wis.number ]
             |> List.filterMap identity
         )
 
@@ -389,11 +417,11 @@ conDown : Model -> ( Model, Cmd Msg, List UpMsg )
 conDown model =
     let
         con =
-            maybeScore model.int.numeric
+            maybeScore model.int.number
     in
-        ( { model | con = con, int = maybeScore model.con.numeric }
+        ( { model | con = con, int = maybeScore model.con.number }
         , Cmd.none
-        , [ Maybe.map ConstitutionUp con.numeric ]
+        , [ Maybe.map ConstitutionUp con.number ]
             |> List.filterMap identity
         )
 
@@ -402,11 +430,11 @@ conUp : Model -> ( Model, Cmd Msg, List UpMsg )
 conUp model =
     let
         con =
-            maybeScore model.dex.numeric
+            maybeScore model.dex.number
     in
-        ( { model | con = con, dex = maybeScore model.con.numeric }
+        ( { model | con = con, dex = maybeScore model.con.number }
         , Cmd.none
-        , [ Maybe.map ConstitutionUp con.numeric ]
+        , [ Maybe.map ConstitutionUp con.number ]
             |> List.filterMap identity
         )
 
@@ -415,11 +443,11 @@ dexDown : Model -> ( Model, Cmd Msg, List UpMsg )
 dexDown model =
     let
         con =
-            maybeScore model.dex.numeric
+            maybeScore model.dex.number
     in
-        ( { model | con = con, dex = maybeScore model.con.numeric }
+        ( { model | con = con, dex = maybeScore model.con.number }
         , Cmd.none
-        , [ Maybe.map ConstitutionUp con.numeric ]
+        , [ Maybe.map ConstitutionUp con.number ]
             |> List.filterMap identity
         )
 
@@ -427,8 +455,8 @@ dexDown model =
 dexUp : Model -> ( Model, Cmd Msg, List UpMsg )
 dexUp model =
     ( { model
-        | dex = maybeScore model.str.numeric
-        , str = maybeScore model.dex.numeric
+        | dex = maybeScore model.str.number
+        , str = maybeScore model.dex.number
       }
     , Cmd.none
     , []
@@ -523,7 +551,7 @@ dropped to from model =
 
                     Constitution ->
                         ( { model | con = value }
-                        , Maybe.map ConstitutionUp value.numeric :: upMsgs
+                        , Maybe.map ConstitutionUp value.number :: upMsgs
                         )
 
                     Intelligence ->
@@ -531,12 +559,12 @@ dropped to from model =
 
                     Wisdom ->
                         ( { model | wis = value }
-                        , Maybe.map WisdomUp value.numeric :: upMsgs
+                        , Maybe.map WisdomUp value.number :: upMsgs
                         )
 
                     Charisma ->
                         ( { model | cha = value }
-                        , Maybe.map CharismaUp value.numeric :: upMsgs
+                        , Maybe.map CharismaUp value.number :: upMsgs
                         )
 
             ( model_, upMsgs ) =
@@ -550,11 +578,11 @@ intDown : Model -> ( Model, Cmd Msg, List UpMsg )
 intDown model =
     let
         wis =
-            maybeScore model.int.numeric
+            maybeScore model.int.number
     in
-        ( { model | int = maybeScore model.wis.numeric, wis = wis }
+        ( { model | int = maybeScore model.wis.number, wis = wis }
         , Cmd.none
-        , [ Maybe.map WisdomUp wis.numeric ]
+        , [ Maybe.map WisdomUp wis.number ]
             |> List.filterMap identity
         )
 
@@ -563,11 +591,11 @@ intUp : Model -> ( Model, Cmd Msg, List UpMsg )
 intUp model =
     let
         con =
-            maybeScore model.int.numeric
+            maybeScore model.int.number
     in
-        ( { model | con = con, int = maybeScore model.con.numeric }
+        ( { model | con = con, int = maybeScore model.con.number }
         , Cmd.none
-        , [ Maybe.map ConstitutionUp con.numeric ]
+        , [ Maybe.map ConstitutionUp con.number ]
             |> List.filterMap identity
         )
 
@@ -576,15 +604,27 @@ maybeScore : Maybe Int -> Score
 maybeScore value =
     { error = False
     , mod = modifiers value
-    , numeric = value
+    , number = value
     , text = Maybe.map toString value |> Maybe.withDefault ""
     }
 
 
+score : String -> Score
+score value =
+    case String.toInt value of
+        Ok n ->
+            { error = False
+            , mod = modifiers <| Just n
+            , number = Just n
+            , text = value
+            }
 
--- score : String -> Score
--- score value =
---     {}
+        Err _ ->
+            { error = True
+            , mod = ""
+            , number = Nothing
+            , text = value
+            }
 
 
 modifiers : Maybe Int -> String
@@ -657,8 +697,8 @@ rollScores seed =
 strDown : Model -> ( Model, Cmd Msg, List UpMsg )
 strDown model =
     ( { model
-        | dex = maybeScore model.str.numeric
-        , str = maybeScore model.dex.numeric
+        | dex = maybeScore model.str.number
+        , str = maybeScore model.dex.number
       }
     , Cmd.none
     , []
@@ -669,14 +709,14 @@ wisDown : Model -> ( Model, Cmd Msg, List UpMsg )
 wisDown model =
     let
         wis =
-            maybeScore model.cha.numeric
+            maybeScore model.cha.number
 
         cha =
-            maybeScore model.wis.numeric
+            maybeScore model.wis.number
     in
         ( { model | wis = wis, cha = cha }
         , Cmd.none
-        , [ Maybe.map CharismaUp cha.numeric, Maybe.map WisdomUp wis.numeric ]
+        , [ Maybe.map CharismaUp cha.number, Maybe.map WisdomUp wis.number ]
             |> List.filterMap identity
         )
 
@@ -685,10 +725,10 @@ wisUp : Model -> ( Model, Cmd Msg, List UpMsg )
 wisUp model =
     let
         wis =
-            maybeScore model.int.numeric
+            maybeScore model.int.number
     in
-        ( { model | int = maybeScore model.wis.numeric, wis = wis }
+        ( { model | int = maybeScore model.wis.number, wis = wis }
         , Cmd.none
-        , [ Maybe.map WisdomUp wis.numeric ]
+        , [ Maybe.map WisdomUp wis.number ]
             |> List.filterMap identity
         )

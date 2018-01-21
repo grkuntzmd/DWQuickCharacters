@@ -11946,11 +11946,26 @@ var _user$project$Scores$modifiers = function (_p0) {
 			},
 			_p0));
 };
+var _user$project$Scores$score = function (value) {
+	var _p1 = _elm_lang$core$String$toInt(value);
+	if (_p1.ctor === 'Ok') {
+		var _p2 = _p1._0;
+		return {
+			error: false,
+			mod: _user$project$Scores$modifiers(
+				_elm_lang$core$Maybe$Just(_p2)),
+			number: _elm_lang$core$Maybe$Just(_p2),
+			text: value
+		};
+	} else {
+		return {error: true, mod: '', number: _elm_lang$core$Maybe$Nothing, text: value};
+	}
+};
 var _user$project$Scores$maybeScore = function (value) {
 	return {
 		error: false,
 		mod: _user$project$Scores$modifiers(value),
-		numeric: value,
+		number: value,
 		text: A2(
 			_elm_lang$core$Maybe$withDefault,
 			'',
@@ -11963,8 +11978,8 @@ var _user$project$Scores$strDown = function (model) {
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				dex: _user$project$Scores$maybeScore(model.str.numeric),
-				str: _user$project$Scores$maybeScore(model.dex.numeric)
+				dex: _user$project$Scores$maybeScore(model.str.number),
+				str: _user$project$Scores$maybeScore(model.dex.number)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: {ctor: '[]'}
@@ -12001,7 +12016,7 @@ var _user$project$Scores$dragged = function (model) {
 	return A2(
 		_ir4y$elm_dnd$DnD$dragged,
 		model.draggable,
-		function (_p1) {
+		function (_p3) {
 			return box(
 				A2(
 					_elm_lang$core$Maybe$withDefault,
@@ -12009,7 +12024,7 @@ var _user$project$Scores$dragged = function (model) {
 					A2(
 						_elm_lang$core$Maybe$map,
 						_elm_lang$core$Basics$toString,
-						_elm_lang$core$Tuple$second(_p1))));
+						_elm_lang$core$Tuple$second(_p3))));
 		});
 };
 var _user$project$Scores$dexUp = function (model) {
@@ -12018,8 +12033,8 @@ var _user$project$Scores$dexUp = function (model) {
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				dex: _user$project$Scores$maybeScore(model.str.numeric),
-				str: _user$project$Scores$maybeScore(model.dex.numeric)
+				dex: _user$project$Scores$maybeScore(model.str.number),
+				str: _user$project$Scores$maybeScore(model.dex.number)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: {ctor: '[]'}
@@ -12085,16 +12100,25 @@ var _user$project$Scores$rollScores = function (seed) {
 };
 var _user$project$Scores$Score = F4(
 	function (a, b, c, d) {
-		return {error: a, mod: b, numeric: c, text: d};
+		return {error: a, mod: b, number: c, text: d};
 	});
 var _user$project$Scores$WisUp = {ctor: 'WisUp'};
+var _user$project$Scores$WisdomMsg = function (a) {
+	return {ctor: 'WisdomMsg', _0: a};
+};
 var _user$project$Scores$WisDown = {ctor: 'WisDown'};
+var _user$project$Scores$StrengthMsg = function (a) {
+	return {ctor: 'StrengthMsg', _0: a};
+};
 var _user$project$Scores$StrDown = {ctor: 'StrDown'};
 var _user$project$Scores$Reroll = {ctor: 'Reroll'};
 var _user$project$Scores$Locked = function (a) {
 	return {ctor: 'Locked', _0: a};
 };
 var _user$project$Scores$IntUp = {ctor: 'IntUp'};
+var _user$project$Scores$IntelligenceMsg = function (a) {
+	return {ctor: 'IntelligenceMsg', _0: a};
+};
 var _user$project$Scores$IntDown = {ctor: 'IntDown'};
 var _user$project$Scores$Dropped = F2(
 	function (a, b) {
@@ -12105,9 +12129,9 @@ var _user$project$Scores$DnDMsg = function (a) {
 };
 var _user$project$Scores$dnd = A2(_ir4y$elm_dnd$DnD$init, _user$project$Scores$DnDMsg, _user$project$Scores$Dropped);
 var _user$project$Scores$initialModel = function (seed) {
-	var _p2 = _user$project$Scores$rollScores(seed);
-	var rolls = _p2._0;
-	var seed_ = _p2._1;
+	var _p4 = _user$project$Scores$rollScores(seed);
+	var rolls = _p4._0;
+	var seed_ = _p4._1;
 	return {
 		ctor: '_Tuple2',
 		_0: {
@@ -12159,10 +12183,19 @@ var _user$project$Scores$subscriptions = function (model) {
 	return _user$project$Scores$dnd.subscriptions(model.draggable);
 };
 var _user$project$Scores$DexUp = {ctor: 'DexUp'};
+var _user$project$Scores$DexterityMsg = function (a) {
+	return {ctor: 'DexterityMsg', _0: a};
+};
 var _user$project$Scores$DexDown = {ctor: 'DexDown'};
 var _user$project$Scores$ConUp = {ctor: 'ConUp'};
+var _user$project$Scores$ConstitutionMsg = function (a) {
+	return {ctor: 'ConstitutionMsg', _0: a};
+};
 var _user$project$Scores$ConDown = {ctor: 'ConDown'};
 var _user$project$Scores$ChaUp = {ctor: 'ChaUp'};
+var _user$project$Scores$CharismaMsg = function (a) {
+	return {ctor: 'CharismaMsg', _0: a};
+};
 var _user$project$Scores$Charisma = {ctor: 'Charisma'};
 var _user$project$Scores$Wisdom = {ctor: 'Wisdom'};
 var _user$project$Scores$Intelligence = {ctor: 'Intelligence'};
@@ -12170,14 +12203,27 @@ var _user$project$Scores$Constitution = {ctor: 'Constitution'};
 var _user$project$Scores$Dexterity = {ctor: 'Dexterity'};
 var _user$project$Scores$Strength = {ctor: 'Strength'};
 var _user$project$Scores$view = function (model) {
-	var scoreRow = F6(
-		function (stat, ability, modifier, downMsg, upMsg, score) {
+	var scoreRow = F7(
+		function (stat, ability, modifier, inputMsg, downMsg, upMsg, score) {
+			var error = score.error ? {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'bg-danger text-white', _1: true},
+				_1: {ctor: '[]'}
+			} : {ctor: '[]'};
 			var typ = (!model.locked) ? 'text' : 'number';
 			var visible = model.locked ? A2(
 				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
+					_0: _elm_lang$html$Html_Attributes$classList(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'form-control text-right w-100', _1: true},
+								_1: {ctor: '[]'}
+							},
+							error)),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$hidden(!model.locked),
@@ -12192,19 +12238,23 @@ var _user$project$Scores$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$min('1'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$style(
-											{
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'min-width', _1: '6rem'},
-												_1: {ctor: '[]'}
-											}),
+										_0: _elm_lang$html$Html_Events$onInput(inputMsg),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_(typ),
+											_0: _elm_lang$html$Html_Attributes$style(
+												{
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'min-width', _1: '6rem'},
+													_1: {ctor: '[]'}
+												}),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(score.text),
-												_1: {ctor: '[]'}
+												_0: _elm_lang$html$Html_Attributes$type_(typ),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(score.text),
+													_1: {ctor: '[]'}
+												}
 											}
 										}
 									}
@@ -12223,9 +12273,9 @@ var _user$project$Scores$view = function (model) {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$class(
 							function () {
-								var _p3 = _ir4y$elm_dnd$DnD$getDropMeta(model.draggable);
-								if (_p3.ctor === 'Just') {
-									return _elm_lang$core$Native_Utils.eq(_p3._0, stat);
+								var _p5 = _ir4y$elm_dnd$DnD$getDropMeta(model.draggable);
+								if (_p5.ctor === 'Just') {
+									return _elm_lang$core$Native_Utils.eq(_p5._0, stat);
 								} else {
 									return false;
 								}
@@ -12241,7 +12291,7 @@ var _user$project$Scores$view = function (model) {
 					ctor: '::',
 					_0: A3(
 						_user$project$Scores$dnd.draggable,
-						{ctor: '_Tuple2', _0: stat, _1: score.numeric},
+						{ctor: '_Tuple2', _0: stat, _1: score.number},
 						{ctor: '[]'},
 						{
 							ctor: '::',
@@ -12329,8 +12379,8 @@ var _user$project$Scores$view = function (model) {
 							{
 								ctor: '::',
 								_0: function () {
-									var _p4 = downMsg;
-									if (_p4.ctor === 'Just') {
+									var _p6 = downMsg;
+									if (_p6.ctor === 'Just') {
 										return A2(
 											_elm_lang$html$Html$button,
 											{
@@ -12341,7 +12391,7 @@ var _user$project$Scores$view = function (model) {
 													_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onClick(_p4._0),
+														_0: _elm_lang$html$Html_Events$onClick(_p6._0),
 														_1: {
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$type_('button'),
@@ -12396,8 +12446,8 @@ var _user$project$Scores$view = function (model) {
 								{
 									ctor: '::',
 									_0: function () {
-										var _p5 = upMsg;
-										if (_p5.ctor === 'Just') {
+										var _p7 = upMsg;
+										if (_p7.ctor === 'Just') {
 											return A2(
 												_elm_lang$html$Html$button,
 												{
@@ -12408,7 +12458,7 @@ var _user$project$Scores$view = function (model) {
 														_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onClick(_p5._0),
+															_0: _elm_lang$html$Html_Events$onClick(_p7._0),
 															_1: {
 																ctor: '::',
 																_0: _elm_lang$html$Html_Attributes$type_('button'),
@@ -12565,61 +12615,67 @@ var _user$project$Scores$view = function (model) {
 					_elm_lang$core$List$concat(
 						{
 							ctor: '::',
-							_0: A6(
+							_0: A7(
 								scoreRow,
 								_user$project$Scores$Strength,
 								'Strength',
 								'STR',
+								_user$project$Scores$StrengthMsg,
 								_elm_lang$core$Maybe$Just(_user$project$Scores$StrDown),
 								_elm_lang$core$Maybe$Nothing,
 								model.str),
 							_1: {
 								ctor: '::',
-								_0: A6(
+								_0: A7(
 									scoreRow,
 									_user$project$Scores$Dexterity,
 									'Dexterity',
 									'DEX',
+									_user$project$Scores$DexterityMsg,
 									_elm_lang$core$Maybe$Just(_user$project$Scores$DexDown),
 									_elm_lang$core$Maybe$Just(_user$project$Scores$DexUp),
 									model.dex),
 								_1: {
 									ctor: '::',
-									_0: A6(
+									_0: A7(
 										scoreRow,
 										_user$project$Scores$Constitution,
 										'Constitution',
 										'CON',
+										_user$project$Scores$ConstitutionMsg,
 										_elm_lang$core$Maybe$Just(_user$project$Scores$ConDown),
 										_elm_lang$core$Maybe$Just(_user$project$Scores$ConUp),
 										model.con),
 									_1: {
 										ctor: '::',
-										_0: A6(
+										_0: A7(
 											scoreRow,
 											_user$project$Scores$Intelligence,
 											'Intelligence',
 											'INT',
+											_user$project$Scores$IntelligenceMsg,
 											_elm_lang$core$Maybe$Just(_user$project$Scores$IntDown),
 											_elm_lang$core$Maybe$Just(_user$project$Scores$IntUp),
 											model.$int),
 										_1: {
 											ctor: '::',
-											_0: A6(
+											_0: A7(
 												scoreRow,
 												_user$project$Scores$Wisdom,
 												'Wisdom',
 												'WIS',
+												_user$project$Scores$WisdomMsg,
 												_elm_lang$core$Maybe$Just(_user$project$Scores$WisDown),
 												_elm_lang$core$Maybe$Just(_user$project$Scores$WisUp),
 												model.wis),
 											_1: {
 												ctor: '::',
-												_0: A6(
+												_0: A7(
 													scoreRow,
 													_user$project$Scores$Charisma,
 													'Charisma',
 													'CHA',
+													_user$project$Scores$CharismaMsg,
 													_elm_lang$core$Maybe$Nothing,
 													_elm_lang$core$Maybe$Just(_user$project$Scores$ChaUp),
 													model.cha),
@@ -12751,13 +12807,13 @@ var _user$project$Scores$WisdomUp = function (a) {
 	return {ctor: 'WisdomUp', _0: a};
 };
 var _user$project$Scores$intDown = function (model) {
-	var wis = _user$project$Scores$maybeScore(model.$int.numeric);
+	var wis = _user$project$Scores$maybeScore(model.$int.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				$int: _user$project$Scores$maybeScore(model.wis.numeric),
+				$int: _user$project$Scores$maybeScore(model.wis.number),
 				wis: wis
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
@@ -12766,19 +12822,19 @@ var _user$project$Scores$intDown = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.number),
 				_1: {ctor: '[]'}
 			})
 	};
 };
 var _user$project$Scores$wisUp = function (model) {
-	var wis = _user$project$Scores$maybeScore(model.$int.numeric);
+	var wis = _user$project$Scores$maybeScore(model.$int.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				$int: _user$project$Scores$maybeScore(model.wis.numeric),
+				$int: _user$project$Scores$maybeScore(model.wis.number),
 				wis: wis
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
@@ -12787,7 +12843,7 @@ var _user$project$Scores$wisUp = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.number),
 				_1: {ctor: '[]'}
 			})
 	};
@@ -12796,14 +12852,14 @@ var _user$project$Scores$ConstitutionUp = function (a) {
 	return {ctor: 'ConstitutionUp', _0: a};
 };
 var _user$project$Scores$conDown = function (model) {
-	var con = _user$project$Scores$maybeScore(model.$int.numeric);
+	var con = _user$project$Scores$maybeScore(model.$int.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				$int: _user$project$Scores$maybeScore(model.con.numeric)
+				$int: _user$project$Scores$maybeScore(model.con.number)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12811,20 +12867,20 @@ var _user$project$Scores$conDown = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.number),
 				_1: {ctor: '[]'}
 			})
 	};
 };
 var _user$project$Scores$conUp = function (model) {
-	var con = _user$project$Scores$maybeScore(model.dex.numeric);
+	var con = _user$project$Scores$maybeScore(model.dex.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				dex: _user$project$Scores$maybeScore(model.con.numeric)
+				dex: _user$project$Scores$maybeScore(model.con.number)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12832,20 +12888,20 @@ var _user$project$Scores$conUp = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.number),
 				_1: {ctor: '[]'}
 			})
 	};
 };
 var _user$project$Scores$dexDown = function (model) {
-	var con = _user$project$Scores$maybeScore(model.dex.numeric);
+	var con = _user$project$Scores$maybeScore(model.dex.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				dex: _user$project$Scores$maybeScore(model.con.numeric)
+				dex: _user$project$Scores$maybeScore(model.con.number)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12853,20 +12909,20 @@ var _user$project$Scores$dexDown = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.number),
 				_1: {ctor: '[]'}
 			})
 	};
 };
 var _user$project$Scores$intUp = function (model) {
-	var con = _user$project$Scores$maybeScore(model.$int.numeric);
+	var con = _user$project$Scores$maybeScore(model.$int.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				$int: _user$project$Scores$maybeScore(model.con.numeric)
+				$int: _user$project$Scores$maybeScore(model.con.number)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12874,7 +12930,7 @@ var _user$project$Scores$intUp = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, con.number),
 				_1: {ctor: '[]'}
 			})
 	};
@@ -12883,8 +12939,8 @@ var _user$project$Scores$CharismaUp = function (a) {
 	return {ctor: 'CharismaUp', _0: a};
 };
 var _user$project$Scores$chaUp = function (model) {
-	var cha = _user$project$Scores$maybeScore(model.wis.numeric);
-	var wis = _user$project$Scores$maybeScore(model.cha.numeric);
+	var cha = _user$project$Scores$maybeScore(model.wis.number);
+	var wis = _user$project$Scores$maybeScore(model.cha.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
@@ -12896,10 +12952,10 @@ var _user$project$Scores$chaUp = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$CharismaUp, cha.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$CharismaUp, cha.number),
 				_1: {
 					ctor: '::',
-					_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.numeric),
+					_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.number),
 					_1: {ctor: '[]'}
 				}
 			})
@@ -12918,77 +12974,77 @@ var _user$project$Scores$dropped = F3(
 			};
 		} else {
 			var transfer = F3(
-				function (stat, value, _p6) {
-					var _p7 = _p6;
-					var _p10 = _p7._1;
-					var _p9 = _p7._0;
-					var _p8 = stat;
-					switch (_p8.ctor) {
+				function (stat, value, _p8) {
+					var _p9 = _p8;
+					var _p12 = _p9._1;
+					var _p11 = _p9._0;
+					var _p10 = stat;
+					switch (_p10.ctor) {
 						case 'Strength':
 							return {
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
-									_p9,
+									_p11,
 									{str: value}),
-								_1: _p10
+								_1: _p12
 							};
 						case 'Dexterity':
 							return {
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
-									_p9,
+									_p11,
 									{dex: value}),
-								_1: _p10
+								_1: _p12
 							};
 						case 'Constitution':
 							return {
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
-									_p9,
+									_p11,
 									{con: value}),
 								_1: {
 									ctor: '::',
-									_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, value.numeric),
-									_1: _p10
+									_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$ConstitutionUp, value.number),
+									_1: _p12
 								}
 							};
 						case 'Intelligence':
 							return {
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
-									_p9,
+									_p11,
 									{$int: value}),
-								_1: _p10
+								_1: _p12
 							};
 						case 'Wisdom':
 							return {
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
-									_p9,
+									_p11,
 									{wis: value}),
 								_1: {
 									ctor: '::',
-									_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, value.numeric),
-									_1: _p10
+									_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, value.number),
+									_1: _p12
 								}
 							};
 						default:
 							return {
 								ctor: '_Tuple2',
 								_0: _elm_lang$core$Native_Utils.update(
-									_p9,
+									_p11,
 									{cha: value}),
 								_1: {
 									ctor: '::',
-									_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$CharismaUp, value.numeric),
-									_1: _p10
+									_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$CharismaUp, value.number),
+									_1: _p12
 								}
 							};
 					}
 				});
 			var dst = function () {
-				var _p11 = to;
-				switch (_p11.ctor) {
+				var _p13 = to;
+				switch (_p13.ctor) {
 					case 'Strength':
 						return model.str;
 					case 'Dexterity':
@@ -13004,8 +13060,8 @@ var _user$project$Scores$dropped = F3(
 				}
 			}();
 			var src = function () {
-				var _p12 = _elm_lang$core$Tuple$first(from);
-				switch (_p12.ctor) {
+				var _p14 = _elm_lang$core$Tuple$first(from);
+				switch (_p14.ctor) {
 					case 'Strength':
 						return model.str;
 					case 'Dexterity':
@@ -13020,7 +13076,7 @@ var _user$project$Scores$dropped = F3(
 						return model.cha;
 				}
 			}();
-			var _p13 = A3(
+			var _p15 = A3(
 				transfer,
 				_elm_lang$core$Tuple$first(from),
 				dst,
@@ -13033,8 +13089,8 @@ var _user$project$Scores$dropped = F3(
 						_0: model,
 						_1: {ctor: '[]'}
 					}));
-			var model_ = _p13._0;
-			var upMsgs = _p13._1;
+			var model_ = _p15._0;
+			var upMsgs = _p15._1;
 			return {
 				ctor: '_Tuple3',
 				_0: model_,
@@ -13044,9 +13100,9 @@ var _user$project$Scores$dropped = F3(
 		}
 	});
 var _user$project$Scores$reroll = function (model) {
-	var _p14 = _user$project$Scores$rollScores(model.seed);
-	var rolls = _p14._0;
-	var seed = _p14._1;
+	var _p16 = _user$project$Scores$rollScores(model.seed);
+	var rolls = _p16._0;
+	var seed = _p16._1;
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
@@ -13108,8 +13164,8 @@ var _user$project$Scores$reroll = function (model) {
 	};
 };
 var _user$project$Scores$wisDown = function (model) {
-	var cha = _user$project$Scores$maybeScore(model.wis.numeric);
-	var wis = _user$project$Scores$maybeScore(model.cha.numeric);
+	var cha = _user$project$Scores$maybeScore(model.wis.number);
+	var wis = _user$project$Scores$maybeScore(model.cha.number);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
@@ -13121,10 +13177,10 @@ var _user$project$Scores$wisDown = function (model) {
 			_elm_lang$core$Basics$identity,
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$CharismaUp, cha.numeric),
+				_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$CharismaUp, cha.number),
 				_1: {
 					ctor: '::',
-					_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.numeric),
+					_0: A2(_elm_lang$core$Maybe$map, _user$project$Scores$WisdomUp, wis.number),
 					_1: {ctor: '[]'}
 				}
 			})
@@ -13132,16 +13188,49 @@ var _user$project$Scores$wisDown = function (model) {
 };
 var _user$project$Scores$update = F2(
 	function (msg, model) {
-		var _p15 = msg;
-		switch (_p15.ctor) {
+		var _p17 = msg;
+		switch (_p17.ctor) {
+			case 'CharismaMsg':
+				return {
+					ctor: '_Tuple3',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							cha: _user$project$Scores$score(_p17._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: {ctor: '[]'}
+				};
 			case 'ChaUp':
 				return _user$project$Scores$chaUp(model);
 			case 'ConDown':
 				return _user$project$Scores$conDown(model);
+			case 'ConstitutionMsg':
+				return {
+					ctor: '_Tuple3',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							con: _user$project$Scores$score(_p17._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: {ctor: '[]'}
+				};
 			case 'ConUp':
 				return _user$project$Scores$conUp(model);
 			case 'DexDown':
 				return _user$project$Scores$dexDown(model);
+			case 'DexterityMsg':
+				return {
+					ctor: '_Tuple3',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							dex: _user$project$Scores$score(_p17._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: {ctor: '[]'}
+				};
 			case 'DexUp':
 				return _user$project$Scores$dexUp(model);
 			case 'DnDMsg':
@@ -13150,15 +13239,26 @@ var _user$project$Scores$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							draggable: A2(_ir4y$elm_dnd$DnD$update, _p15._0, model.draggable)
+							draggable: A2(_ir4y$elm_dnd$DnD$update, _p17._0, model.draggable)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none,
 					_2: {ctor: '[]'}
 				};
 			case 'Dropped':
-				return A3(_user$project$Scores$dropped, _p15._0, _p15._1, model);
+				return A3(_user$project$Scores$dropped, _p17._0, _p17._1, model);
 			case 'IntDown':
 				return _user$project$Scores$intDown(model);
+			case 'IntelligenceMsg':
+				return {
+					ctor: '_Tuple3',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							$int: _user$project$Scores$score(_p17._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: {ctor: '[]'}
+				};
 			case 'IntUp':
 				return _user$project$Scores$intUp(model);
 			case 'Locked':
@@ -13166,7 +13266,7 @@ var _user$project$Scores$update = F2(
 					ctor: '_Tuple3',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{locked: _p15._0}),
+						{locked: _p17._0}),
 					_1: _elm_lang$core$Platform_Cmd$none,
 					_2: {ctor: '[]'}
 				};
@@ -13174,8 +13274,30 @@ var _user$project$Scores$update = F2(
 				return _user$project$Scores$reroll(model);
 			case 'StrDown':
 				return _user$project$Scores$strDown(model);
+			case 'StrengthMsg':
+				return {
+					ctor: '_Tuple3',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							str: _user$project$Scores$score(_p17._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: {ctor: '[]'}
+				};
 			case 'WisDown':
 				return _user$project$Scores$wisDown(model);
+			case 'WisdomMsg':
+				return {
+					ctor: '_Tuple3',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							wis: _user$project$Scores$score(_p17._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: {ctor: '[]'}
+				};
 			default:
 				return _user$project$Scores$wisUp(model);
 		}
