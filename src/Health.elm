@@ -1,7 +1,17 @@
 module Health exposing (Model, Msg(..), initialModel, update, view)
 
 import Html exposing (Html, button, div, form, i, input, label, p, text)
-import Html.Attributes as Attributes exposing (attribute, class, for, id, title, type_, value)
+import Html.Attributes as Attributes
+    exposing
+        ( attribute
+        , class
+        , for
+        , id
+        , style
+        , title
+        , type_
+        , value
+        )
 import Html.Events exposing (onClick, onInput)
 import Random.Pcg exposing (Seed, int, list, step)
 
@@ -137,69 +147,89 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    form [ class "border border-primary col-12 mt-1 p-2 rounded" ]
-        [ div [ class "row" ]
-            [ label [ class "col-4", for "current-hp" ] [ text "Current HP" ]
-            , div [ class "col-2" ]
-                [ input
-                    [ class "form-control text-right w-100"
-                    , id "current-hp"
-                    , Attributes.min "0"
-                    , onInput CurrentHP
-                    , type_ "number"
-                    , value model.currentHPText
-                    ]
-                    []
-                ]
-            , label [ class "col-4", for "maximum-hp" ] [ text "Maximum HP" ]
-            , div [ class "col-2" ]
-                [ input
-                    [ class "form-control text-right w-100"
-                    , id "maximum-hp"
-                    , Attributes.min "0"
-                    , onInput MaximumHP
-                    , type_ "number"
-                    , value model.maximumHPText
-                    ]
-                    []
-                ]
+    form
+        [ class "border border-primary col-12 mt-1 p-2 rounded"
+        , style
+            [ ( "align-items", "center" )
+            , ( "display", "grid" )
+            , ( "grid", "auto / auto 1fr auto 1fr auto" )
+            , ( "grid-gap", "10px 15px" )
             ]
-        , div [ class "mt-1 row" ]
-            [ label [ class "col-3", for "armor" ] [ text "Armor" ]
-            , div [ class "col-3" ]
-                [ input
-                    [ class "form-control text-right w-100"
-                    , id "armor"
-                    , Attributes.min "0"
-                    , onInput Armor
-                    , type_ "number"
-                    , value model.armorText
-                    ]
-                    []
+        ]
+        [ label
+            [ for "current-hp"
+            , style [ ( "grid-area", "auto / 1 / auto / 2" ) ]
+            ]
+            [ text "Current HP" ]
+        , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
+            [ input
+                [ class "form-control text-right w-100"
+                , id "current-hp"
+                , Attributes.min "0"
+                , onInput CurrentHP
+                , type_ "number"
+                , value model.currentHPText
                 ]
-            , label [ class "col-2", for "xp" ] [ text "XP" ]
-            , div [ class "col-3" ]
-                [ input
-                    [ class "form-control text-right w-100"
-                    , id "xp"
-                    , Attributes.min "0"
-                    , onInput XP
-                    , type_ "number"
-                    , value model.xpText
-                    ]
-                    []
+                []
+            ]
+        , label
+            [ for "maximum-hp"
+            , style [ ( "grid-area", "auto / 3 / auto / 4" ) ]
+            ]
+            [ text "Maximum HP" ]
+        , div [ style [ ( "grid-area", "auto / 4 / auto / 6" ) ] ]
+            [ input
+                [ class "form-control text-right w-100"
+                , id "maximum-hp"
+                , Attributes.min "0"
+                , onInput MaximumHP
+                , type_ "number"
+                , value model.maximumHPText
                 ]
-            , div [ class "col-1" ]
-                [ button
-                    [ attribute "data-toggle" "tooltip"
-                    , attribute "data-placement" "bottom"
-                    , class "btn btn-outline-primary float-right"
-                    , onClick LevelUp
-                    , title "Level Up: Subtract 5 from your XP and add 1d6 to your Maximum HP."
-                    , type_ "button"
-                    ]
-                    [ i [ class "fas fa-level-up-alt" ] []
-                    ]
+                []
+            ]
+        , label
+            [ for "armor"
+            , style [ ( "grid-area", "auto / 1 / auto / 2" ) ]
+            ]
+            [ text "Armor" ]
+        , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
+            [ input
+                [ class "form-control text-right w-100"
+                , id "armor"
+                , Attributes.min "0"
+                , onInput Armor
+                , type_ "number"
+                , value model.armorText
+                ]
+                []
+            ]
+        , label
+            [ for "xp"
+            , style [ ( "grid-area", "auto / 3 / auto / 4" ) ]
+            ]
+            [ text "XP" ]
+        , div [ style [ ( "grid-area", "auto / 4 / auto / 5" ) ] ]
+            [ input
+                [ class "form-control text-right w-100"
+                , id "xp"
+                , Attributes.min "0"
+                , onInput XP
+                , type_ "number"
+                , value model.xpText
+                ]
+                []
+            ]
+        , div [ style [ ( "grid-area", "auto / 5 / auto / 6" ) ] ]
+            [ button
+                [ attribute "data-toggle" "tooltip"
+                , attribute "data-placement" "bottom"
+                , class "btn btn-outline-primary"
+                , onClick LevelUp
+                , title "Level Up: Subtract 5 from your XP and add 1d6 to your Maximum HP."
+                , type_ "button"
+                ]
+                [ i [ class "fas fa-level-up-alt" ] []
                 ]
             ]
         ]

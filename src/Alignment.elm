@@ -37,7 +37,7 @@ update msg _ =
 
 view : Model -> Html Msg
 view model =
-    div [ class "border border-primary col-12 mt-1 p-2 rounded" ]
+    div [ class "border border-primary mt-1 p-2 rounded" ]
         [ h2 [] [ text "Alignment" ]
         , form []
             [ div [ class "form-check" ]

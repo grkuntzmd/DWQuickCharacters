@@ -149,7 +149,7 @@ view : Model -> Html Msg
 view model =
     div [ class "container-fluid" ]
         [ header
-        , div [ class "row" ]
+        , div [ class "align-items-stretch justify-content-between row" ]
             [ div [ class "col-md-6 col-xl-5" ]
                 [ div [ class "container-fluid" ]
                     [ div [ class "row" ]
@@ -162,19 +162,10 @@ view model =
                         [ Html.map HealthMsg <| Health.view model.health ]
                     ]
                 ]
-            , div [ class "col-md-6 col-xl-7" ]
-                [ div [ class "row" ]
-                    [ div [ class "container-fluid" ]
-                        [ Html.map EquipmentMsg <| Equipment.view model.equipment ]
-                    ]
-                , div [ class "row" ]
-                    [ div [ class "container-fluid" ]
-                        [ Html.map AlignmentMsg <| Alignment.view model.alignment ]
-                    ]
-                , div [ class "row" ]
-                    [ div [ class "container-fluid" ]
-                        [ Html.map BondsMsg <| Bonds.view model.bonds ]
-                    ]
+            , div [ class "align-items-stretch col-md-6 col-xl-7 d-flex flex-column justify-content-between" ]
+                [ Html.map EquipmentMsg <| Equipment.view model.equipment
+                , Html.map AlignmentMsg <| Alignment.view model.alignment
+                , Html.map BondsMsg <| Bonds.view model.bonds
                 ]
             ]
         , Html.map ScoresMsg (Scores.dragged model.scores)

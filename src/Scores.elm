@@ -19,6 +19,7 @@ import Html
         , div
         , form
         , h3
+        , h4
         , h5
         , i
         , input
@@ -64,19 +65,26 @@ type alias Model =
 
 
 type Msg
-    = ChaUp
+    = --CharismaMsg String
+      -- |
+      ChaUp
     | ConDown
+      -- | ConstitutionMsg String
     | ConUp
     | DexDown
+      -- | DexterityMsg String
     | DexUp
     | DnDMsg DraggableMsg
     | Dropped Stat ( Stat, Maybe Int )
     | IntDown
+      -- | IntelligenceMsg String
     | IntUp
     | Locked Bool
     | Reroll
     | StrDown
+      -- | StrengthMsg String
     | WisDown
+      -- | WisdomMsg String
     | WisUp
 
 
@@ -91,7 +99,8 @@ type alias Rolls =
 
 
 type alias Score =
-    { mod : String
+    { error : Bool
+    , mod : String
     , numeric : Maybe Int
     , text : String
     }
@@ -118,16 +127,16 @@ initialModel seed =
         ( rolls, seed_ ) =
             rollScores seed
     in
-        ( { cha = score <| Just rolls.cha
-          , con = score <| Just rolls.con
-          , dex = score <| Just rolls.dex
+        ( { cha = maybeScore <| Just rolls.cha
+          , con = maybeScore <| Just rolls.con
+          , dex = maybeScore <| Just rolls.dex
           , draggable = dnd.model
-          , int = score <| Just rolls.int
+          , int = maybeScore <| Just rolls.int
           , locked = False
           , scores = [ rolls.str, rolls.dex, rolls.con, rolls.int, rolls.wis, rolls.cha ]
           , seed = seed_
-          , str = score <| Just rolls.str
-          , wis = score <| Just rolls.wis
+          , str = maybeScore <| Just rolls.str
+          , wis = maybeScore <| Just rolls.wis
           }
         , rolls
         )
@@ -136,18 +145,21 @@ initialModel seed =
 update : Msg -> Model -> ( Model, Cmd Msg, List UpMsg )
 update msg model =
     case msg of
+        -- CharismaMsg value ->
         ChaUp ->
             chaUp model
 
         ConDown ->
             conDown model
 
+        -- ConstitutionMsg value ->
         ConUp ->
             conUp model
 
         DexDown ->
             dexDown model
 
+        -- DexterityMsg value ->
         DexUp ->
             dexUp model
 
@@ -163,6 +175,7 @@ update msg model =
         IntDown ->
             intDown model
 
+        -- IntelligenceMsg value ->
         IntUp ->
             intUp model
 
@@ -175,9 +188,11 @@ update msg model =
         StrDown ->
             strDown model
 
+        -- StrengthMsg value ->
         WisDown ->
             wisDown model
 
+        -- WisdomMsg value ->
         WisUp ->
             wisUp model
 
@@ -190,7 +205,7 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     let
-        scoreRow : Stat -> String -> String -> Maybe Msg -> Maybe Msg -> Score -> Html Msg
+        scoreRow : Stat -> String -> String -> Maybe Msg -> Maybe Msg -> Score -> List (Html Msg)
         scoreRow stat ability modifier downMsg upMsg score =
             let
                 typ =
@@ -198,17 +213,22 @@ view model =
                         "text"
                     else
                         "number"
-            in
-                div [ class "form-group row" ]
-                    [ label [ class "col-lg-3 col-md-4", for ability ]
-                        [ text ability ]
-                    , div
-                        [ classList
-                            [ ( "col-lg-3 col-md-2", not model.locked )
-                            , ( "col-lg-5 col-md-4", model.locked )
+
+                visible =
+                    if model.locked then
+                        input
+                            [ class "form-control text-right w-100"
+                            , hidden <| not model.locked
+                            , id ability
+                            , Attributes.max "18"
+                            , Attributes.min "1"
+                            , style [ ( "min-width", "6rem" ) ]
+                            , type_ typ
+                            , value score.text
                             ]
-                        ]
-                        [ dnd.droppable stat
+                            []
+                    else
+                        dnd.droppable stat
                             [ class "border-thick form-control rounded text-right w-100"
                             , class
                                 (if
@@ -232,21 +252,25 @@ view model =
                                     [ text score.text ]
                                 ]
                             ]
-                        , input
-                            [ class "form-control text-right w-100"
-                            , hidden <| not model.locked
-                            , id ability
-                            , Attributes.max "18"
-                            , Attributes.min "1"
-                            , type_ typ
-                            , value score.text
-                            ]
-                            []
+            in
+                [ label
+                    [ for ability
+                    , style [ ( "grid-area", "auto / main-label / auto / score" ) ]
+                    ]
+                    [ text ability ]
+                , div
+                    [ style [ ( "grid-area", "auto / score / auto / down-arrow" ) ] ]
+                    [ visible ]
+                , div
+                    [ style
+                        [ ( "grid-area", "auto / down-arrow / auto / up-arrow" )
+                        , ( "width", "40px" )
                         ]
-                    , case downMsg of
+                    ]
+                    [ case downMsg of
                         Just msg ->
                             button
-                                [ class "btn btn-outline-primary col-1"
+                                [ class "btn btn-outline-primary"
                                 , hidden model.locked
                                 , onClick msg
                                 , type_ "button"
@@ -255,11 +279,18 @@ view model =
                                 ]
 
                         Nothing ->
-                            div [ class "col-1", hidden model.locked ] []
-                    , case upMsg of
+                            div [ hidden model.locked ] []
+                    ]
+                , div
+                    [ style
+                        [ ( "grid-area", "auto / up-arrow / auto / mod-label" )
+                        , ( "width", "40px" )
+                        ]
+                    ]
+                    [ case upMsg of
                         Just msg ->
                             button
-                                [ class "btn btn-outline-primary col-1"
+                                [ class "btn btn-outline-primary"
                                 , hidden model.locked
                                 , onClick msg
                                 , type_ "button"
@@ -268,29 +299,45 @@ view model =
                                 ]
 
                         Nothing ->
-                            div [ class "col-1", hidden model.locked ] []
-                    , label [ class "col-2", for modifier ] [ text modifier ]
-                    , div [ class "col-2" ]
-                        [ input
-                            [ class "form-control text-right w-100"
-                            , id modifier
-                            , readonly True
-                            , type_ "text"
-                            , value score.mod
-                            ]
-                            []
-                        ]
+                            div [ hidden model.locked ] []
                     ]
+                , label
+                    [ for modifier
+                    , style [ ( "grid-area", "auto / mod-label / auto / mod" ) ]
+                    ]
+                    [ text modifier ]
+                , div [ style [ ( "grid-area", "auto / mod / auto / end" ) ] ]
+                    [ input
+                        [ class "form-control text-right w-100"
+                        , id modifier
+                        , readonly True
+                        , type_ "text"
+                        , value score.mod
+                        ]
+                        []
+                    ]
+                ]
     in
         form [ class "border border-primary col-12 mt-1 p-2 rounded" ]
-            [ h3 [ hidden model.locked ]
+            [ h4 [ hidden model.locked ]
                 [ text "Use the arrows or drag and drop to rearrange the scores." ]
-            , scoreRow Strength "Strength" "STR" (Just StrDown) Nothing model.str
-            , scoreRow Dexterity "Dexterity" "DEX" (Just DexDown) (Just DexUp) model.dex
-            , scoreRow Constitution "Constitution" "CON" (Just ConDown) (Just ConUp) model.con
-            , scoreRow Intelligence "Intelligence" "INT" (Just IntDown) (Just IntUp) model.int
-            , scoreRow Wisdom "Wisdom" "WIS" (Just WisDown) (Just WisUp) model.wis
-            , scoreRow Charisma "Charisma" "CHA" Nothing (Just ChaUp) model.cha
+            , div
+                [ style
+                    [ ( "align-items", "center" )
+                    , ( "display", "grid" )
+                    , ( "grid", "auto / [main-label] auto [score] 1fr [down-arrow] auto [up-arrow] auto [mod-label] auto [mod] 1fr [end]" )
+                    , ( "grid-gap", "10px 15px" )
+                    ]
+                ]
+              <|
+                List.concat
+                    [ scoreRow Strength "Strength" "STR" (Just StrDown) Nothing model.str
+                    , scoreRow Dexterity "Dexterity" "DEX" (Just DexDown) (Just DexUp) model.dex
+                    , scoreRow Constitution "Constitution" "CON" (Just ConDown) (Just ConUp) model.con
+                    , scoreRow Intelligence "Intelligence" "INT" (Just IntDown) (Just IntUp) model.int
+                    , scoreRow Wisdom "Wisdom" "WIS" (Just WisDown) (Just WisUp) model.wis
+                    , scoreRow Charisma "Charisma" "CHA" Nothing (Just ChaUp) model.cha
+                    ]
             , div [ class "form-group mt-2 row" ]
                 [ div [ class "col-5" ]
                     [ div [ class "form-check" ]
@@ -326,10 +373,10 @@ chaUp : Model -> ( Model, Cmd Msg, List UpMsg )
 chaUp model =
     let
         wis =
-            score model.cha.numeric
+            maybeScore model.cha.numeric
 
         cha =
-            score model.wis.numeric
+            maybeScore model.wis.numeric
     in
         ( { model | wis = wis, cha = cha }
         , Cmd.none
@@ -342,9 +389,9 @@ conDown : Model -> ( Model, Cmd Msg, List UpMsg )
 conDown model =
     let
         con =
-            score model.int.numeric
+            maybeScore model.int.numeric
     in
-        ( { model | con = con, int = score model.con.numeric }
+        ( { model | con = con, int = maybeScore model.con.numeric }
         , Cmd.none
         , [ Maybe.map ConstitutionUp con.numeric ]
             |> List.filterMap identity
@@ -355,9 +402,9 @@ conUp : Model -> ( Model, Cmd Msg, List UpMsg )
 conUp model =
     let
         con =
-            score model.dex.numeric
+            maybeScore model.dex.numeric
     in
-        ( { model | con = con, dex = score model.con.numeric }
+        ( { model | con = con, dex = maybeScore model.con.numeric }
         , Cmd.none
         , [ Maybe.map ConstitutionUp con.numeric ]
             |> List.filterMap identity
@@ -368,9 +415,9 @@ dexDown : Model -> ( Model, Cmd Msg, List UpMsg )
 dexDown model =
     let
         con =
-            score model.dex.numeric
+            maybeScore model.dex.numeric
     in
-        ( { model | con = con, dex = score model.con.numeric }
+        ( { model | con = con, dex = maybeScore model.con.numeric }
         , Cmd.none
         , [ Maybe.map ConstitutionUp con.numeric ]
             |> List.filterMap identity
@@ -380,8 +427,8 @@ dexDown model =
 dexUp : Model -> ( Model, Cmd Msg, List UpMsg )
 dexUp model =
     ( { model
-        | dex = score model.str.numeric
-        , str = score model.dex.numeric
+        | dex = maybeScore model.str.numeric
+        , str = maybeScore model.dex.numeric
       }
     , Cmd.none
     , []
@@ -503,9 +550,9 @@ intDown : Model -> ( Model, Cmd Msg, List UpMsg )
 intDown model =
     let
         wis =
-            score model.int.numeric
+            maybeScore model.int.numeric
     in
-        ( { model | int = score model.wis.numeric, wis = wis }
+        ( { model | int = maybeScore model.wis.numeric, wis = wis }
         , Cmd.none
         , [ Maybe.map WisdomUp wis.numeric ]
             |> List.filterMap identity
@@ -516,13 +563,28 @@ intUp : Model -> ( Model, Cmd Msg, List UpMsg )
 intUp model =
     let
         con =
-            score model.int.numeric
+            maybeScore model.int.numeric
     in
-        ( { model | con = con, int = score model.con.numeric }
+        ( { model | con = con, int = maybeScore model.con.numeric }
         , Cmd.none
         , [ Maybe.map ConstitutionUp con.numeric ]
             |> List.filterMap identity
         )
+
+
+maybeScore : Maybe Int -> Score
+maybeScore value =
+    { error = False
+    , mod = modifiers value
+    , numeric = value
+    , text = Maybe.map toString value |> Maybe.withDefault ""
+    }
+
+
+
+-- score : String -> Score
+-- score value =
+--     {}
 
 
 modifiers : Maybe Int -> String
@@ -554,14 +616,14 @@ reroll model =
             rollScores model.seed
     in
         ( { model
-            | cha = score <| Just rolls.cha
-            , con = score <| Just rolls.con
-            , dex = score <| Just rolls.dex
-            , int = score <| Just rolls.int
+            | cha = maybeScore <| Just rolls.cha
+            , con = maybeScore <| Just rolls.con
+            , dex = maybeScore <| Just rolls.dex
+            , int = maybeScore <| Just rolls.int
             , scores = [ rolls.str, rolls.dex, rolls.con, rolls.int, rolls.wis, rolls.cha ]
             , seed = seed
-            , str = score <| Just rolls.str
-            , wis = score <| Just rolls.wis
+            , str = maybeScore <| Just rolls.str
+            , wis = maybeScore <| Just rolls.wis
           }
         , Cmd.none
         , [ CharismaUp rolls.cha, ConstitutionUp rolls.con, WisdomUp rolls.wis ]
@@ -592,19 +654,11 @@ rollScores seed =
             seed
 
 
-score : Maybe Int -> Score
-score value =
-    { mod = modifiers value
-    , numeric = value
-    , text = Maybe.map toString value |> Maybe.withDefault ""
-    }
-
-
 strDown : Model -> ( Model, Cmd Msg, List UpMsg )
 strDown model =
     ( { model
-        | dex = score model.str.numeric
-        , str = score model.dex.numeric
+        | dex = maybeScore model.str.numeric
+        , str = maybeScore model.dex.numeric
       }
     , Cmd.none
     , []
@@ -615,10 +669,10 @@ wisDown : Model -> ( Model, Cmd Msg, List UpMsg )
 wisDown model =
     let
         wis =
-            score model.cha.numeric
+            maybeScore model.cha.numeric
 
         cha =
-            score model.wis.numeric
+            maybeScore model.wis.numeric
     in
         ( { model | wis = wis, cha = cha }
         , Cmd.none
@@ -631,9 +685,9 @@ wisUp : Model -> ( Model, Cmd Msg, List UpMsg )
 wisUp model =
     let
         wis =
-            score model.int.numeric
+            maybeScore model.int.numeric
     in
-        ( { model | int = score model.wis.numeric, wis = wis }
+        ( { model | int = maybeScore model.wis.numeric, wis = wis }
         , Cmd.none
         , [ Maybe.map WisdomUp wis.numeric ]
             |> List.filterMap identity

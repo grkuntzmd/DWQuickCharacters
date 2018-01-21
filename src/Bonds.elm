@@ -2,7 +2,16 @@ module Bonds exposing (Model, Msg(..), initialModel, update, view)
 
 import Dom
 import Html exposing (Html, div, form, h2, text, textarea)
-import Html.Attributes exposing (class, hidden, id, rows, style, value)
+import Html.Attributes
+    exposing
+        ( attribute
+        , class
+        , hidden
+        , id
+        , rows
+        , style
+        , value
+        )
 import Html.Events exposing (onBlur, onClick, onInput)
 import Markdown
 import Result exposing (Result(..))
@@ -52,32 +61,37 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div
-        [ class "border border-primary col-12 mt-1 p-2 rounded" ]
-        [ h2 [] [ text "Bonds" ]
-        , form []
-            [ div
-                [ class "border border-primary h-100 p-1 rounded w-100"
-                , onClick (Editing True)
-                , style [ ( "min-height", "6rem" ) ]
-                ]
-                [ Markdown.toHtml
-                    [ hidden model.editing ]
+    let
+        visible =
+            if model.editing then
+                textarea
+                    [ class "form-control"
+                    , id "bonds"
+                    , onBlur (Editing False)
+                    , onInput Bonds
+                    , style [ ( "flex", "1" ) ]
+                    , value model.bonds
+                    ]
+                    []
+            else
+                Markdown.toHtml
+                    [ style [ ( "flex", "1" ) ] ]
                     (if String.isEmpty model.bonds then
                         "[Markdown](https://daringfireball.net/projects/markdown/syntax) enabled"
                      else
                         model.bonds
                     )
-                , textarea
-                    [ class "form-control h-100 w-100"
-                    , hidden <| not model.editing
-                    , id "bonds"
-                    , onBlur (Editing False)
-                    , onInput Bonds
-                    , rows 4
-                    , value model.bonds
-                    ]
-                    []
+    in
+        div
+            [ class "align-items-stretch border border-primary d-flex flex-column justify-content-between mt-1 p-2 rounded"
+            , style [ ( "flex", "1" ) ]
+            ]
+            [ h2 [] [ text "Bonds" ]
+            , form
+                [ class "align-items-stretch border border-primary d-flex flex-column justify-content-between p-1 rounded w-100"
+                , onClick (Editing True)
+                , style [ ( "flex", "1" ) ]
+                ]
+                [ visible
                 ]
             ]
-        ]

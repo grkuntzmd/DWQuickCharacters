@@ -1,28 +1,16 @@
 module Equipment exposing (Model, Msg(..), initialModel, update, view)
 
 import Dom
-import Html
-    exposing
-        ( Html
-        , a
-        , div
-        , form
-        , h2
-        , i
-        , input
-        , label
-        , text
-        , textarea
-        )
+import Html exposing (Html, div, form, h2, input, label, text, textarea)
 import Html.Attributes as Attributes
     exposing
         ( class
         , for
         , hidden
-        , href
         , id
         , name
         , placeholder
+        , style
         , type_
         , value
         )
@@ -122,7 +110,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ class "border border-primary col-12 mt-1 p-2 rounded" ]
+    div [ class "border border-primary mt-1 p-2 rounded" ]
         [ h2 [] [ text "Equipment" ]
         , form []
             [ div [ class "form-check" ]
@@ -188,69 +176,93 @@ view model =
                         defy danger with WIS to use) and hammer (1d6 damage close)""" ]
                 ]
             , div [ class "row mt-1" ]
-                [ div [ class "col-md-12 col-xl-5 container-fluid" ]
-                    [ div [ class "row" ]
-                        [ label [ class "col-7", for "adventuring-gear" ] [ text "Adventuring Gear" ]
-                        , div [ class "col-5" ]
-                            [ input
-                                [ class "form-control text-right w-100"
-                                , id "adventuring-gear"
-                                , Attributes.min "0"
-                                , type_ "number"
-                                , value model.adventuringGearText
-                                ]
-                                []
-                            ]
+                [ div
+                    [ class "col-md-12 col-xl-5"
+                    , style
+                        [ ( "align-items", "center" )
+                        , ( "display", "grid" )
+                        , ( "grid", "auto / [label] auto [input] 1fr [end]" )
+                        , ( "grid-gap", "10px 10px" )
                         ]
-                    , div [ class "mt-1 row" ]
-                        [ label [ class "col-7", for "rations" ] [ text "Rations" ]
-                        , div [ class "col-5" ]
-                            [ input
-                                [ class "form-control text-right w-100"
-                                , id "rations"
-                                , Attributes.min "0"
-                                , type_ "number"
-                                , value model.rationsText
-                                ]
-                                []
-                            ]
+                    ]
+                    [ label
+                        [ for "adventuring-gear"
+                        , style [ ( "grid-area", "auto / label / auto / input" ) ]
                         ]
-                    , div [ class "mt-1 row" ]
-                        [ label [ class "col-7", for "coins" ] [ text "Coins" ]
-                        , div [ class "col-5" ]
-                            [ input
-                                [ class "form-control text-right w-100"
-                                , id "coins"
-                                , Attributes.min "0"
-                                , type_ "number"
-                                , value model.coinsText
-                                ]
-                                []
+                        [ text "Adventuring Gear" ]
+                    , div
+                        [ style [ ( "grid-area", "auto / input / auto / end" ) ] ]
+                        [ input
+                            [ class "form-control text-right w-100"
+                            , id "adventuring-gear"
+                            , Attributes.min "0"
+                            , type_ "number"
+                            , value model.adventuringGearText
                             ]
+                            []
+                        ]
+                    , label
+                        [ for "rations"
+                        , style [ ( "grid-area", "auto / label / auto / input" ) ]
+                        ]
+                        [ text "Rations" ]
+                    , div
+                        [ style [ ( "grid-area", "auto / input / auto / end" ) ] ]
+                        [ input
+                            [ class "form-control text-right w-100"
+                            , id "rations"
+                            , Attributes.min "0"
+                            , type_ "number"
+                            , value model.rationsText
+                            ]
+                            []
+                        ]
+                    , label
+                        [ for "coins"
+                        , style [ ( "grid-area", "auto / label / auto / input" ) ]
+                        ]
+                        [ text "Coins" ]
+                    , div
+                        [ style [ ( "grid-area", "auto / input / auto / end" ) ] ]
+                        [ input
+                            [ class "form-control text-right w-100"
+                            , id "coins"
+                            , Attributes.min "0"
+                            , type_ "number"
+                            , value model.coinsText
+                            ]
+                            []
                         ]
                     ]
                 , div
                     [ class "col-md-12 col-xl-7 mt-md-1 mt-xl-0"
                     , onClick (Editing True)
                     ]
-                    [ div [ class "border border-primary h-100 p-1 rounded w-100" ]
-                        [ Markdown.toHtml
-                            [ hidden model.editing ]
-                            (if String.isEmpty model.otherItems then
-                                "Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax)                                  enabled)"
-                             else
-                                model.otherItems
-                            )
-                        , textarea
-                            [ class "form-control h-100 w-100"
-                            , hidden <| not model.editing
-                            , id "other-items"
-                            , onBlur (Editing False)
-                            , onInput OtherItems
-                            , placeholder "Other items..."
-                            , value model.otherItems
-                            ]
-                            []
+                    [ div [ class "align-items-stretch border border-primary d-flex flex-column h-100 justify-content-between p-1 rounded w-100" ]
+                        [ let
+                            visible =
+                                if model.editing then
+                                    textarea
+                                        [ class "form-control"
+                                        , hidden <| not model.editing
+                                        , id "other-items"
+                                        , onBlur (Editing False)
+                                        , onInput OtherItems
+                                        , placeholder "Other items..."
+                                        , style [ ( "flex", "1" ) ]
+                                        , value model.otherItems
+                                        ]
+                                        []
+                                else
+                                    Markdown.toHtml
+                                        [ style [ ( "flex", "1" ) ] ]
+                                        (if String.isEmpty model.otherItems then
+                                            "Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax) enabled)"
+                                         else
+                                            model.otherItems
+                                        )
+                          in
+                            visible
                         ]
                     ]
                 ]

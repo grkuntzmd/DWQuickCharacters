@@ -10159,7 +10159,7 @@ var _user$project$Alignment$view = function (model) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('border border-primary col-12 mt-1 p-2 rounded'),
+			_0: _elm_lang$html$Html_Attributes$class('border border-primary mt-1 p-2 rounded'),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -10430,12 +10430,67 @@ var _user$project$Bonds$Bonds = function (a) {
 	return {ctor: 'Bonds', _0: a};
 };
 var _user$project$Bonds$view = function (model) {
+	var visible = model.editing ? A2(
+		_elm_lang$html$Html$textarea,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('form-control'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$id('bonds'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onBlur(
+						_user$project$Bonds$Editing(false)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onInput(_user$project$Bonds$Bonds),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$style(
+								{
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'flex', _1: '1'},
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(model.bonds),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		},
+		{ctor: '[]'}) : A2(
+		_evancz$elm_markdown$Markdown$toHtml,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'flex', _1: '1'},
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$String$isEmpty(model.bonds) ? '[Markdown](https://daringfireball.net/projects/markdown/syntax) enabled' : model.bonds);
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('border border-primary col-12 mt-1 p-2 rounded'),
-			_1: {ctor: '[]'}
+			_0: _elm_lang$html$Html_Attributes$class('align-items-stretch border border-primary d-flex flex-column justify-content-between mt-1 p-2 rounded'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'flex', _1: '1'},
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		},
 		{
 			ctor: '::',
@@ -10451,78 +10506,28 @@ var _user$project$Bonds$view = function (model) {
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$form,
-					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
+						_0: _elm_lang$html$Html_Attributes$class('align-items-stretch border border-primary d-flex flex-column justify-content-between p-1 rounded w-100'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Bonds$Editing(true)),
+							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('border border-primary h-100 p-1 rounded w-100'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Bonds$Editing(true)),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$style(
-											{
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'min-height', _1: '6rem'},
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
-								}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_evancz$elm_markdown$Markdown$toHtml,
+								_0: _elm_lang$html$Html_Attributes$style(
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$hidden(model.editing),
+										_0: {ctor: '_Tuple2', _0: 'flex', _1: '1'},
 										_1: {ctor: '[]'}
-									},
-									_elm_lang$core$String$isEmpty(model.bonds) ? '[Markdown](https://daringfireball.net/projects/markdown/syntax) enabled' : model.bonds),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$textarea,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('form-control h-100 w-100'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$hidden(!model.editing),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$id('bonds'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Events$onBlur(
-															_user$project$Bonds$Editing(false)),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onInput(_user$project$Bonds$Bonds),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$rows(4),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$value(model.bonds),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										},
-										{ctor: '[]'}),
-									_1: {ctor: '[]'}
-								}
-							}),
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{
+						ctor: '::',
+						_0: visible,
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
@@ -10627,7 +10632,7 @@ var _user$project$Equipment$view = function (model) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('border border-primary col-12 mt-1 p-2 rounded'),
+			_0: _elm_lang$html$Html_Attributes$class('border border-primary mt-1 p-2 rounded'),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -10884,34 +10889,124 @@ var _user$project$Equipment$view = function (model) {
 													_elm_lang$html$Html$div,
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('col-md-12 col-xl-5 container-fluid'),
-														_1: {ctor: '[]'}
+														_0: _elm_lang$html$Html_Attributes$class('col-md-12 col-xl-5'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$style(
+																{
+																	ctor: '::',
+																	_0: {ctor: '_Tuple2', _0: 'display', _1: 'grid'},
+																	_1: {
+																		ctor: '::',
+																		_0: {ctor: '_Tuple2', _0: 'grid', _1: 'auto / [label] auto [input] 1fr [end]'},
+																		_1: {
+																			ctor: '::',
+																			_0: {ctor: '_Tuple2', _0: 'grid-gap', _1: '10px 10px'},
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																}),
+															_1: {ctor: '[]'}
+														}
 													},
 													{
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$div,
+															_elm_lang$html$Html$label,
 															{
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('row'),
-																_1: {ctor: '[]'}
+																_0: _elm_lang$html$Html_Attributes$for('adventuring-gear'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$style(
+																		{
+																			ctor: '::',
+																			_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'label / input'},
+																			_1: {
+																				ctor: '::',
+																				_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
+																				_1: {ctor: '[]'}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}
 															},
 															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('Adventuring Gear'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$div,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$style(
+																		{
+																			ctor: '::',
+																			_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'input / end'},
+																			_1: {
+																				ctor: '::',
+																				_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
+																				_1: {ctor: '[]'}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$input,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$id('adventuring-gear'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$min('0'),
+																					_1: {
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$type_('number'),
+																						_1: {
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Attributes$value(model.adventuringGearText),
+																							_1: {ctor: '[]'}
+																						}
+																					}
+																				}
+																			}
+																		},
+																		{ctor: '[]'}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
 																ctor: '::',
 																_0: A2(
 																	_elm_lang$html$Html$label,
 																	{
 																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('col-7'),
+																		_0: _elm_lang$html$Html_Attributes$for('rations'),
 																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$for('adventuring-gear'),
+																			_0: _elm_lang$html$Html_Attributes$style(
+																				{
+																					ctor: '::',
+																					_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'label / input'},
+																					_1: {
+																						ctor: '::',
+																						_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
+																						_1: {ctor: '[]'}
+																					}
+																				}),
 																			_1: {ctor: '[]'}
 																		}
 																	},
 																	{
 																		ctor: '::',
-																		_0: _elm_lang$html$Html$text('Adventuring Gear'),
+																		_0: _elm_lang$html$Html$text('Rations'),
 																		_1: {ctor: '[]'}
 																	}),
 																_1: {
@@ -10920,7 +11015,16 @@ var _user$project$Equipment$view = function (model) {
 																		_elm_lang$html$Html$div,
 																		{
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('col-5'),
+																			_0: _elm_lang$html$Html_Attributes$style(
+																				{
+																					ctor: '::',
+																					_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'input / end'},
+																					_1: {
+																						ctor: '::',
+																						_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
+																						_1: {ctor: '[]'}
+																					}
+																				}),
 																			_1: {ctor: '[]'}
 																		},
 																		{
@@ -10932,7 +11036,7 @@ var _user$project$Equipment$view = function (model) {
 																					_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
 																					_1: {
 																						ctor: '::',
-																						_0: _elm_lang$html$Html_Attributes$id('adventuring-gear'),
+																						_0: _elm_lang$html$Html_Attributes$id('rations'),
 																						_1: {
 																							ctor: '::',
 																							_0: _elm_lang$html$Html_Attributes$min('0'),
@@ -10941,7 +11045,7 @@ var _user$project$Equipment$view = function (model) {
 																								_0: _elm_lang$html$Html_Attributes$type_('number'),
 																								_1: {
 																									ctor: '::',
-																									_0: _elm_lang$html$Html_Attributes$value(model.adventuringGearText),
+																									_0: _elm_lang$html$Html_Attributes$value(model.rationsText),
 																									_1: {ctor: '[]'}
 																								}
 																							}
@@ -10951,95 +11055,25 @@ var _user$project$Equipment$view = function (model) {
 																				{ctor: '[]'}),
 																			_1: {ctor: '[]'}
 																		}),
-																	_1: {ctor: '[]'}
-																}
-															}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$div,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('mt-1 row'),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$label,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('col-7'),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$for('rations'),
-																				_1: {ctor: '[]'}
-																			}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('Rations'),
-																			_1: {ctor: '[]'}
-																		}),
 																	_1: {
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$div,
-																			{
-																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$class('col-5'),
-																				_1: {ctor: '[]'}
-																			},
-																			{
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$input,
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
-																						_1: {
-																							ctor: '::',
-																							_0: _elm_lang$html$Html_Attributes$id('rations'),
-																							_1: {
-																								ctor: '::',
-																								_0: _elm_lang$html$Html_Attributes$min('0'),
-																								_1: {
-																									ctor: '::',
-																									_0: _elm_lang$html$Html_Attributes$type_('number'),
-																									_1: {
-																										ctor: '::',
-																										_0: _elm_lang$html$Html_Attributes$value(model.rationsText),
-																										_1: {ctor: '[]'}
-																									}
-																								}
-																							}
-																						}
-																					},
-																					{ctor: '[]'}),
-																				_1: {ctor: '[]'}
-																			}),
-																		_1: {ctor: '[]'}
-																	}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$div,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('mt-1 row'),
-																		_1: {ctor: '[]'}
-																	},
-																	{
 																		ctor: '::',
 																		_0: A2(
 																			_elm_lang$html$Html$label,
 																			{
 																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$class('col-7'),
+																				_0: _elm_lang$html$Html_Attributes$for('coins'),
 																				_1: {
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Attributes$for('coins'),
+																					_0: _elm_lang$html$Html_Attributes$style(
+																						{
+																							ctor: '::',
+																							_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'label / input'},
+																							_1: {
+																								ctor: '::',
+																								_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
+																								_1: {ctor: '[]'}
+																							}
+																						}),
 																					_1: {ctor: '[]'}
 																				}
 																			},
@@ -11054,7 +11088,16 @@ var _user$project$Equipment$view = function (model) {
 																				_elm_lang$html$Html$div,
 																				{
 																					ctor: '::',
-																					_0: _elm_lang$html$Html_Attributes$class('col-5'),
+																					_0: _elm_lang$html$Html_Attributes$style(
+																						{
+																							ctor: '::',
+																							_0: {ctor: '_Tuple2', _0: 'grid-column', _1: 'input / end'},
+																							_1: {
+																								ctor: '::',
+																								_0: {ctor: '_Tuple2', _0: 'grid-row', _1: 'auto / auto'},
+																								_1: {ctor: '[]'}
+																							}
+																						}),
 																					_1: {ctor: '[]'}
 																				},
 																				{
@@ -11087,8 +11130,8 @@ var _user$project$Equipment$view = function (model) {
 																				}),
 																			_1: {ctor: '[]'}
 																		}
-																	}),
-																_1: {ctor: '[]'}
+																	}
+																}
 															}
 														}
 													}),
@@ -11112,26 +11155,17 @@ var _user$project$Equipment$view = function (model) {
 																_elm_lang$html$Html$div,
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('border border-primary h-100 p-1 rounded w-100'),
+																	_0: _elm_lang$html$Html_Attributes$class('align-items-stretch border border-primary d-flex flex-column h-100 justify-content-between p-1 rounded w-100'),
 																	_1: {ctor: '[]'}
 																},
 																{
 																	ctor: '::',
-																	_0: A2(
-																		_evancz$elm_markdown$Markdown$toHtml,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$hidden(model.editing),
-																			_1: {ctor: '[]'}
-																		},
-																		_elm_lang$core$String$isEmpty(model.otherItems) ? 'Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax)                                  enabled)' : model.otherItems),
-																	_1: {
-																		ctor: '::',
-																		_0: A2(
+																	_0: function () {
+																		var visible = model.editing ? A2(
 																			_elm_lang$html$Html$textarea,
 																			{
 																				ctor: '::',
-																				_0: _elm_lang$html$Html_Attributes$class('form-control h-100 w-100'),
+																				_0: _elm_lang$html$Html_Attributes$class('form-control'),
 																				_1: {
 																					ctor: '::',
 																					_0: _elm_lang$html$Html_Attributes$hidden(!model.editing),
@@ -11150,8 +11184,17 @@ var _user$project$Equipment$view = function (model) {
 																									_0: _elm_lang$html$Html_Attributes$placeholder('Other items...'),
 																									_1: {
 																										ctor: '::',
-																										_0: _elm_lang$html$Html_Attributes$value(model.otherItems),
-																										_1: {ctor: '[]'}
+																										_0: _elm_lang$html$Html_Attributes$style(
+																											{
+																												ctor: '::',
+																												_0: {ctor: '_Tuple2', _0: 'flex', _1: '1'},
+																												_1: {ctor: '[]'}
+																											}),
+																										_1: {
+																											ctor: '::',
+																											_0: _elm_lang$html$Html_Attributes$value(model.otherItems),
+																											_1: {ctor: '[]'}
+																										}
 																									}
 																								}
 																							}
@@ -11159,9 +11202,22 @@ var _user$project$Equipment$view = function (model) {
 																					}
 																				}
 																			},
-																			{ctor: '[]'}),
-																		_1: {ctor: '[]'}
-																	}
+																			{ctor: '[]'}) : A2(
+																			_evancz$elm_markdown$Markdown$toHtml,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$style(
+																					{
+																						ctor: '::',
+																						_0: {ctor: '_Tuple2', _0: 'flex', _1: '1'},
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			},
+																			_elm_lang$core$String$isEmpty(model.otherItems) ? 'Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax) enabled)' : model.otherItems);
+																		return visible;
+																	}(),
+																	_1: {ctor: '[]'}
 																}),
 															_1: {ctor: '[]'}
 														}),
@@ -11866,8 +11922,9 @@ var _user$project$Scores$modifiers = function (_p0) {
 			},
 			_p0));
 };
-var _user$project$Scores$score = function (value) {
+var _user$project$Scores$maybeScore = function (value) {
 	return {
+		error: false,
 		mod: _user$project$Scores$modifiers(value),
 		numeric: value,
 		text: A2(
@@ -11882,8 +11939,8 @@ var _user$project$Scores$strDown = function (model) {
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				dex: _user$project$Scores$score(model.str.numeric),
-				str: _user$project$Scores$score(model.dex.numeric)
+				dex: _user$project$Scores$maybeScore(model.str.numeric),
+				str: _user$project$Scores$maybeScore(model.dex.numeric)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: {ctor: '[]'}
@@ -11937,8 +11994,8 @@ var _user$project$Scores$dexUp = function (model) {
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				dex: _user$project$Scores$score(model.str.numeric),
-				str: _user$project$Scores$score(model.dex.numeric)
+				dex: _user$project$Scores$maybeScore(model.str.numeric),
+				str: _user$project$Scores$maybeScore(model.dex.numeric)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: {ctor: '[]'}
@@ -12002,9 +12059,9 @@ var _user$project$Scores$rollScores = function (seed) {
 							A2(_mgold$elm_random_pcg$Random_Pcg$map, _user$project$Scores$Rolls, gen)))))),
 		seed);
 };
-var _user$project$Scores$Score = F3(
-	function (a, b, c) {
-		return {mod: a, numeric: b, text: c};
+var _user$project$Scores$Score = F4(
+	function (a, b, c, d) {
+		return {error: a, mod: b, numeric: c, text: d};
 	});
 var _user$project$Scores$WisUp = {ctor: 'WisUp'};
 var _user$project$Scores$WisDown = {ctor: 'WisDown'};
@@ -12030,14 +12087,14 @@ var _user$project$Scores$initialModel = function (seed) {
 	return {
 		ctor: '_Tuple2',
 		_0: {
-			cha: _user$project$Scores$score(
+			cha: _user$project$Scores$maybeScore(
 				_elm_lang$core$Maybe$Just(rolls.cha)),
-			con: _user$project$Scores$score(
+			con: _user$project$Scores$maybeScore(
 				_elm_lang$core$Maybe$Just(rolls.con)),
-			dex: _user$project$Scores$score(
+			dex: _user$project$Scores$maybeScore(
 				_elm_lang$core$Maybe$Just(rolls.dex)),
 			draggable: _user$project$Scores$dnd.model,
-			$int: _user$project$Scores$score(
+			$int: _user$project$Scores$maybeScore(
 				_elm_lang$core$Maybe$Just(rolls.$int)),
 			locked: false,
 			scores: {
@@ -12066,9 +12123,9 @@ var _user$project$Scores$initialModel = function (seed) {
 				}
 			},
 			seed: seed_,
-			str: _user$project$Scores$score(
+			str: _user$project$Scores$maybeScore(
 				_elm_lang$core$Maybe$Just(rolls.str)),
-			wis: _user$project$Scores$score(
+			wis: _user$project$Scores$maybeScore(
 				_elm_lang$core$Maybe$Just(rolls.wis))
 		},
 		_1: rolls
@@ -12092,6 +12149,90 @@ var _user$project$Scores$view = function (model) {
 	var scoreRow = F6(
 		function (stat, ability, modifier, downMsg, upMsg, score) {
 			var typ = (!model.locked) ? 'text' : 'number';
+			var visible = model.locked ? A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$hidden(!model.locked),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$id(ability),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$max('18'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$min('1'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$type_(typ),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(score.text),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}) : A3(
+				_user$project$Scores$dnd.droppable,
+				stat,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('border-thick form-control rounded text-right w-100'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class(
+							function () {
+								var _p3 = _ir4y$elm_dnd$DnD$getDropMeta(model.draggable);
+								if (_p3.ctor === 'Just') {
+									return _elm_lang$core$Native_Utils.eq(_p3._0, stat);
+								} else {
+									return false;
+								}
+							}() ? 'bg-info text-white' : ''),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{
+					ctor: '::',
+					_0: A3(
+						_user$project$Scores$dnd.draggable,
+						{ctor: '_Tuple2', _0: stat, _1: score.numeric},
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h5,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$style(
+										{
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'width', _1: 'auto'},
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(score.text),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				});
 			return A2(
 				_elm_lang$html$Html$div,
 				{
@@ -12137,95 +12278,8 @@ var _user$project$Scores$view = function (model) {
 							},
 							{
 								ctor: '::',
-								_0: A3(
-									_user$project$Scores$dnd.droppable,
-									stat,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('border-thick form-control rounded text-right w-100'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class(
-												function () {
-													var _p3 = _ir4y$elm_dnd$DnD$getDropMeta(model.draggable);
-													if (_p3.ctor === 'Just') {
-														return _elm_lang$core$Native_Utils.eq(_p3._0, stat);
-													} else {
-														return false;
-													}
-												}() ? 'bg-info text-white' : ''),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
-												_1: {ctor: '[]'}
-											}
-										}
-									},
-									{
-										ctor: '::',
-										_0: A3(
-											_user$project$Scores$dnd.draggable,
-											{ctor: '_Tuple2', _0: stat, _1: score.numeric},
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$h5,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$style(
-															{
-																ctor: '::',
-																_0: {ctor: '_Tuple2', _0: 'width', _1: 'auto'},
-																_1: {ctor: '[]'}
-															}),
-														_1: {ctor: '[]'}
-													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text(score.text),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$input,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('form-control text-right w-100'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$hidden(!model.locked),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$id(ability),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$max('18'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$min('1'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$type_(typ),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$value(score.text),
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										},
-										{ctor: '[]'}),
-									_1: {ctor: '[]'}
-								}
+								_0: visible,
+								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
@@ -12402,7 +12456,7 @@ var _user$project$Scores$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h3,
+				_elm_lang$html$Html$h4,
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$hidden(model.locked),
@@ -12599,13 +12653,13 @@ var _user$project$Scores$WisdomUp = function (a) {
 	return {ctor: 'WisdomUp', _0: a};
 };
 var _user$project$Scores$intDown = function (model) {
-	var wis = _user$project$Scores$score(model.$int.numeric);
+	var wis = _user$project$Scores$maybeScore(model.$int.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				$int: _user$project$Scores$score(model.wis.numeric),
+				$int: _user$project$Scores$maybeScore(model.wis.numeric),
 				wis: wis
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
@@ -12620,13 +12674,13 @@ var _user$project$Scores$intDown = function (model) {
 	};
 };
 var _user$project$Scores$wisUp = function (model) {
-	var wis = _user$project$Scores$score(model.$int.numeric);
+	var wis = _user$project$Scores$maybeScore(model.$int.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				$int: _user$project$Scores$score(model.wis.numeric),
+				$int: _user$project$Scores$maybeScore(model.wis.numeric),
 				wis: wis
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
@@ -12644,14 +12698,14 @@ var _user$project$Scores$ConstitutionUp = function (a) {
 	return {ctor: 'ConstitutionUp', _0: a};
 };
 var _user$project$Scores$conDown = function (model) {
-	var con = _user$project$Scores$score(model.$int.numeric);
+	var con = _user$project$Scores$maybeScore(model.$int.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				$int: _user$project$Scores$score(model.con.numeric)
+				$int: _user$project$Scores$maybeScore(model.con.numeric)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12665,14 +12719,14 @@ var _user$project$Scores$conDown = function (model) {
 	};
 };
 var _user$project$Scores$conUp = function (model) {
-	var con = _user$project$Scores$score(model.dex.numeric);
+	var con = _user$project$Scores$maybeScore(model.dex.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				dex: _user$project$Scores$score(model.con.numeric)
+				dex: _user$project$Scores$maybeScore(model.con.numeric)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12686,14 +12740,14 @@ var _user$project$Scores$conUp = function (model) {
 	};
 };
 var _user$project$Scores$dexDown = function (model) {
-	var con = _user$project$Scores$score(model.dex.numeric);
+	var con = _user$project$Scores$maybeScore(model.dex.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				dex: _user$project$Scores$score(model.con.numeric)
+				dex: _user$project$Scores$maybeScore(model.con.numeric)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12707,14 +12761,14 @@ var _user$project$Scores$dexDown = function (model) {
 	};
 };
 var _user$project$Scores$intUp = function (model) {
-	var con = _user$project$Scores$score(model.$int.numeric);
+	var con = _user$project$Scores$maybeScore(model.$int.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				con: con,
-				$int: _user$project$Scores$score(model.con.numeric)
+				$int: _user$project$Scores$maybeScore(model.con.numeric)
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
 		_2: A2(
@@ -12731,8 +12785,8 @@ var _user$project$Scores$CharismaUp = function (a) {
 	return {ctor: 'CharismaUp', _0: a};
 };
 var _user$project$Scores$chaUp = function (model) {
-	var cha = _user$project$Scores$score(model.wis.numeric);
-	var wis = _user$project$Scores$score(model.cha.numeric);
+	var cha = _user$project$Scores$maybeScore(model.wis.numeric);
+	var wis = _user$project$Scores$maybeScore(model.cha.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
@@ -12900,13 +12954,13 @@ var _user$project$Scores$reroll = function (model) {
 		_0: _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				cha: _user$project$Scores$score(
+				cha: _user$project$Scores$maybeScore(
 					_elm_lang$core$Maybe$Just(rolls.cha)),
-				con: _user$project$Scores$score(
+				con: _user$project$Scores$maybeScore(
 					_elm_lang$core$Maybe$Just(rolls.con)),
-				dex: _user$project$Scores$score(
+				dex: _user$project$Scores$maybeScore(
 					_elm_lang$core$Maybe$Just(rolls.dex)),
-				$int: _user$project$Scores$score(
+				$int: _user$project$Scores$maybeScore(
 					_elm_lang$core$Maybe$Just(rolls.$int)),
 				scores: {
 					ctor: '::',
@@ -12934,9 +12988,9 @@ var _user$project$Scores$reroll = function (model) {
 					}
 				},
 				seed: seed,
-				str: _user$project$Scores$score(
+				str: _user$project$Scores$maybeScore(
 					_elm_lang$core$Maybe$Just(rolls.str)),
-				wis: _user$project$Scores$score(
+				wis: _user$project$Scores$maybeScore(
 					_elm_lang$core$Maybe$Just(rolls.wis))
 			}),
 		_1: _elm_lang$core$Platform_Cmd$none,
@@ -12956,8 +13010,8 @@ var _user$project$Scores$reroll = function (model) {
 	};
 };
 var _user$project$Scores$wisDown = function (model) {
-	var cha = _user$project$Scores$score(model.wis.numeric);
-	var wis = _user$project$Scores$score(model.cha.numeric);
+	var cha = _user$project$Scores$maybeScore(model.wis.numeric);
+	var wis = _user$project$Scores$maybeScore(model.cha.numeric);
 	return {
 		ctor: '_Tuple3',
 		_0: _elm_lang$core$Native_Utils.update(
@@ -13727,7 +13781,7 @@ var _user$project$Main$view = function (model) {
 					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('row'),
+						_0: _elm_lang$html$Html_Attributes$class('align-items-stretch justify-content-between row'),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -13819,93 +13873,27 @@ var _user$project$Main$view = function (model) {
 								_elm_lang$html$Html$div,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('col-md-6 col-xl-7'),
+									_0: _elm_lang$html$Html_Attributes$class('align-items-stretch col-md-6 col-xl-7 d-flex flex-column justify-content-between'),
 									_1: {ctor: '[]'}
 								},
 								{
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('row'),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$div,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('container-fluid'),
-													_1: {ctor: '[]'}
-												},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$map,
-														_user$project$Types$EquipmentMsg,
-														_user$project$Equipment$view(model.equipment)),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}),
+										_elm_lang$html$Html$map,
+										_user$project$Types$EquipmentMsg,
+										_user$project$Equipment$view(model.equipment)),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('row'),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$div,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('container-fluid'),
-														_1: {ctor: '[]'}
-													},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$map,
-															_user$project$Types$AlignmentMsg,
-															_user$project$Alignment$view(model.alignment)),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
+											_elm_lang$html$Html$map,
+											_user$project$Types$AlignmentMsg,
+											_user$project$Alignment$view(model.alignment)),
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$div,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('row'),
-													_1: {ctor: '[]'}
-												},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$div,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('container-fluid'),
-															_1: {ctor: '[]'}
-														},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$map,
-																_user$project$Types$BondsMsg,
-																_user$project$Bonds$view(model.bonds)),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}),
+												_elm_lang$html$Html$map,
+												_user$project$Types$BondsMsg,
+												_user$project$Bonds$view(model.bonds)),
 											_1: {ctor: '[]'}
 										}
 									}
