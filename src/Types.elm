@@ -43,15 +43,20 @@ initialModel randomSeed =
         seed =
             initialSeed randomSeed
 
-        ( ( healthSeed, scoresSeed ), _ ) =
-            step (R.map (,) independentSeed |> R.andMap independentSeed) seed
+        ( ( demographicsSeed, healthSeed, scoresSeed ), _ ) =
+            step
+                (R.map (,,) independentSeed
+                    |> R.andMap independentSeed
+                    |> R.andMap independentSeed
+                )
+                seed
 
         ( scores, rolls ) =
             Scores.initialModel scoresSeed
     in
         { alignment = Alignment.initialModel
         , bonds = Bonds.initialModel
-        , demographics = Demographics.initialModel
+        , demographics = Demographics.initialModel demographicsSeed
         , equipment = Equipment.initialModel rolls.cha rolls.wis
         , health = Health.initialModel healthSeed rolls.con
         , scores = scores

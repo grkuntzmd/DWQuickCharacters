@@ -29,11 +29,12 @@ import Html.Attributes
         )
 import Html.Events exposing (onClick, onInput)
 import Ports
-
+import Random.Pcg as R exposing (Seed, int, list, step)
 
 type alias Model =
     { name : String
     , race : String
+    , seed : Seed
     , selected : String
     }
 
@@ -47,10 +48,11 @@ type Msg
     | Yes
 
 
-initialModel : Model
-initialModel =
+initialModel : Seed -> Model
+initialModel seed =
     { name = ""
     , race = ""
+    , seed = seed
     , selected = ""
     }
 
