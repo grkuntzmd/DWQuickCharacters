@@ -1,6 +1,6 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
-// const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = {
@@ -55,12 +55,12 @@ module.exports = {
 
     plugins: [
         new CopyWebpackPlugin([
-            { from: "src/favicon.ico" },
+            { from: "src/favicon.png" },
             { from: "src/logo.svg" }
-        ]) //,
-        // new UglifyJsPlugin({
-        //     cache: true,
-        //     parallel: true
-        // })
+        ]),
+        new UglifyJsPlugin({
+            cache: true,
+            parallel: true
+        })
     ]
 };
