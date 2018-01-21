@@ -29,13 +29,16 @@ import Html.Attributes
         )
 import Html.Events exposing (onClick, onInput)
 import Ports
-import Random.Pcg as R exposing (Seed, int, list, step)
+import Random.Pcg exposing (Seed, step)
+import Uuid
+
 
 type alias Model =
     { name : String
     , race : String
     , seed : Seed
     , selected : String
+    , uuid : String
     }
 
 
@@ -50,11 +53,17 @@ type Msg
 
 initialModel : Seed -> Model
 initialModel seed =
-    { name = ""
-    , race = ""
-    , seed = seed
-    , selected = ""
-    }
+    let
+        ( uuid, seed_ ) =
+            step Uuid.uuidGenerator seed
+                |> Tuple.mapFirst Uuid.toString
+    in
+        { name = ""
+        , race = ""
+        , seed = seed_
+        , selected = ""
+        , uuid = uuid
+        }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

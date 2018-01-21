@@ -5,35 +5,17 @@ import Bonds
 import Demographics
 import Equipment
 import Health
-import Html
-    exposing
-        ( Html
-        , a
-        , button
-        , div
-        , form
-        , h5
-        , i
-        , img
-        , input
-        , label
-        , option
-        , p
-        , select
-        , text
-        )
+import Html exposing (Html, a, button, div, h5, img, p, text)
 import Html.Attributes
     exposing
         ( attribute
         , class
-        , for
         , href
         , id
         , src
         , style
         , tabindex
         , target
-        , title
         , type_
         )
 import Moves
@@ -53,98 +35,97 @@ main =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    -- Tuple.second <|
-    --     Debug.log "Main msg, update"
-    --         ( msg
-    --         ,
-    case msg of
-        AlignmentMsg msg_ ->
-            let
-                ( model_, cmd ) =
-                    Alignment.update msg_ model.alignment
-            in
-                { model | alignment = model_ } ! [ Cmd.map AlignmentMsg cmd ]
+    let
+        ( model_, cmd ) =
+            case msg of
+                AlignmentMsg msg_ ->
+                    let
+                        ( model_, cmd ) =
+                            Alignment.update msg_ model.alignment
+                    in
+                        { model | alignment = model_ } ! [ Cmd.map AlignmentMsg cmd ]
 
-        BondsMsg msg_ ->
-            let
-                ( model_, cmd ) =
-                    Bonds.update msg_ model.bonds
-            in
-                { model | bonds = model_ } ! [ Cmd.map BondsMsg cmd ]
+                BondsMsg msg_ ->
+                    let
+                        ( model_, cmd ) =
+                            Bonds.update msg_ model.bonds
+                    in
+                        { model | bonds = model_ } ! [ Cmd.map BondsMsg cmd ]
 
-        DemographicsMsg msg_ ->
-            let
-                ( model_, cmd ) =
-                    Demographics.update msg_ model.demographics
-            in
-                { model | demographics = model_ } ! [ Cmd.map DemographicsMsg cmd ]
+                DemographicsMsg msg_ ->
+                    let
+                        ( model_, cmd ) =
+                            Demographics.update msg_ model.demographics
+                    in
+                        { model | demographics = model_ } ! [ Cmd.map DemographicsMsg cmd ]
 
-        EquipmentMsg msg_ ->
-            let
-                ( model_, cmd ) =
-                    Equipment.update msg_ model.equipment
-            in
-                { model | equipment = model_ } ! [ Cmd.map EquipmentMsg cmd ]
+                EquipmentMsg msg_ ->
+                    let
+                        ( model_, cmd ) =
+                            Equipment.update msg_ model.equipment
+                    in
+                        { model | equipment = model_ } ! [ Cmd.map EquipmentMsg cmd ]
 
-        HealthMsg msg_ ->
-            let
-                ( model_, cmd ) =
-                    Health.update msg_ model.health
-            in
-                { model | health = model_ } ! [ Cmd.map HealthMsg cmd ]
+                HealthMsg msg_ ->
+                    let
+                        ( model_, cmd ) =
+                            Health.update msg_ model.health
+                    in
+                        { model | health = model_ } ! [ Cmd.map HealthMsg cmd ]
 
-        ScoresMsg msg_ ->
-            let
-                ( scoresModel, scoresCmd, upMsgs ) =
-                    Scores.update msg_ model.scores
+                ScoresMsg msg_ ->
+                    let
+                        ( scoresModel, scoresCmd, upMsgs ) =
+                            Scores.update msg_ model.scores
 
-                ( model_, cmds ) =
-                    List.foldl
-                        (\upMsg ( model, cmds ) ->
-                            case upMsg of
-                                Scores.CharismaUp value ->
-                                    let
-                                        ( model_, cmd ) =
-                                            Equipment.update
-                                                (Equipment.Charisma value)
-                                                model.equipment
-                                    in
-                                        ( { model | equipment = model_ }
-                                        , Cmd.map EquipmentMsg cmd :: cmds
-                                        )
+                        ( model_, cmds ) =
+                            List.foldl
+                                (\upMsg ( model, cmds ) ->
+                                    case upMsg of
+                                        Scores.CharismaUp value ->
+                                            let
+                                                ( model_, cmd ) =
+                                                    Equipment.update
+                                                        (Equipment.Charisma value)
+                                                        model.equipment
+                                            in
+                                                ( { model | equipment = model_ }
+                                                , Cmd.map EquipmentMsg cmd :: cmds
+                                                )
 
-                                Scores.ConstitutionUp value ->
-                                    let
-                                        ( model_, cmd ) =
-                                            Health.update
-                                                (Health.Constitution value)
-                                                model.health
-                                    in
-                                        ( { model | health = model_ }
-                                        , Cmd.map HealthMsg cmd :: cmds
-                                        )
+                                        Scores.ConstitutionUp value ->
+                                            let
+                                                ( model_, cmd ) =
+                                                    Health.update
+                                                        (Health.Constitution value)
+                                                        model.health
+                                            in
+                                                ( { model | health = model_ }
+                                                , Cmd.map HealthMsg cmd :: cmds
+                                                )
 
-                                Scores.WisdomUp value ->
-                                    let
-                                        ( model_, cmd ) =
-                                            Equipment.update
-                                                (Equipment.Wisdom value)
-                                                model.equipment
-                                    in
-                                        ( { model | equipment = model_ }
-                                        , Cmd.map EquipmentMsg cmd :: cmds
-                                        )
-                        )
-                        ( { model | scores = scoresModel }
-                        , [ Cmd.map ScoresMsg scoresCmd ]
-                        )
-                        upMsgs
-            in
-                model_ ! cmds
+                                        Scores.WisdomUp value ->
+                                            let
+                                                ( model_, cmd ) =
+                                                    Equipment.update
+                                                        (Equipment.Wisdom value)
+                                                        model.equipment
+                                            in
+                                                ( { model | equipment = model_ }
+                                                , Cmd.map EquipmentMsg cmd :: cmds
+                                                )
+                                )
+                                ( { model | scores = scoresModel }
+                                , [ Cmd.map ScoresMsg scoresCmd ]
+                                )
+                                upMsgs
+                    in
+                        model_ ! cmds
 
-
-
--- )
+        _ =
+            Debug.log "Main msg, update, cmd" ( msg, model_, cmd )
+    in
+        ( model_, cmd )
 
 
 subscriptions : Model -> Sub Msg
