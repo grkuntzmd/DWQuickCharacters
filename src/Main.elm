@@ -18,9 +18,15 @@ import Html.Attributes
         , target
         , type_
         )
+import Json.Decode exposing (decodeString)
+import Json.Decode.Pipeline as Pipeline exposing (hardcoded, required)
+import Json.Encode as Encode exposing (Value)
 import Moves
+import Result exposing (Result(..))
+import Ports exposing (getItem, getNames, loadItem, saveItem)
+import Random.Pcg as R exposing (independentSeed, step)
 import Scores
-import Types exposing (Flags, Model, Msg(..), init)
+import Types exposing (Flags, Model, Msg(..), init, initialModel)
 
 
 main : Program Flags Model Msg
@@ -54,10 +60,13 @@ update msg model =
 
                 DemographicsMsg msg_ ->
                     let
-                        ( model_, cmd ) =
+                        ( model_, cmd, upMsg ) =
                             Demographics.update msg_ model.demographics
+
+                        cmd_ =
+                            demographicsUpMsg upMsg cmd
                     in
-                        { model | demographics = model_ } ! [ Cmd.map DemographicsMsg cmd ]
+                        ( { model | demographics = model_ }, cmd_ )
 
                 EquipmentMsg msg_ ->
                     let
@@ -65,6 +74,19 @@ update msg model =
                             Equipment.update msg_ model.equipment
                     in
                         { model | equipment = model_ } ! [ Cmd.map EquipmentMsg cmd ]
+
+                GetCharacter value ->
+                    decode value model ! []
+
+                GetNames items ->
+                    let
+                        ( model_, cmd, upMsg ) =
+                            Demographics.update (Demographics.Names items) model.demographics
+
+                        cmd_ =
+                            demographicsUpMsg upMsg cmd
+                    in
+                        ( { model | demographics = model_ }, cmd_ )
 
                 HealthMsg msg_ ->
                     let
@@ -122,16 +144,31 @@ update msg model =
                     in
                         model_ ! cmds
 
-        _ =
-            Debug.log "Main msg, update, cmd" ( msg, model_, cmd )
+        -- _ =
+        --     Debug.log "Main msg, update, cmd" ( msg, model_, cmd )
     in
-        ( model_, cmd )
+        ( model_
+        , Cmd.batch
+            [ cmd
+            , if String.isEmpty model_.demographics.name then
+                Cmd.none
+              else
+                saveItem
+                    ( model_.demographics.uuid
+                    , Encode.encode 0 <| encode model_
+                    )
+            ]
+        )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.map ScoresMsg
-        (Scores.subscriptions model.scores)
+    Sub.batch
+        [ Sub.map ScoresMsg
+            (Scores.subscriptions model.scores)
+        , getItem GetCharacter
+        , getNames GetNames
+        ]
 
 
 view : Model -> Html Msg
@@ -159,6 +196,66 @@ view model =
             ]
         , Html.map ScoresMsg (Scores.dragged model.scores)
         , Moves.view
+        ]
+
+
+decode : String -> Model -> Model
+decode value model =
+    let
+        ( ( demographicsSeed, healthSeed, scoresSeed ), seed_ ) =
+            step
+                (R.map (,,) independentSeed
+                    |> R.andMap independentSeed
+                    |> R.andMap independentSeed
+                )
+                model.seed
+    in
+        case
+            decodeString
+                (Pipeline.decode Model
+                    |> required "alignment" Alignment.decoder
+                    |> required "bonds" Bonds.decoder
+                    |> required "demographics"
+                        (Demographics.decoder
+                            demographicsSeed
+                            model.demographics
+                        )
+                    |> required "equipment" Equipment.decoder
+                    |> required "health" (Health.decoder healthSeed)
+                    |> required "scores" (Scores.decoder scoresSeed)
+                    |> hardcoded seed_
+                )
+                value
+        of
+            Ok model_ ->
+                model_
+
+            Err _ ->
+                initialModel model.seed
+
+
+demographicsUpMsg : Demographics.UpMsg -> Cmd Demographics.Msg -> Cmd Msg
+demographicsUpMsg upMsg cmd =
+    case upMsg of
+        Demographics.AddUp ->
+            Cmd.batch [ Cmd.map DemographicsMsg cmd ]
+
+        Demographics.NoneUp ->
+            Cmd.map DemographicsMsg cmd
+
+        Demographics.SelectUp id ->
+            loadItem id
+
+
+encode : Model -> Value
+encode model =
+    Encode.object
+        [ ( "alignment", Alignment.encode model.alignment )
+        , ( "bonds", Bonds.encode model.bonds )
+        , ( "demographics", Demographics.encode model.demographics )
+        , ( "equipment", Equipment.encode model.equipment )
+        , ( "health", Health.encode model.health )
+        , ( "scores", Scores.encode model.scores )
         ]
 
 

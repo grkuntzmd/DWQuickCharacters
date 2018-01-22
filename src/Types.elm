@@ -1,11 +1,12 @@
-module Types exposing (Flags, Model, Msg(..), init)
+module Types exposing (Flags, Model, Msg(..), init, initialModel)
 
 import Alignment
 import Bonds
 import Demographics
 import Equipment
 import Health
-import Random.Pcg as R exposing (independentSeed, initialSeed, step)
+import Ports exposing (loadNames)
+import Random.Pcg as R exposing (Seed, independentSeed, initialSeed, step)
 import Scores
 
 
@@ -20,6 +21,7 @@ type alias Model =
     , equipment : Equipment.Model
     , health : Health.Model
     , scores : Scores.Model
+    , seed : Seed
     }
 
 
@@ -28,22 +30,21 @@ type Msg
     | BondsMsg Bonds.Msg
     | DemographicsMsg Demographics.Msg
     | EquipmentMsg Equipment.Msg
+    | GetCharacter String
+    | GetNames (List ( String, String ))
     | HealthMsg Health.Msg
     | ScoresMsg Scores.Msg
 
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( initialModel flags, Cmd.none )
+    ( initialModel (initialSeed flags), loadNames () )
 
 
-initialModel : Flags -> Model
-initialModel randomSeed =
+initialModel : Seed -> Model
+initialModel seed =
     let
-        seed =
-            initialSeed randomSeed
-
-        ( ( demographicsSeed, healthSeed, scoresSeed ), _ ) =
+        ( ( demographicsSeed, healthSeed, scoresSeed ), seed_ ) =
             step
                 (R.map (,,) independentSeed
                     |> R.andMap independentSeed
@@ -60,4 +61,5 @@ initialModel randomSeed =
         , equipment = Equipment.initialModel rolls.cha rolls.wis
         , health = Health.initialModel healthSeed rolls.con
         , scores = scores
+        , seed = seed_
         }

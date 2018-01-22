@@ -1,9 +1,21 @@
-module Bonds exposing (Model, Msg(..), initialModel, update, view)
+module Bonds
+    exposing
+        ( Model
+        , Msg(..)
+        , decoder
+        , encode
+        , initialModel
+        , update
+        , view
+        )
 
 import Dom
 import Html exposing (Html, div, form, h3, text, textarea)
 import Html.Attributes exposing (class, id, style, value)
 import Html.Events exposing (onBlur, onClick, onInput)
+import Json.Decode exposing (Decoder, string)
+import Json.Decode.Pipeline as Pipeline exposing (custom, hardcoded)
+import Json.Encode as Encode exposing (Value)
 import Markdown
 import Result exposing (Result(..))
 import Task
@@ -86,3 +98,15 @@ view model =
                 [ visible
                 ]
             ]
+
+
+decoder : Decoder Model
+decoder =
+    Pipeline.decode Model
+        |> custom string
+        |> hardcoded False
+
+
+encode : Model -> Value
+encode model =
+    Encode.string model.bonds

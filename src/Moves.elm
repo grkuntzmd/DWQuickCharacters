@@ -1,7 +1,7 @@
 module Moves exposing (view)
 
 import Html exposing (Html, div)
-import Html.Attributes exposing (class, for, id, type_)
+import Html.Attributes exposing (class)
 import Markdown
 
 

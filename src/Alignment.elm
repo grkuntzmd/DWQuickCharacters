@@ -1,8 +1,19 @@
-module Alignment exposing (Model, Msg(..), initialModel, update, view)
+module Alignment
+    exposing
+        ( Model
+        , Msg(..)
+        , decoder
+        , encode
+        , initialModel
+        , update
+        , view
+        )
 
 import Html exposing (Html, div, form, h3, input, label, text)
 import Html.Attributes exposing (checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick)
+import Json.Decode exposing (Decoder, andThen, fail, string, succeed)
+import Json.Encode as Encode exposing (Value)
 
 
 type Model
@@ -99,3 +110,36 @@ view model =
                 ]
             ]
         ]
+
+
+decoder : Decoder Model
+decoder =
+    string
+        |> andThen
+            (\str ->
+                case str of
+                    "defended" ->
+                        succeed Defended
+
+                    "inspired" ->
+                        succeed Inspired
+
+                    "worthy" ->
+                        succeed Worthy
+
+                    _ ->
+                        fail <| "unknown alignment"
+            )
+
+
+encode : Model -> Value
+encode model =
+    case model of
+        Defended ->
+            Encode.string "defended"
+
+        Inspired ->
+            Encode.string "inspired"
+
+        Worthy ->
+            Encode.string "worthy"

@@ -1,6 +1,15 @@
-module Health exposing (Model, Msg(..), initialModel, update, view)
+module Health
+    exposing
+        ( Model
+        , Msg(..)
+        , decoder
+        , encode
+        , initialModel
+        , update
+        , view
+        )
 
-import Html exposing (Html, button, div, form, i, input, label, p, text)
+import Html exposing (Html, button, div, form, i, input, label, text)
 import Html.Attributes as Attributes
     exposing
         ( attribute
@@ -13,7 +22,11 @@ import Html.Attributes as Attributes
         , value
         )
 import Html.Events exposing (onClick, onInput)
-import Random.Pcg exposing (Seed, int, list, step)
+import Json.Decode exposing (Decoder, int, maybe, string)
+import Json.Decode.Pipeline as Pipeline exposing (hardcoded, optional, required)
+import Json.Encode as Encode exposing (Value)
+import Json.Encode.Extra as EE
+import Random.Pcg as R exposing (Seed, step)
 
 
 type alias Model =
@@ -97,7 +110,7 @@ update msg model =
         LevelUp ->
             let
                 ( inc, seed ) =
-                    step (int 1 6) model.seed
+                    step (R.int 1 6) model.seed
 
                 maximumHP =
                     Maybe.map ((+) inc) model.maximumHP
@@ -232,4 +245,32 @@ view model =
                 [ i [ class "fas fa-level-up-alt" ] []
                 ]
             ]
+        ]
+
+
+decoder : Seed -> Decoder Model
+decoder seed =
+    Pipeline.decode Model
+        |> optional "armor" (maybe int) Nothing
+        |> required "armorText" string
+        |> optional "currentHP" (maybe int) Nothing
+        |> required "currentHPText" string
+        |> optional "maximumHP" (maybe int) Nothing
+        |> required "maximumHPText" string
+        |> hardcoded seed
+        |> optional "xp" (maybe int) Nothing
+        |> required "xpText" string
+
+
+encode : Model -> Value
+encode model =
+    Encode.object
+        [ ( "armor", EE.maybe Encode.int model.armor )
+        , ( "armorText", Encode.string model.armorText )
+        , ( "currentHP", EE.maybe Encode.int model.currentHP )
+        , ( "currentHPText", Encode.string model.currentHPText )
+        , ( "maximumHP", EE.maybe Encode.int model.maximumHP )
+        , ( "maximumHPText", Encode.string model.maximumHPText )
+        , ( "xp", EE.maybe Encode.int model.xp )
+        , ( "xpText", Encode.string model.xpText )
         ]

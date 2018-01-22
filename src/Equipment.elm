@@ -1,11 +1,19 @@
-module Equipment exposing (Model, Msg(..), initialModel, update, view)
+module Equipment
+    exposing
+        ( Model
+        , Msg(..)
+        , decoder
+        , encode
+        , initialModel
+        , update
+        , view
+        )
 
 import Dom
 import Html exposing (Html, div, form, h3, input, label, text, textarea)
 import Html.Attributes as Attributes
     exposing
         ( class
-        , classList
         , for
         , hidden
         , id
@@ -16,6 +24,10 @@ import Html.Attributes as Attributes
         , value
         )
 import Html.Events exposing (onBlur, onClick, onInput)
+import Json.Decode exposing (Decoder, int, maybe, string)
+import Json.Decode.Pipeline as Pipeline exposing (hardcoded, optional, required)
+import Json.Encode as Encode exposing (Value)
+import Json.Encode.Extra as EE
 import Markdown
 import Result exposing (Result(..))
 import Task
@@ -322,4 +334,30 @@ view model =
                     ]
                 ]
             ]
+        ]
+
+
+decoder : Decoder Model
+decoder =
+    Pipeline.decode Model
+        |> optional "adventuringGear" (maybe int) Nothing
+        |> required "adventuringGearText" string
+        |> optional "coins" (maybe int) Nothing
+        |> required "coinsText" string
+        |> hardcoded False
+        |> required "otherItems" string
+        |> optional "rations" (maybe int) Nothing
+        |> required "rationsText" string
+
+
+encode : Model -> Value
+encode model =
+    Encode.object
+        [ ( "adventuringGear", EE.maybe Encode.int model.adventuringGear )
+        , ( "adventuringGearText", Encode.string model.adventuringGearText )
+        , ( "coins", EE.maybe Encode.int model.coins )
+        , ( "coinsText", Encode.string model.coinsText )
+        , ( "otherItems", Encode.string model.otherItems )
+        , ( "rations", EE.maybe Encode.int model.rations )
+        , ( "rationsText", Encode.string model.rationsText )
         ]

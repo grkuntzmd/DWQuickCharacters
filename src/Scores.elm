@@ -4,7 +4,9 @@ module Scores
         , Msg(..)
         , Rolls
         , UpMsg(..)
+        , decoder
         , dragged
+        , encode
         , initialModel
         , subscriptions
         , update
@@ -41,7 +43,11 @@ import Html.Attributes as Attributes
         , value
         )
 import Html.Events exposing (onCheck, onClick, onInput)
-import Random.Pcg as R exposing (Seed, int, list, step)
+import Json.Decode exposing (Decoder, bool, int, maybe, string)
+import Json.Decode.Pipeline as Pipeline exposing (hardcoded, optional, required)
+import Json.Encode as Encode exposing (Value)
+import Json.Encode.Extra as EE
+import Random.Pcg as R exposing (Seed, step)
 
 
 type alias Draggable =
@@ -59,7 +65,6 @@ type alias Model =
     , draggable : Draggable
     , int : Score
     , locked : Bool
-    , scores : List Int
     , seed : Seed
     , str : Score
     , wis : Score
@@ -134,7 +139,6 @@ initialModel seed =
           , draggable = dnd.model
           , int = maybeScore <| Just rolls.int
           , locked = False
-          , scores = [ rolls.str, rolls.dex, rolls.con, rolls.int, rolls.wis, rolls.cha ]
           , seed = seed_
           , str = maybeScore <| Just rolls.str
           , wis = maybeScore <| Just rolls.wis
@@ -447,6 +451,29 @@ conUp model =
         )
 
 
+decoder : Seed -> Decoder Model
+decoder seed =
+    Pipeline.decode Model
+        |> required "cha" decoderScore
+        |> required "con" decoderScore
+        |> required "dex" decoderScore
+        |> hardcoded dnd.model
+        |> required "int" decoderScore
+        |> required "locked" bool
+        |> hardcoded seed
+        |> required "str" decoderScore
+        |> required "wis" decoderScore
+
+
+decoderScore : Decoder Score
+decoderScore =
+    Pipeline.decode Score
+        |> required "error" bool
+        |> required "mod" string
+        |> optional "number" (maybe int) Nothing
+        |> required "text" string
+
+
 dexDown : Model -> ( Model, Cmd Msg, List UpMsg )
 dexDown model =
     let
@@ -582,6 +609,29 @@ dropped to from model =
             ( model_, Cmd.none, upMsgs |> List.filterMap identity )
 
 
+encode : Model -> Value
+encode model =
+    Encode.object
+        [ ( "cha", encodeScore model.cha )
+        , ( "con", encodeScore model.con )
+        , ( "dex", encodeScore model.dex )
+        , ( "int", encodeScore model.int )
+        , ( "locked", Encode.bool model.locked )
+        , ( "str", encodeScore model.str )
+        , ( "wis", encodeScore model.wis )
+        ]
+
+
+encodeScore : Score -> Value
+encodeScore score =
+    Encode.object
+        [ ( "error", Encode.bool score.error )
+        , ( "mod", Encode.string score.mod )
+        , ( "number", EE.maybe Encode.int score.number )
+        , ( "text", Encode.string score.text )
+        ]
+
+
 intDown : Model -> ( Model, Cmd Msg, List UpMsg )
 intDown model =
     let
@@ -668,7 +718,6 @@ reroll model =
             , con = maybeScore <| Just rolls.con
             , dex = maybeScore <| Just rolls.dex
             , int = maybeScore <| Just rolls.int
-            , scores = [ rolls.str, rolls.dex, rolls.con, rolls.int, rolls.wis, rolls.cha ]
             , seed = seed
             , str = maybeScore <| Just rolls.str
             , wis = maybeScore <| Just rolls.wis
@@ -682,7 +731,7 @@ rollScores : Seed -> ( Rolls, Seed )
 rollScores seed =
     let
         gen =
-            list 4 (int 1 6)
+            R.list 4 (R.int 1 6)
                 |> R.map
                     (\d ->
                         List.sum d
