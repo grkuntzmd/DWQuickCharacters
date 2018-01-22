@@ -22,8 +22,15 @@ import Json.Decode exposing (decodeString)
 import Json.Decode.Pipeline as Pipeline exposing (hardcoded, required)
 import Json.Encode as Encode exposing (Value)
 import Moves
-import Result exposing (Result(..))
-import Ports exposing (getItem, getNames, loadItem, saveItem)
+import Ports
+    exposing
+        ( deleteItem
+        , getItem
+        , getNames
+        , loadItem
+        , loadNames
+        , saveItem
+        )
 import Random.Pcg as R exposing (independentSeed, step)
 import Scores
 import Types exposing (Flags, Model, Msg(..), init, initialModel)
@@ -62,11 +69,8 @@ update msg model =
                     let
                         ( model_, cmd, upMsg ) =
                             Demographics.update msg_ model.demographics
-
-                        cmd_ =
-                            demographicsUpMsg upMsg cmd
                     in
-                        ( { model | demographics = model_ }, cmd_ )
+                        demographicsUpMsg upMsg cmd { model | demographics = model_ }
 
                 EquipmentMsg msg_ ->
                     let
@@ -82,11 +86,8 @@ update msg model =
                     let
                         ( model_, cmd, upMsg ) =
                             Demographics.update (Demographics.Names items) model.demographics
-
-                        cmd_ =
-                            demographicsUpMsg upMsg cmd
                     in
-                        ( { model | demographics = model_ }, cmd_ )
+                        demographicsUpMsg upMsg cmd { model | demographics = model_ }
 
                 HealthMsg msg_ ->
                     let
@@ -144,8 +145,8 @@ update msg model =
                     in
                         model_ ! cmds
 
-        -- _ =
-        --     Debug.log "Main msg, update, cmd" ( msg, model_, cmd )
+        _ =
+            Debug.log "Main msg, update, cmd" ( msg, model_, cmd )
     in
         ( model_
         , Cmd.batch
@@ -234,17 +235,28 @@ decode value model =
                 initialModel model.seed
 
 
-demographicsUpMsg : Demographics.UpMsg -> Cmd Demographics.Msg -> Cmd Msg
-demographicsUpMsg upMsg cmd =
+demographicsUpMsg :
+    Demographics.UpMsg
+    -> Cmd Demographics.Msg
+    -> Model
+    -> ( Model, Cmd Msg )
+demographicsUpMsg upMsg cmd model =
     case upMsg of
         Demographics.AddUp ->
-            Cmd.batch [ Cmd.map DemographicsMsg cmd ]
+            ( initialModel model.seed
+            , Cmd.batch [ Cmd.map DemographicsMsg cmd, loadNames () ]
+            )
+
+        Demographics.DeleteUp id ->
+            ( initialModel model.seed
+            , Cmd.batch [ Cmd.map DemographicsMsg cmd, deleteItem id ]
+            )
 
         Demographics.NoneUp ->
-            Cmd.map DemographicsMsg cmd
+            ( model, Cmd.map DemographicsMsg cmd )
 
         Demographics.SelectUp id ->
-            loadItem id
+            ( model, loadItem id )
 
 
 encode : Model -> Value

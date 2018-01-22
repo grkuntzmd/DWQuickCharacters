@@ -9,11 +9,7 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
-app.ports.loadItem.subscribe(function(id) {
-    app.ports.getItem.send(window.localStorage.getItem(id));
-});
-
-app.ports.loadNames.subscribe(function() {
+function loadNames() {
     var values = [];
     for (var k in window.localStorage) {
         if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(k)) {
@@ -21,7 +17,20 @@ app.ports.loadNames.subscribe(function() {
             values.push([k, JSON.parse(item).demographics.name]);
         }
     }
-    app.ports.getNames.send(values);
+    return values;
+}
+
+app.ports.deleteItem.subscribe(function(id) {
+    window.localStorage.removeItem(id);
+    app.ports.getNames.send(loadNames());
+});
+
+app.ports.loadItem.subscribe(function(id) {
+    app.ports.getItem.send(window.localStorage.getItem(id));
+});
+
+app.ports.loadNames.subscribe(function() {
+    app.ports.getNames.send(loadNames());
 });
 
 app.ports.saveItem.subscribe(function(tuple) {

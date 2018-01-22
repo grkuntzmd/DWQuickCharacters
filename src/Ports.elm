@@ -1,4 +1,7 @@
-port module Ports exposing (getItem, getNames, loadItem, loadNames, saveItem, showDialog)
+port module Ports exposing (deleteItem, getItem, getNames, loadItem, loadNames, saveItem, showDialog)
+
+
+port deleteItem : String -> Cmd msg
 
 
 port getItem : (String -> msg) -> Sub msg

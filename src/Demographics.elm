@@ -44,7 +44,6 @@ import Json.Decode.Pipeline as Pipeline exposing (hardcoded, required)
 import Json.Encode as Encode exposing (Value)
 import Ports exposing (showDialog)
 import Random.Pcg exposing (Seed, step)
-import Result exposing (Result(..))
 import Uuid
 
 
@@ -71,6 +70,7 @@ type Msg
 
 type UpMsg
     = AddUp
+    | DeleteUp String
     | NoneUp
     | SelectUp String
 
@@ -117,7 +117,7 @@ update msg model =
             ( model, Cmd.none, SelectUp value )
 
         Yes ->
-            ( model, Cmd.none, NoneUp )
+            ( model, Cmd.none, DeleteUp model.uuid )
 
 
 view : Model -> Html Msg
@@ -149,9 +149,15 @@ view model =
                     [ class "custom-select form-control"
                     , id "select-character"
                     , onInput Selected
+                    , value
+                        (if String.isEmpty model.name then
+                            ""
+                         else
+                            model.uuid
+                        )
                     ]
                   <|
-                    option [] [ text "Select a character" ]
+                    option [ value "" ] [ text "Select a character" ]
                         :: List.map
                             (\( id, name ) ->
                                 option [ value id ] [ text name ]
