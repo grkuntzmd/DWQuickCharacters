@@ -23,9 +23,7 @@ type Model
 
 
 type Msg
-    = DefendedMsg
-    | InspiredMsg
-    | WorthyMsg
+    = Alignment Model
 
 
 initialModel : Model
@@ -36,14 +34,8 @@ initialModel =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg _ =
     case msg of
-        DefendedMsg ->
-            Defended ! []
-
-        InspiredMsg ->
-            Inspired ! []
-
-        WorthyMsg ->
-            Worthy ! []
+        Alignment model ->
+            model ! []
 
 
 view : Model -> Html Msg
@@ -57,7 +49,7 @@ view model =
                     , class "form-check-input"
                     , id "worthy"
                     , name "equipment"
-                    , onClick WorthyMsg
+                    , onClick (Alignment Worthy)
                     , type_ "radio"
                     , value "worthy"
                     ]
@@ -76,7 +68,7 @@ view model =
                     , class "form-check-input"
                     , id "defended"
                     , name "equipment"
-                    , onClick DefendedMsg
+                    , onClick (Alignment Defended)
                     , type_ "radio"
                     , value "defended"
                     ]
@@ -95,7 +87,7 @@ view model =
                     , class "form-check-input"
                     , id "inspired"
                     , name "equipment"
-                    , onClick InspiredMsg
+                    , onClick (Alignment Inspired)
                     , type_ "radio"
                     , value "inspired"
                     ]

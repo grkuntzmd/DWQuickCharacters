@@ -13,9 +13,9 @@ import Dom
 import Html exposing (Html, div, form, h3, input, label, text, textarea)
 import Html.Attributes as Attributes
     exposing
-        ( class
+        ( checked
+        , class
         , for
-        , hidden
         , id
         , name
         , placeholder
@@ -24,7 +24,7 @@ import Html.Attributes as Attributes
         , value
         )
 import Html.Events exposing (onBlur, onClick, onInput)
-import Json.Decode exposing (Decoder, int, maybe, string)
+import Json.Decode exposing (Decoder, andThen, fail, int, maybe, string, succeed)
 import Json.Decode.Pipeline as Pipeline exposing (hardcoded, optional, required)
 import Json.Encode as Encode exposing (Value)
 import Json.Encode.Extra as EE
@@ -33,9 +33,18 @@ import Result exposing (Result(..))
 import Task
 
 
+type Class
+    = Cleric
+    | Fighter
+    | Ranger
+    | Thief
+    | Wizard
+
+
 type alias Model =
     { adventuringGear : Maybe Int
     , adventuringGearText : String
+    , class : Class
     , coins : Maybe Int
     , coinsText : String
     , editing : Bool
@@ -48,6 +57,7 @@ type alias Model =
 type Msg
     = AdventuringGear String
     | Charisma Int
+    | ClassMsg Class
     | Coins String
     | Editing Bool
     | FocusOtherItems (Result Dom.Error ())
@@ -70,6 +80,7 @@ initialModel charisma wisdom =
     in
         { adventuringGear = Just adventuringGear
         , adventuringGearText = toString adventuringGear
+        , class = Fighter
         , coins = Just coins
         , coinsText = toString coins
         , editing = False
@@ -104,6 +115,9 @@ update msg model =
                 , coinsText = toString value
             }
                 ! []
+
+        ClassMsg value ->
+            { model | class = value } ! []
 
         Coins value ->
             case String.toInt value |> Result.toMaybe of
@@ -179,65 +193,92 @@ view model =
         , form []
             [ div [ class "form-check" ]
                 [ input
-                    [ class "form-check-input"
-                    , id "sword"
+                    [ checked (model.class == Fighter)
+                    , class "form-check-input"
+                    , id "fighter"
                     , name "equipment"
+                    , onClick (ClassMsg Fighter)
                     , type_ "radio"
-                    , value "sword"
+                    , value "fighter"
                     ]
                     []
                 , label
                     [ class "form-check-label"
-                    , for "sword"
+                    , for "fighter"
                     ]
                     [ text "Sword (1d8 damage close) and chainmail (1 armor)" ]
                 ]
             , div [ class "form-check" ]
                 [ input
-                    [ class "form-check-input"
-                    , id "pistol"
+                    [ checked (model.class == Ranger)
+                    , class "form-check-input"
+                    , id "ranger"
                     , name "equipment"
+                    , onClick (ClassMsg Ranger)
                     , type_ "radio"
-                    , value "pistol"
+                    , value "ranger"
                     ]
                     []
                 , label
                     [ class "form-check-label"
-                    , for "pistol"
+                    , for "ranger"
                     ]
                     [ text "Pistol, Bow or Throwing Knives (1d8 damage near) and 3 ammo" ]
                 ]
             , div [ class "form-check" ]
                 [ input
-                    [ class "form-check-input"
-                    , id "magic-missile"
+                    [ checked (model.class == Wizard)
+                    , class "form-check-input"
+                    , id "wizard"
                     , name "equipment"
+                    , onClick (ClassMsg Wizard)
                     , type_ "radio"
-                    , value "magic-missile"
+                    , value "wizard"
                     ]
                     []
                 , label
                     [ class "form-check-label"
-                    , for "magic-missile"
+                    , for "wizard"
                     ]
                     [ text """Magic Missile spell (2d4 damage far, must defy
                         danger with INT to use) and dagger (1d4 damage close)""" ]
                 ]
             , div [ class "form-check" ]
                 [ input
-                    [ class "form-check-input"
-                    , id "hammer"
+                    [ checked (model.class == Cleric)
+                    , class "form-check-input"
+                    , id "cleric"
                     , name "equipment"
+                    , onClick (ClassMsg Cleric)
                     , type_ "radio"
-                    , value "hammer"
+                    , value "cleric"
                     ]
                     []
                 , label
                     [ class "form-check-label"
-                    , for "hammer"
+                    , for "cleric"
                     ]
                     [ text """Cure Light Wounds spell (heal 1d8 damage, must
                         defy danger with WIS to use) and hammer (1d6 damage close)""" ]
+                ]
+            , div [ class "form-check" ]
+                [ input
+                    [ checked (model.class == Thief)
+                    , class "form-check-input"
+                    , id "thief"
+                    , name "equipment"
+                    , onClick (ClassMsg Thief)
+                    , type_ "radio"
+                    , value "thief"
+                    ]
+                    []
+                , label
+                    [ class "form-check-label"
+                    , for "thief"
+                    ]
+                    [ text """Stiletto (1d6 damage close), detect traps, pick locks
+                        or pockets, or disable traps (must defy danger with DEX
+                        to use)""" ]
                 ]
             , div [ class "row mt-1" ]
                 [ div
@@ -311,7 +352,6 @@ view model =
                                 if model.editing then
                                     textarea
                                         [ class "form-control"
-                                        , hidden <| not model.editing
                                         , id "other-items"
                                         , onBlur (Editing False)
                                         , onInput OtherItems
@@ -342,6 +382,30 @@ decoder =
     Pipeline.decode Model
         |> optional "adventuringGear" (maybe int) Nothing
         |> required "adventuringGearText" string
+        |> required "class"
+            (string
+                |> andThen
+                    (\str ->
+                        case str of
+                            "cleric" ->
+                                succeed Cleric
+
+                            "fighter" ->
+                                succeed Fighter
+
+                            "ranger" ->
+                                succeed Ranger
+
+                            "thief" ->
+                                succeed Thief
+
+                            "wizard" ->
+                                succeed Wizard
+
+                            _ ->
+                                fail <| "unknown class"
+                    )
+            )
         |> optional "coins" (maybe int) Nothing
         |> required "coinsText" string
         |> hardcoded False
@@ -355,6 +419,23 @@ encode model =
     Encode.object
         [ ( "adventuringGear", EE.maybe Encode.int model.adventuringGear )
         , ( "adventuringGearText", Encode.string model.adventuringGearText )
+        , ( "class"
+          , case model.class of
+                Cleric ->
+                    Encode.string "cleric"
+
+                Fighter ->
+                    Encode.string "fighter"
+
+                Ranger ->
+                    Encode.string "ranger"
+
+                Thief ->
+                    Encode.string "thief"
+
+                Wizard ->
+                    Encode.string "wizard"
+          )
         , ( "coins", EE.maybe Encode.int model.coins )
         , ( "coinsText", Encode.string model.coinsText )
         , ( "otherItems", Encode.string model.otherItems )

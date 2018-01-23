@@ -85,7 +85,11 @@ update msg model =
                 GetNames items ->
                     let
                         ( model_, cmd, upMsg ) =
-                            Demographics.update (Demographics.Names items) model.demographics
+                            Demographics.update
+                                (Demographics.Names <|
+                                    List.sortBy Tuple.second items
+                                )
+                                model.demographics
                     in
                         demographicsUpMsg upMsg cmd { model | demographics = model_ }
 
@@ -145,8 +149,8 @@ update msg model =
                     in
                         model_ ! cmds
 
-        _ =
-            Debug.log "Main msg, update, cmd" ( msg, model_, cmd )
+        -- _ =
+        --     Debug.log "Main msg, update, cmd" ( msg, model_, cmd )
     in
         ( model_
         , Cmd.batch

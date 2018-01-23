@@ -251,7 +251,6 @@ view model =
                             [ classList <|
                                 [ ( "form-control text-right w-100", True ) ]
                                     ++ error
-                            , hidden <| not model.locked
                             , id ability
                             , Attributes.max "18"
                             , Attributes.min "1"
@@ -277,7 +276,6 @@ view model =
                                  else
                                     ""
                                 )
-                            , hidden model.locked
                             ]
                             [ dnd.draggable ( stat, score.number )
                                 []

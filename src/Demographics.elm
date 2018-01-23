@@ -32,16 +32,18 @@ import Html.Attributes
         , classList
         , for
         , id
+        , selected
         , style
         , tabindex
         , title
         , type_
         , value
         )
-import Html.Events exposing (onClick, onInput)
+import Html.Events exposing (onBlur, onClick, onInput)
 import Json.Decode exposing (Decoder, bool, string)
 import Json.Decode.Pipeline as Pipeline exposing (hardcoded, required)
 import Json.Encode as Encode exposing (Value)
+import List.Extra as LE
 import Ports exposing (showDialog)
 import Random.Pcg exposing (Seed, step)
 import Uuid
@@ -105,7 +107,29 @@ update msg model =
             if String.isEmpty value then
                 ( { model | error = True, name = value }, Cmd.none, NoneUp )
             else
-                ( { model | error = False, name = value }, Cmd.none, NoneUp )
+                let
+                    names =
+                        case
+                            LE.find (Tuple.first >> (==) model.uuid)
+                                model.names
+                        of
+                            Just _ ->
+                                LE.replaceIf
+                                    (Tuple.first >> (==) model.uuid)
+                                    ( model.uuid, value )
+                                    model.names
+
+                            Nothing ->
+                                ( model.uuid, value ) :: model.names
+                in
+                    ( { model
+                        | error = False
+                        , name = value
+                        , names = List.sortBy Tuple.second names
+                      }
+                    , Cmd.none
+                    , NoneUp
+                    )
 
         Names items ->
             ( { model | names = items }, Cmd.none, NoneUp )
@@ -145,24 +169,51 @@ view model =
                 ]
                 [ text "Character" ]
             , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
-                [ select
-                    [ class "custom-select form-control"
-                    , id "select-character"
-                    , onInput Selected
-                    , value
-                        (if String.isEmpty model.name then
-                            ""
-                         else
-                            model.uuid
-                        )
-                    ]
-                  <|
-                    option [ value "" ] [ text "Select a character" ]
-                        :: List.map
-                            (\( id, name ) ->
-                                option [ value id ] [ text name ]
+                [ let
+                    options =
+                        if List.isEmpty model.names then
+                            [ option [ value "" ] [] ]
+                        else
+                            let
+                                extra =
+                                    case
+                                        LE.find (Tuple.first >> (==) model.uuid)
+                                            model.names
+                                    of
+                                        Just _ ->
+                                            []
+
+                                        Nothing ->
+                                            [ option
+                                                [ selected True
+                                                , value model.uuid
+                                                ]
+                                                []
+                                            ]
+                            in
+                                extra
+                                    ++ List.map
+                                        (\( id, name ) ->
+                                            option
+                                                [ selected <| model.uuid == id
+                                                , value id
+                                                ]
+                                                [ text name ]
+                                        )
+                                        model.names
+                  in
+                    select
+                        [ class "custom-select form-control"
+                        , id "select-character"
+                        , onInput Selected
+                        , value
+                            (if String.isEmpty model.name then
+                                ""
+                             else
+                                model.uuid
                             )
-                            model.names
+                        ]
+                        options
                 ]
             , div [ style [ ( "grid-area", "auto / 3 / auto / 4" ) ] ]
                 [ button
