@@ -206,7 +206,7 @@ view model =
                     [ class "form-check-label"
                     , for "fighter"
                     ]
-                    [ text "Sword (1d8 damage close) and chainmail (1 armor)" ]
+                    [ text "Sword (1d10 damage close) and chainmail (1 armor)" ]
                 ]
             , div [ class "form-check" ]
                 [ input
@@ -276,7 +276,7 @@ view model =
                     [ class "form-check-label"
                     , for "thief"
                     ]
-                    [ text """Stiletto (1d6 damage close), detect traps, pick locks
+                    [ text """Stiletto (1d8 damage close), detect traps, pick locks
                         or pockets, or disable traps (must defy danger with DEX
                         to use)""" ]
                 ]
