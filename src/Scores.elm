@@ -33,10 +33,10 @@ import Html.Attributes as Attributes
         ( attribute
         , class
         , classList
+        , disabled
         , for
         , hidden
         , id
-        , readonly
         , style
         , title
         , type_
@@ -341,8 +341,8 @@ view model =
                 , div [ style [ ( "grid-area", "auto / mod / auto / end" ) ] ]
                     [ input
                         [ class "form-control text-right w-100"
+                        , disabled True
                         , id modifier
-                        , readonly True
                         , type_ "text"
                         , value score.mod
                         ]
