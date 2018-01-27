@@ -30,6 +30,7 @@ import Html.Attributes
         ( attribute
         , class
         , classList
+        , disabled
         , for
         , id
         , selected
@@ -172,7 +173,13 @@ view model =
                 [ let
                     options =
                         if List.isEmpty model.names then
-                            [ option [ value "" ] [] ]
+                            [ option
+                                [ disabled True
+                                , selected True
+                                , value ""
+                                ]
+                                []
+                            ]
                         else
                             let
                                 extra =
@@ -185,8 +192,8 @@ view model =
 
                                         Nothing ->
                                             [ option
-                                                [ selected True
-                                                , value model.uuid
+                                                [ disabled True
+                                                , selected True
                                                 ]
                                                 []
                                             ]
@@ -206,12 +213,6 @@ view model =
                         [ class "custom-select form-control"
                         , id "select-character"
                         , onInput Selected
-                        , value
-                            (if String.isEmpty model.name then
-                                ""
-                             else
-                                model.uuid
-                            )
                         ]
                         options
                 ]
