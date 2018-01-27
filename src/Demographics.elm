@@ -181,33 +181,36 @@ view model =
                                 []
                             ]
                         else
-                            let
-                                extra =
-                                    case
-                                        LE.find (Tuple.first >> (==) model.uuid)
-                                            model.names
-                                    of
-                                        Just _ ->
-                                            []
-
-                                        Nothing ->
-                                            [ option
-                                                [ disabled True
-                                                , selected True
-                                                ]
-                                                []
+                            -- let
+                            --     extra =
+                            --         case
+                            --             LE.find (Tuple.first >> (==) model.uuid)
+                            --                 model.names
+                            --         of
+                            --             Just _ ->
+                            --                 []
+                            --             Nothing ->
+                            --                 [ option
+                            --                     [ disabled True
+                            --                     , selected True
+                            --                     ]
+                            --                     []
+                            --                 ]
+                            -- in
+                            option
+                                [ disabled True
+                                , selected True
+                                ]
+                                []
+                                :: List.map
+                                    (\( id, name ) ->
+                                        option
+                                            [ selected <| model.uuid == id
+                                            , value id
                                             ]
-                            in
-                                extra
-                                    ++ List.map
-                                        (\( id, name ) ->
-                                            option
-                                                [ selected <| model.uuid == id
-                                                , value id
-                                                ]
-                                                [ text name ]
-                                        )
-                                        model.names
+                                            [ text name ]
+                                    )
+                                    model.names
                   in
                     select
                         [ class "custom-select form-control"
