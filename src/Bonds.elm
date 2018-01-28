@@ -11,7 +11,7 @@ module Bonds
 
 import Dom
 import Html exposing (Html, div, form, h3, text, textarea)
-import Html.Attributes exposing (class, id, style, value)
+import Html.Attributes exposing (class, id, value)
 import Html.Events exposing (onBlur, onClick, onInput)
 import Json.Decode exposing (Decoder, string)
 import Json.Decode.Pipeline as Pipeline exposing (custom, hardcoded)
@@ -68,17 +68,16 @@ view model =
         visible =
             if model.editing then
                 textarea
-                    [ class "form-control"
+                    [ class "flex-1 form-control"
                     , id "bonds"
                     , onBlur (Editing False)
                     , onInput Bonds
-                    , style [ ( "flex", "1" ) ]
                     , value model.bonds
                     ]
                     []
             else
                 Markdown.toHtml
-                    [ style [ ( "flex", "1" ) ] ]
+                    [ class "flex-1" ]
                     (if String.isEmpty model.bonds then
                         "[Markdown](https://daringfireball.net/projects/markdown/syntax) enabled"
                      else
@@ -86,14 +85,11 @@ view model =
                     )
     in
         div
-            [ class "align-items-stretch border border-primary d-flex flex-column justify-content-between mt-1 p-2 rounded"
-            , style [ ( "flex", "1" ) ]
-            ]
+            [ class "align-items-stretch border border-primary d-flex flex-1 flex-column justify-content-between mt-1 p-2 rounded" ]
             [ h3 [] [ text "Bonds" ]
             , form
-                [ class "align-items-stretch border border-primary d-flex flex-column justify-content-between p-1 rounded w-100"
+                [ class "align-items-stretch border border-primary d-flex flex-1 flex-column justify-content-between p-1 rounded w-100"
                 , onClick (Editing True)
-                , style [ ( "flex", "1" ) ]
                 ]
                 [ visible
                 ]

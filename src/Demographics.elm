@@ -10,21 +10,7 @@ module Demographics
         , view
         )
 
-import Html
-    exposing
-        ( Html
-        , button
-        , div
-        , form
-        , h5
-        , i
-        , input
-        , label
-        , option
-        , p
-        , select
-        , text
-        )
+import Html exposing (Html, button, div, form, h5, i, input, label, p, text)
 import Html.Attributes
     exposing
         ( attribute
@@ -33,14 +19,13 @@ import Html.Attributes
         , disabled
         , for
         , id
-        , selected
         , style
         , tabindex
         , title
         , type_
         , value
         )
-import Html.Events exposing (onBlur, onClick, onInput)
+import Html.Events exposing (onClick, onInput)
 import Json.Decode exposing (Decoder, bool, string)
 import Json.Decode.Pipeline as Pipeline exposing (hardcoded, required)
 import Json.Encode as Encode exposing (Value)
@@ -155,71 +140,42 @@ view model =
                 []
     in
         form
-            [ class "border border-primary col-12 p-2 rounded"
+            [ class "align-items-center border border-primary col-12 d-grid p-2 rounded"
             , style
-                [ ( "align-items", "center" )
-                , ( "display", "grid" )
-                , ( "grid", "auto / auto 1fr auto" )
+                [ ( "grid", "auto / auto 1fr auto" )
                 , ( "grid-gap", "10px 15px" )
                 ]
             ]
-            [ label
-                [ class "col-form-label"
-                , for "select-character"
-                , style [ ( "grid-area", "auto / 1 / auto / 2" ) ]
-                ]
-                [ text "Character" ]
-            , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
-                [ let
-                    options =
-                        if List.isEmpty model.names then
-                            [ option
-                                [ disabled True
-                                , selected True
-                                , value ""
-                                ]
-                                []
+            [ div [ class "dropdown", style [ ( "grid-area", "auto / 1 / auto / 3" ) ] ]
+                [ button
+                    [ attribute "data-toggle" "dropdown"
+                    , class "btn btn-primary dropdown-toggle w-100"
+                    , type_ "button"
+                    ]
+                    [ text "Character" ]
+                , div [ class "dropdown-menu" ]
+                    (if List.isEmpty model.names then
+                        [ button
+                            [ class "dropdown-item"
+                            , disabled True
+                            , type_ "button"
                             ]
-                        else
-                            -- let
-                            --     extra =
-                            --         case
-                            --             LE.find (Tuple.first >> (==) model.uuid)
-                            --                 model.names
-                            --         of
-                            --             Just _ ->
-                            --                 []
-                            --             Nothing ->
-                            --                 [ option
-                            --                     [ disabled True
-                            --                     , selected True
-                            --                     ]
-                            --                     []
-                            --                 ]
-                            -- in
-                            option
-                                [ disabled True
-                                , selected True
-                                ]
-                                []
-                                :: List.map
-                                    (\( id, name ) ->
-                                        option
-                                            [ selected <| model.uuid == id
-                                            , value id
-                                            ]
-                                            [ text name ]
-                                    )
-                                    model.names
-                  in
-                    select
-                        [ class "custom-select form-control"
-                        , id "select-character"
-                        , onInput Selected
+                            [ text "-- None saved. Enter a name to save this character. --" ]
                         ]
-                        options
+                     else
+                        List.map
+                            (\( id, name ) ->
+                                button
+                                    [ class "dropdown-item"
+                                    , onClick (Selected id)
+                                    , type_ "button"
+                                    ]
+                                    [ text name ]
+                            )
+                            model.names
+                    )
                 ]
-            , div [ style [ ( "grid-area", "auto / 3 / auto / 4" ) ] ]
+            , div [ class "grid-area-auto" ]
                 [ button
                     [ attribute "data-toggle" "tooltip"
                     , attribute "data-placement" "bottom"
@@ -231,13 +187,9 @@ view model =
                     [ i [ class "fas fa-plus" ] []
                     ]
                 ]
-            , label
-                [ class "col-form-label"
-                , for "character-name"
-                , style [ ( "grid-area", "auto / 1 / auto / 2" ) ]
-                ]
+            , label [ class "col-form-label grid-area-auto", for "character-name" ]
                 [ text "Name" ]
-            , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
+            , div [ class "grid-area-auto" ]
                 [ input
                     [ classList <| [ ( "w-100", True ) ] ++ error
                     , id "character-name"
@@ -247,7 +199,7 @@ view model =
                     ]
                     []
                 ]
-            , div [ style [ ( "grid-area", "auto / 3 / auto / 4" ) ] ]
+            , div [ class "grid-area-auto" ]
                 [ button
                     [ attribute "data-toggle" "tooltip"
                     , attribute "data-placement" "bottom"
@@ -296,13 +248,9 @@ view model =
                         ]
                     ]
                 ]
-            , label
-                [ class "col-form-label"
-                , for "character-race"
-                , style [ ( "grid-area", "auto / 1 / auto / 2" ) ]
-                ]
+            , label [ class "col-form-label grid-area-auto", for "character-race" ]
                 [ text "Race" ]
-            , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
+            , div [ class "grid-area-auto" ]
                 [ input
                     [ class "w-100"
                     , id "character-race"

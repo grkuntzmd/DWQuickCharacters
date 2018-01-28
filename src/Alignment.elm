@@ -12,7 +12,7 @@ module Alignment
 import Html exposing (Html, div, form, h3, input, label, text)
 import Html.Attributes exposing (attribute, checked, class, for, id, name, title, type_, value)
 import Html.Events exposing (onCheck, onClick, onInput)
-import Json.Decode exposing (Decoder, andThen, bool, fail, string, string, succeed)
+import Json.Decode exposing (Decoder, andThen, bool, fail, string, succeed)
 import Json.Decode.Pipeline as Pipeline exposing (required)
 import Json.Encode as Encode exposing (Value)
 

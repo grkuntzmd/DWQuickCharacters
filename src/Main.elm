@@ -181,7 +181,7 @@ view model =
     div [ class "container-fluid" ]
         [ header
         , div [ class "align-items-stretch justify-content-between row" ]
-            [ div [ class "col-md-6 col-xl-5" ]
+            [ div [ class "col-md-6 col-xl-5 mt-1" ]
                 [ div [ class "container-fluid" ]
                     [ div [ class "row" ]
                         [ Html.map DemographicsMsg <|
@@ -193,7 +193,7 @@ view model =
                         [ Html.map HealthMsg <| Health.view model.health ]
                     ]
                 ]
-            , div [ class "align-items-stretch col-md-6 col-xl-7 d-flex flex-column justify-content-between" ]
+            , div [ class "align-items-stretch col-md-6 col-xl-7 d-flex flex-column justify-content-between mt-1" ]
                 [ Html.map EquipmentMsg <| Equipment.view model.equipment
                 , Html.map AlignmentMsg <| Alignment.view model.alignment
                 , Html.map BondsMsg <| Bonds.view model.bonds
@@ -278,7 +278,7 @@ encode model =
 header : Html Msg
 header =
     div [ class "container-fluid" ]
-        [ div [ class "border border-primary py-1 rounded row" ]
+        [ div [ class "bg-primary border border-primary py-1 rounded row text-white" ]
             [ div
                 [ class "col-md-5 col-xl-4"
                 , style [ ( "display", "inline-block" ) ]
@@ -301,66 +301,81 @@ header =
                 [ button
                     [ attribute "data-target" "#license"
                     , attribute "data-toggle" "modal"
-                    , class "btn btn-outline-primary"
+                    , class "bg-light btn btn-outline-primary"
                     , type_ "button"
                     ]
                     [ text "Copyright Ⓒ 2018, G. Ralph Kuntz, MD" ]
                 ]
-            , div
-                [ attribute "aria-hidden" "true"
-                , attribute "aria-labelledby" "licenseLabel"
-                , attribute "role" "dialog"
-                , class "modal fade"
-                , id "license"
-                , tabindex -1
+            ]
+        , div
+            [ attribute "aria-hidden" "true"
+            , attribute "aria-labelledby" "licenseLabel"
+            , attribute "role" "dialog"
+            , class "modal fade"
+            , id "license"
+            , tabindex -1
+            ]
+            [ div
+                [ attribute "role" "document"
+                , class "modal-dialog modal-dialog-centered modal-lg"
                 ]
-                [ div
-                    [ attribute "role" "document"
-                    , class "modal-dialog modal-dialog-centered modal-lg"
-                    ]
-                    [ div [ class "modal-content" ]
-                        [ div [ class "modal-header" ]
-                            [ h5 [ class "modal-title" ] [ text "Apache 2.0 License" ] ]
-                        , div [ class "modal-body" ]
-                            [ p []
-                                [ text "Copyright 2018, G. Ralph Kuntz, MD" ]
-                            , p []
-                                [ text """Licensed under the Apache License, Version 2.0
+                [ div [ class "modal-content" ]
+                    [ div [ class "modal-header" ]
+                        [ h5 [ class "modal-title" ] [ text "Apache 2.0 License" ] ]
+                    , div [ class "modal-body" ]
+                        [ p [] [ text "Copyright 2018, G. Ralph Kuntz, MD" ]
+                        , p []
+                            [ text """Licensed under the Apache License, Version 2.0
                                 (the "License"); you may not use this file except
                                 in compliance with the License. You may obtain a
                                 copy of the License at""" ]
-                            , p []
-                                [ a
-                                    [ href "http://www.apache.org/licenses/LICENSE-2.0"
-                                    , target "_blank"
-                                    ]
-                                    [ text "http://www.apache.org/licenses/LICENSE-2.0" ]
+                        , p [ style [ ( "text-indent", "2em" ) ] ]
+                            [ a
+                                [ href "http://www.apache.org/licenses/LICENSE-2.0"
+                                , target "_blank"
                                 ]
-                            , p []
-                                [ text """Unless required by applicable law or agreed
+                                [ text "http://www.apache.org/licenses/LICENSE-2.0" ]
+                            ]
+                        , p []
+                            [ text """Unless required by applicable law or agreed
                                 to in writing, software distributed under the
                                 License is disheadertributed on an "AS IS" BASIS,
                                 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
                                 either express or implied. See the License for
                                 the specific language governing permissions and
                                 limitations under the License.""" ]
-                            , p []
-                                [ text "Source code available at "
-                                , a
-                                    [ href "https://github.com/grkuntzmd/DWQuickCharacters"
-                                    , target "_blank"
-                                    ]
-                                    [ text "https://github.com/grkuntzmd/DWQuickCharacters" ]
+                        , p [] [ text "Source code available at " ]
+                        , p [ style [ ( "text-indent", "2em" ) ] ]
+                            [ a
+                                [ href "https://github.com/grkuntzmd/DWQuickCharacters"
+                                , target "_blank"
                                 ]
+                                [ text "https://github.com/grkuntzmd/DWQuickCharacters" ]
                             ]
-                        , div [ class "modal-footer" ]
-                            [ button
-                                [ attribute "data-dismiss" "modal"
-                                , class "btn btn-primary"
-                                , type_ "button"
+                        , p []
+                            [ text """Adapted from "By Beard and Ear" by Joe Banner ("""
+                            , a
+                                [ href "https://joebanner.co.uk/"
+                                , target "_blank"
                                 ]
-                                [ text "Close" ]
+                                [ text "https://joebanner.co.uk/" ]
+                            , text ") which is released under a CC BY-SA 4.0 license:"
                             ]
+                        , p [ style [ ( "text-indent", "2em" ) ] ]
+                            [ a
+                                [ href "https://creativecommons.org/licenses/by-sa/4.0/"
+                                , target "_blank"
+                                ]
+                                [ text "https://creativecommons.org/licenses/by-sa/4.0/" ]
+                            ]
+                        ]
+                    , div [ class "modal-footer" ]
+                        [ button
+                            [ attribute "data-dismiss" "modal"
+                            , class "btn btn-primary"
+                            , type_ "button"
+                            ]
+                            [ text "Close" ]
                         ]
                     ]
                 ]

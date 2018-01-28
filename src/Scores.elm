@@ -285,20 +285,9 @@ view model =
                                 ]
                             ]
             in
-                [ label
-                    [ for ability
-                    , style [ ( "grid-area", "auto / main-label / auto / score" ) ]
-                    ]
-                    [ text ability ]
-                , div
-                    [ style [ ( "grid-area", "auto / score / auto / down-arrow" ) ] ]
-                    [ visible ]
-                , div
-                    [ style
-                        [ ( "grid-area", "auto / down-arrow / auto / up-arrow" )
-                        , ( "width", "40px" )
-                        ]
-                    ]
+                [ label [ class "grid-area-auto", for ability ] [ text ability ]
+                , div [ class "grid-area-auto" ] [ visible ]
+                , div [ class "grid-area-auto", style [ ( "width", "40px" ) ] ]
                     [ case downMsg of
                         Just msg ->
                             button
@@ -313,12 +302,7 @@ view model =
                         Nothing ->
                             div [ hidden model.locked ] []
                     ]
-                , div
-                    [ style
-                        [ ( "grid-area", "auto / up-arrow / auto / mod-label" )
-                        , ( "width", "40px" )
-                        ]
-                    ]
+                , div [ class "grid-area-auto", style [ ( "width", "40px" ) ] ]
                     [ case upMsg of
                         Just msg ->
                             button
@@ -333,12 +317,8 @@ view model =
                         Nothing ->
                             div [ hidden model.locked ] []
                     ]
-                , label
-                    [ for modifier
-                    , style [ ( "grid-area", "auto / mod-label / auto / mod" ) ]
-                    ]
-                    [ text modifier ]
-                , div [ style [ ( "grid-area", "auto / mod / auto / end" ) ] ]
+                , label [ class "grid-area-auto", for modifier ] [ text modifier ]
+                , div [ class "grid-area-auto" ]
                     [ input
                         [ class "form-control text-right w-100"
                         , disabled True
@@ -354,10 +334,9 @@ view model =
             [ h4 [ hidden model.locked ]
                 [ text "Use the arrows or drag and drop to rearrange the scores." ]
             , div
-                [ style
-                    [ ( "align-items", "center" )
-                    , ( "display", "grid" )
-                    , ( "grid", "auto / [main-label] auto [score] 1fr [down-arrow] auto [up-arrow] auto [mod-label] auto [mod] 1fr [end]" )
+                [ class "align-items-center d-grid"
+                , style
+                    [ ( "grid", "auto / auto 1fr auto auto auto 1fr" )
                     , ( "grid-gap", "10px 15px" )
                     ]
                 ]

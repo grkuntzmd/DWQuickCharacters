@@ -161,20 +161,14 @@ update msg model =
 view : Model -> Html Msg
 view model =
     form
-        [ class "border border-primary col-12 mt-1 p-2 rounded"
+        [ class "align-items-center border border-primary col-12 d-grid mt-1 p-2 rounded"
         , style
-            [ ( "align-items", "center" )
-            , ( "display", "grid" )
-            , ( "grid", "auto / auto 1fr auto 1fr auto" )
+            [ ( "grid", "auto / auto 1fr auto 1fr auto" )
             , ( "grid-gap", "10px 15px" )
             ]
         ]
-        [ label
-            [ for "current-hp"
-            , style [ ( "grid-area", "auto / 1 / auto / 2" ) ]
-            ]
-            [ text "Current HP" ]
-        , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
+        [ label [ class "grid-area-auto", for "current-hp" ] [ text "Current HP" ]
+        , div [ class "grid-area-auto" ]
             [ input
                 [ class "form-control text-right w-100"
                 , id "current-hp"
@@ -185,11 +179,7 @@ view model =
                 ]
                 []
             ]
-        , label
-            [ for "maximum-hp"
-            , style [ ( "grid-area", "auto / 3 / auto / 4" ) ]
-            ]
-            [ text "Maximum HP" ]
+        , label [ class "grid-area-auto", for "maximum-hp" ] [ text "Maximum HP" ]
         , div [ style [ ( "grid-area", "auto / 4 / auto / 6" ) ] ]
             [ input
                 [ class "form-control text-right w-100"
@@ -201,12 +191,8 @@ view model =
                 ]
                 []
             ]
-        , label
-            [ for "armor"
-            , style [ ( "grid-area", "auto / 1 / auto / 2" ) ]
-            ]
-            [ text "Armor" ]
-        , div [ style [ ( "grid-area", "auto / 2 / auto / 3" ) ] ]
+        , label [ class "grid-area-auto", for "armor" ] [ text "Armor" ]
+        , div [ class "grid-area-auto" ]
             [ input
                 [ class "form-control text-right w-100"
                 , id "armor"
@@ -217,12 +203,8 @@ view model =
                 ]
                 []
             ]
-        , label
-            [ for "xp"
-            , style [ ( "grid-area", "auto / 3 / auto / 4" ) ]
-            ]
-            [ text "XP" ]
-        , div [ style [ ( "grid-area", "auto / 4 / auto / 5" ) ] ]
+        , label [ class "grid-area-auto", for "xp" ] [ text "XP" ]
+        , div [ class "grid-area-auto" ]
             [ input
                 [ class "form-control text-right w-100"
                 , id "xp"
@@ -233,7 +215,7 @@ view model =
                 ]
                 []
             ]
-        , div [ style [ ( "grid-area", "auto / 5 / auto / 6" ) ] ]
+        , div [ class "grid-area-auto" ]
             [ button
                 [ attribute "data-toggle" "tooltip"
                 , attribute "data-placement" "bottom"

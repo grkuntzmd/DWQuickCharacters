@@ -188,7 +188,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ class "border border-primary mt-1 p-2 rounded" ]
+    div [ class "border border-primary p-2 rounded" ]
         [ h3 [] [ text "Equipment" ]
         , form []
             [ div [ class "form-check" ]
@@ -282,21 +282,16 @@ view model =
                 ]
             , div [ class "row mt-1" ]
                 [ div
-                    [ class "col-md-12 col-xl-5"
+                    [ class "align-items-centers col-md-12 col-xl-5 d-grid"
                     , style
-                        [ ( "align-items", "center" )
-                        , ( "display", "grid" )
-                        , ( "grid", "auto / [label] auto [input] 1fr [end]" )
+                        [ ( "grid", "auto / auto 1fr" )
                         , ( "grid-gap", "10px 10px" )
                         ]
                     ]
-                    [ label
-                        [ for "adventuring-gear"
-                        , style [ ( "grid-area", "auto / label / auto / input" ) ]
-                        ]
+                    [ label [ class "grid-area-auto", for "adventuring-gear" ]
                         [ text "Adventuring Gear" ]
                     , div
-                        [ style [ ( "grid-area", "auto / input / auto / end" ) ] ]
+                        [ class "grid-area-auto" ]
                         [ input
                             [ class "form-control text-right w-100"
                             , id "adventuring-gear"
@@ -307,13 +302,9 @@ view model =
                             ]
                             []
                         ]
-                    , label
-                        [ for "rations"
-                        , style [ ( "grid-area", "auto / label / auto / input" ) ]
-                        ]
-                        [ text "Rations" ]
+                    , label [ class "grid-area-auto", for "rations" ] [ text "Rations" ]
                     , div
-                        [ style [ ( "grid-area", "auto / input / auto / end" ) ] ]
+                        [ class "grid-area-auto" ]
                         [ input
                             [ class "form-control text-right w-100"
                             , id "rations"
@@ -324,13 +315,9 @@ view model =
                             ]
                             []
                         ]
-                    , label
-                        [ for "coins"
-                        , style [ ( "grid-area", "auto / label / auto / input" ) ]
-                        ]
-                        [ text "Coins" ]
+                    , label [ class "grid-area-auto", for "coins" ] [ text "Coins" ]
                     , div
-                        [ style [ ( "grid-area", "auto / input / auto / end" ) ] ]
+                        [ class "grid-area-auto" ]
                         [ input
                             [ class "form-control text-right w-100"
                             , id "coins"
@@ -351,18 +338,17 @@ view model =
                             visible =
                                 if model.editing then
                                     textarea
-                                        [ class "form-control"
+                                        [ class "flex-1 form-control"
                                         , id "other-items"
                                         , onBlur (Editing False)
                                         , onInput OtherItems
                                         , placeholder "Other items..."
-                                        , style [ ( "flex", "1" ) ]
                                         , value model.otherItems
                                         ]
                                         []
                                 else
                                     Markdown.toHtml
-                                        [ style [ ( "flex", "1" ) ] ]
+                                        [ class "flex-1" ]
                                         (if String.isEmpty model.otherItems then
                                             "Other Items... ([Markdown](https://daringfireball.net/projects/markdown/syntax) enabled)"
                                          else
