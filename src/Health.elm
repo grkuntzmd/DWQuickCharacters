@@ -98,12 +98,19 @@ update msg model =
             let
                 currentHP =
                     String.toInt value |> Result.toMaybe
+
+                ( currentHP_, currentHPText ) =
+                    if Maybe.map2 (<=) currentHP model.maximumHP == Just True then
+                        ( currentHP
+                        , Maybe.map toString currentHP
+                            |> Maybe.withDefault model.currentHPText
+                        )
+                    else
+                        ( model.maximumHP, model.maximumHPText )
             in
                 { model
-                    | currentHP = currentHP
-                    , currentHPText =
-                        Maybe.map toString currentHP
-                            |> Maybe.withDefault model.currentHPText
+                    | currentHP = currentHP_
+                    , currentHPText = currentHPText
                 }
                     ! []
 
