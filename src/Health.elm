@@ -47,7 +47,9 @@ type Msg
     | Constitution Int
     | CurrentHP String
     | LevelUp
+    | MakeCamp
     | MaximumHP String
+    | RestSafely
     | XP String
 
 
@@ -138,6 +140,24 @@ update msg model =
                 }
                     ! []
 
+        MakeCamp ->
+            let
+                currentHP =
+                    Maybe.map2
+                        (\c m ->
+                            min (c + m // 2) m
+                        )
+                        model.currentHP
+                        model.maximumHP
+            in
+                { model
+                    | currentHP = currentHP
+                    , currentHPText =
+                        Maybe.map toString currentHP
+                            |> Maybe.withDefault model.currentHPText
+                }
+                    ! []
+
         MaximumHP value ->
             let
                 maximumHP =
@@ -150,6 +170,15 @@ update msg model =
                             |> Maybe.withDefault model.maximumHPText
                 }
                     ! []
+
+        RestSafely ->
+            { model
+                | currentHP = model.maximumHP
+                , currentHPText =
+                    Maybe.map toString model.maximumHP
+                        |> Maybe.withDefault model.currentHPText
+            }
+                ! []
 
         XP value ->
             let
@@ -167,72 +196,93 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    form
-        [ class "align-items-center border border-primary col-12 d-grid mt-1 p-2 rounded"
-        , style
-            [ ( "grid", "auto / auto 1fr auto 1fr auto" )
-            , ( "grid-gap", "10px 15px" )
-            ]
-        ]
-        [ label [ class "grid-area-auto", for "current-hp" ] [ text "Current HP" ]
-        , div [ class "grid-area-auto" ]
-            [ input
-                [ class "form-control text-right w-100"
-                , id "current-hp"
-                , Attributes.min "0"
-                , onInput CurrentHP
-                , type_ "number"
-                , value model.currentHPText
+    form [ class "align-items-stretch border border-primary col-12 d-flex flex-column justify-content-start mt-1 p-2 rounded" ]
+        [ div
+            [ class "align-items-center d-grid"
+            , style
+                [ ( "grid", "auto / auto 1fr auto 1fr auto" )
+                , ( "grid-gap", "10px 15px" )
                 ]
-                []
             ]
-        , label [ class "grid-area-auto", for "maximum-hp" ] [ text "Maximum HP" ]
-        , div [ style [ ( "grid-area", "auto / 4 / auto / 6" ) ] ]
-            [ input
-                [ class "form-control text-right w-100"
-                , id "maximum-hp"
-                , Attributes.min "0"
-                , onInput MaximumHP
-                , type_ "number"
-                , value model.maximumHPText
+            [ label [ class "grid-area-auto", for "current-hp" ] [ text "Current HP" ]
+            , div [ class "grid-area-auto" ]
+                [ input
+                    [ class "form-control text-right w-100"
+                    , id "current-hp"
+                    , Attributes.min "0"
+                    , onInput CurrentHP
+                    , type_ "number"
+                    , value model.currentHPText
+                    ]
+                    []
                 ]
-                []
-            ]
-        , label [ class "grid-area-auto", for "armor" ] [ text "Armor" ]
-        , div [ class "grid-area-auto" ]
-            [ input
-                [ class "form-control text-right w-100"
-                , id "armor"
-                , Attributes.min "0"
-                , onInput Armor
-                , type_ "number"
-                , value model.armorText
+            , label [ class "grid-area-auto", for "maximum-hp" ] [ text "Maximum HP" ]
+            , div [ style [ ( "grid-area", "auto / 4 / auto / 6" ) ] ]
+                [ input
+                    [ class "form-control text-right w-100"
+                    , id "maximum-hp"
+                    , Attributes.min "0"
+                    , onInput MaximumHP
+                    , type_ "number"
+                    , value model.maximumHPText
+                    ]
+                    []
                 ]
-                []
-            ]
-        , label [ class "grid-area-auto", for "xp" ] [ text "XP" ]
-        , div [ class "grid-area-auto" ]
-            [ input
-                [ class "form-control text-right w-100"
-                , id "xp"
-                , Attributes.min "0"
-                , onInput XP
-                , type_ "number"
-                , value model.xpText
+            , label [ class "grid-area-auto", for "armor" ] [ text "Armor" ]
+            , div [ class "grid-area-auto" ]
+                [ input
+                    [ class "form-control text-right w-100"
+                    , id "armor"
+                    , Attributes.min "0"
+                    , onInput Armor
+                    , type_ "number"
+                    , value model.armorText
+                    ]
+                    []
                 ]
-                []
+            , label [ class "grid-area-auto", for "xp" ] [ text "XP" ]
+            , div [ class "grid-area-auto" ]
+                [ input
+                    [ class "form-control text-right w-100"
+                    , id "xp"
+                    , Attributes.min "0"
+                    , onInput XP
+                    , type_ "number"
+                    , value model.xpText
+                    ]
+                    []
+                ]
+            , div [ class "grid-area-auto" ]
+                [ button
+                    [ attribute "data-toggle" "tooltip"
+                    , attribute "data-placement" "bottom"
+                    , class "btn btn-outline-primary"
+                    , onClick LevelUp
+                    , title "Level Up: Subtract 5 from your XP and add 1d6 to your Maximum HP."
+                    , type_ "button"
+                    ]
+                    [ i [ class "fas fa-level-up-alt" ] [] ]
+                ]
             ]
-        , div [ class "grid-area-auto" ]
+        , div [ class "align-items-stretch d-flex flex-row justify-content-between mt-1" ]
             [ button
                 [ attribute "data-toggle" "tooltip"
                 , attribute "data-placement" "bottom"
-                , class "btn btn-outline-primary"
-                , onClick LevelUp
-                , title "Level Up: Subtract 5 from your XP and add 1d6 to your Maximum HP."
+                , class "btn btn-primary"
+                , onClick MakeCamp
+                , title "Restore 1/2 of your maximum HP."
                 , type_ "button"
                 ]
-                [ i [ class "fas fa-level-up-alt" ] []
+                [ text "Make Camp" ]
+            , button
+                [ attribute "data-toggle" "tooltip"
+                , attribute "data-placement" "bottom"
+                , class "btn btn-primary"
+                , onClick RestSafely
+                , title "Restore all of your HP"
+                , type_ "button"
                 ]
+                [ text "Rest Safely" ]
             ]
         ]
 
